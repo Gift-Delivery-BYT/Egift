@@ -1,0 +1,5 @@
+C:\Users\maksc\eGift\Egift_main\obj\Debug\net8.0\Egift_main.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\maksc\eGift\Egift_main\obj\Debug\net8.0\Egift_main.AssemblyInfoInputs.cache
+C:\Users\maksc\eGift\Egift_main\obj\Debug\net8.0\Egift_main.AssemblyInfo.cs
+C:\Users\maksc\eGift\Egift_main\obj\Debug\net8.0\Egift_main.csproj.CoreCompileInputs.cache
+C:\Users\maksc\eGift\Egift_main\obj\Debug\net8.0\Egift_main.MvcApplicationPartsAssemblyInfo.cache
