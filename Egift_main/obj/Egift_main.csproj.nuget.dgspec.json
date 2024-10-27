@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/Users/marina/Documents/GitHub/Egift/Egift_main/Egift_main.csproj": {}
+    "C:\\Users\\maksc\\eGift\\Egift_main\\Egift_main.csproj": {}
   },
   "projects": {
-    "/Users/marina/Documents/GitHub/Egift/Egift_main/Egift_main.csproj": {
+    "C:\\Users\\maksc\\eGift\\Egift_main\\Egift_main.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/marina/Documents/GitHub/Egift/Egift_main/Egift_main.csproj",
+        "projectUniqueName": "C:\\Users\\maksc\\eGift\\Egift_main\\Egift_main.csproj",
         "projectName": "Egift_main",
-        "projectPath": "/Users/marina/Documents/GitHub/Egift/Egift_main/Egift_main.csproj",
-        "packagesPath": "/Users/marina/.nuget/packages/",
-        "outputPath": "/Users/marina/Documents/GitHub/Egift/Egift_main/obj/",
+        "projectPath": "C:\\Users\\maksc\\eGift\\Egift_main\\Egift_main.csproj",
+        "packagesPath": "C:\\Users\\maksc\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\maksc\\eGift\\Egift_main\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/marina/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\maksc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -56,7 +58,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
