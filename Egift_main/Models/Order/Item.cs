@@ -4,10 +4,10 @@ namespace Egift_main.Order;
 
 public class Item
 {
-     int _ItemID;
-     string _name;
-     double _pricehold;
-     DateFormat _date_of_production;
+     private int _ItemID { get; set; }
+     string _name { get; set; }
+     double _pricehold { get; set; }
+     DateFormat _date_of_production { get; set; }
 
      public Item(int itemId, string name, double pricehold, DateFormat dateOfProduction)
      {

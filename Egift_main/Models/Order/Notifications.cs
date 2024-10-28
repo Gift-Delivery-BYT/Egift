@@ -2,7 +2,7 @@
 
 public class Notifications
 {
-    private string _text;
+    private string _text { get; set; }
 
     enum _type
     {
