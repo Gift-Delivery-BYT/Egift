@@ -2,6 +2,15 @@
 
 public class Order
 {
+    // public Order(bool treckerAssigned, int id, string location, string description, Trecker shippingTrecker)
+    // {
+    //     _TreckerAssigned = treckerAssigned;
+    //     _id = id;
+    //     _location = location;
+    //     _description = description;
+    //     this.shippingTrecker = shippingTrecker;
+    // }
+
     enum status
     {
         arrived,
@@ -16,15 +25,6 @@ public class Order
     
     
     private bool _TreckerAssigned = false;
-    
-    public Order(bool treckerAssigned, int id, string location, string description, Trecker shippingTrecker)
-    {
-        _TreckerAssigned = treckerAssigned;
-        _id = id;
-        _location = location;
-        _description = description;
-        this.shippingTrecker = shippingTrecker;
-    }
 
     public void AssignTrecker( Trecker shippingTrecker)
     {

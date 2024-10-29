@@ -5,6 +5,16 @@ namespace Egift_main.Order;
 
 public class Exporter
 {
+    private string name { set; get; }
+    private string country { set; get; }
+    private string address { set; get; }
+    private float shipping_cost { set; get; }
+    private float items_supplied { set; get; }
+    private int phone_number { set; get; }
+    private DateTime time_lead_date { set; get; }
+ 
+    private List<Object> documentation = new List<Object>();
+    
     public Exporter(string name, string country, string address, float shippingCost, float itemsSupplied, int phoneNumber, DateTime timeLeadDate)
     {
         this.name = name;
@@ -16,13 +26,5 @@ public class Exporter
         time_lead_date = timeLeadDate;
     }
 
-    private string name { set; get; }
-    private string country { set; get; }
-    private string address { set; get; }
-    private float shipping_cost { set; get; }
-    private float items_supplied { set; get; }
-    private int phone_number { set; get; }
-    private DateTime time_lead_date { set; get; }
-    private List<Object> documentation = new List<Object>();
     
 }
