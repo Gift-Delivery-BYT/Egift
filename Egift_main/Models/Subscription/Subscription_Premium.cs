@@ -1,89 +1,110 @@
-﻿using System.Xml.Serialization;
+﻿using System;
+using System.Collections;
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 
-namespace Egift_main.Subdcription;
-
-[Serializable]
-public class Subscription_Premium : Subscription
+namespace Egift_main.Subscription
 {
-    private double _discount=0.05;
-    private bool _freeDelivery;
-    private bool _freePriority;
+    [Serializable]
+    public class Subscription_Premium : Subscription
+    {
+        private double _discount = 0.05;
+        private bool _freeDelivery;
+        private bool _freePriority;
 
-    public Subscription_Premium(double price, bool freeDelivery, bool freePriority) : base(price)
-    {
-        _freeDelivery = freeDelivery;
-        _freePriority = freePriority;
-    }
+        public Subscription_Premium(double price, bool freeDelivery, bool freePriority) : base(price)
+        {
+            _freeDelivery = freeDelivery;
+            _freePriority = freePriority;
+        }
 
-    public double Discount
-    {
-        get => _discount;
-        set => _discount = value;
-    }
+        [XmlElement("Discount")]
+        public double Discount
+        {
+            get => _discount;
+            set => _discount = value;
+        }
 
-    public bool FreeDelivery
-    {
-        get => _freeDelivery;
-        set => _freeDelivery = value;
-    }
+        [XmlElement("FreeDelivery")]
+        public bool FreeDelivery
+        {
+            get => _freeDelivery;
+            set => _freeDelivery = value;
+        }
 
-    public bool FreePriority
-    {
-        get => _freePriority;
-        set => _freePriority = value;
-    }
-    public static void saveFreeDelivery(string path)
-    {
-        XmlSerializer serializer = new XmlSerializer(typeof(bool));
-        using (StreamWriter writer = new StreamWriter(path))
+        [XmlElement("FreePriority")]
+        public bool FreePriority
         {
-            serializer.Serialize(writer, path);
+            get => _freePriority;
+            set => _freePriority = value;
         }
-    }
-    
-    public static object readFreeDelivery(string path)
-    {
-        XmlSerializer serializer = new XmlSerializer(typeof(bool));
-        using (StreamReader reader = new StreamReader(path))
+        
+        public void SaveToFile(string path = "./Subscription/Serialized/SubscriptionPremium.xml")
         {
-            bool element = (bool)serializer.Deserialize(reader);
-            return element;
+            XmlSerializer serializer = new XmlSerializer(typeof(PremiumSubscriptionInfo));
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+                var data = new PremiumSubscriptionInfo
+                {
+                    Price = this.Price,
+                    Features = this.Features,
+                    Discount = this.Discount,
+                    FreeDelivery = this.FreeDelivery,
+                    FreePriority = this.FreePriority
+                };
+                serializer.Serialize(writer, data);
+            }
         }
-    }
-    
-    public static void readFreePriority(string path)
-    {
-        XmlSerializer serializer = new XmlSerializer(typeof(bool));
-        using (StreamWriter writer = new StreamWriter(path))
+        
+        public bool LoadFromFile(string path = "./Subscription/Serialized/SubscriptionPremium.xml")
         {
-            serializer.Serialize(writer, path);
+            if (!File.Exists(path))
+            {
+                Features.Clear();
+                Price = 0;
+                Discount = 0.05;
+                FreeDelivery = false;
+                FreePriority = false;
+                return false;
+            }
+
+            try
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(PremiumSubscriptionInfo));
+                using (StreamReader reader = new StreamReader(path))
+                {
+                    var data = (PremiumSubscriptionInfo)serializer.Deserialize(reader);
+                    this.Price = data.Price;
+                    this.Features = data.Features;
+                    this.Discount = data.Discount;
+                    this.FreeDelivery = data.FreeDelivery;
+                    this.FreePriority = data.FreePriority;
+                }
+                return true;
+            }
+            catch
+            {
+                Features.Clear();
+                Price = 0;
+                Discount = 0.05;
+                FreeDelivery = false;
+                FreePriority = false;
+                return false;
+            }
         }
-    }
-    
-    public static object writeFreePriority(string path)
-    {
-        XmlSerializer serializer = new XmlSerializer(typeof(bool));
-        using (StreamReader reader = new StreamReader(path))
+        [Serializable]
+        public class PremiumSubscriptionInfo
         {
-            bool element = (bool)serializer.Deserialize(reader);
-            return element;
-        }
-    }
-    public static void saveDiscount(string path)
-    {
-        XmlSerializer serializer = new XmlSerializer(typeof(double));
-        using (StreamWriter writer = new StreamWriter(path))
-        {
-            serializer.Serialize(writer, path);
-        }
-    }
-    
-    public static void readDiscount(string path)
-    {
-        XmlSerializer serializer = new XmlSerializer(typeof(double));
-        using (StreamReader reader = new StreamReader(path))
-        {
-            double element = (double)serializer.Deserialize(reader);
+            public double Price { get; set; }
+
+            [XmlArray("Features")]
+            [XmlArrayItem("Feature")]
+            public ArrayList Features { get; set; } = new ArrayList();
+
+            public double Discount { get; set; }
+            public bool FreeDelivery { get; set; }
+            public bool FreePriority { get; set; }
         }
     }
 }

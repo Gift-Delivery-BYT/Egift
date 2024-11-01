@@ -1,92 +1,83 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Egift_main.Subdcription;
-
-[Serializable]
-public abstract class Subscription
+namespace Egift_main.Subscription
 {
-
-    private static ArrayList _features = new ArrayList();
-    private static double _price;
-
-    protected Subscription(double price)
+    [Serializable]
+    public abstract class Subscription
     {
-        _price = price;
-    }
+        private ArrayList _features = new ArrayList();
+        private double _price;
 
-    public static double Price
-    {
-        get => _price;
-        set => _price = value;
-    }
-
-    public static ArrayList Features
-    {
-        get => _features;
-        set => _features = value ?? throw new ArgumentNullException(nameof(value));
-    }
-
-    public static void SaveFeatures(string path = "./Subscription/Serialized/StandardFeatures.xml")
-    {
-        StreamWriter toSerialize = File.CreateText(path);
-        XmlSerializer xmlSerializer = new XmlSerializer(typeof(ArrayList));
-        using (XmlTextWriter writer = new XmlTextWriter(toSerialize))
+        protected Subscription(double price)
         {
-            xmlSerializer.Serialize(writer, path);
-        }
-    }
-
-    public static bool GetFeatures(string path = "./Subscription/Serialized/StandardFeatures.xml")
-    {
-        StreamReader file;
-        try
-        {
-            file = File.OpenText(path);
-        }
-        catch (FileNotFoundException)
-        {
-            Features.Clear();
-            return false;
+            _price = price;
         }
 
-        XmlSerializer xmlSerializer = new XmlSerializer(typeof(ArrayList));
-        using (XmlTextReader reader = new XmlTextReader(file))
+        [XmlElement("Price")]
+        public double Price
         {
+            get => _price;
+            set => _price = value;
+        }
+
+        [XmlArray("Features")]
+        [XmlArrayItem("Feature")]
+        public ArrayList Features
+        {
+            get => _features;
+            set => _features = value ?? throw new ArgumentNullException(nameof(value));
+        }
+        public void Save(string path = "./Subscription/Serialized/Subscription.xml")
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(SubscriptionInfo));
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+                var data = new SubscriptionInfo { Price = this.Price, Features = this.Features };
+                serializer.Serialize(writer, data);
+            }
+        }
+
+       
+        public bool LoadFromFile(string path = "./Subscription/Serialized/Subscription.xml")
+        {
+            if (!File.Exists(path))
+            {
+                Features.Clear();
+                Price = 0;
+                return false;
+            }
+
             try
             {
-                _features = (ArrayList)xmlSerializer.Deserialize(reader);
+                XmlSerializer serializer = new XmlSerializer(typeof(SubscriptionInfo));
+                using (StreamReader reader = new StreamReader(path))
+                {
+                    var data = (SubscriptionInfo)serializer.Deserialize(reader);
+                    this.Price = data.Price;
+                    this.Features = data.Features;
+                }
+                return true;
             }
-            catch (InvalidCastException)
+            catch
             {
                 Features.Clear();
-                return false;
-            }
-            catch (Exception)
-            {
-                Features.Clear();
+                Price = 0;
                 return false;
             }
         }
-        return true;
-    }
-    
-    public static void savePrice(string path)
-    {
-        XmlSerializer serializer = new XmlSerializer(typeof(double));
-        using (StreamWriter writer = new StreamWriter(path))
+        
+        [Serializable]
+        public class SubscriptionInfo
         {
-            serializer.Serialize(writer, path);
-        }
-    }
-    
-    public static void ReadPrice(string path)
-    {
-        XmlSerializer serializer = new XmlSerializer(typeof(double));
-        using (StreamReader reader = new StreamReader(path))
-        {
-            double element = (double)serializer.Deserialize(reader);
+            public double Price { get; set; }
+
+            [XmlArray("Features")]
+            [XmlArrayItem("Feature")]
+            public ArrayList Features { get; set; } = new ArrayList();
         }
     }
 }
