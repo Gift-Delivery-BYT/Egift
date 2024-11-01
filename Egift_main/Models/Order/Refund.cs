@@ -6,7 +6,7 @@ namespace Egift_main.Order;
 public class Refund
 {
     private static DateFormat _date;
-    private static bool _isApproved=false;
+    private static bool _isApproved = false;
 
    public void sendRefundRequest(User user, double amount)
     {

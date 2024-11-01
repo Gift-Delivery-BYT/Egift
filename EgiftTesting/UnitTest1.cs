@@ -56,7 +56,7 @@ namespace EgiftTesting
             var order = new Order();
             var trecker = new Trecker();
             
-            order.assignTrecker(trecker);
+            order.AssignTrecker(trecker);
             Assert.IsTrue(order.IsTreckerAssigned()); // Assuming there's an IsTreckerAssigned method
         }
         //
