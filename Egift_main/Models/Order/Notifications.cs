@@ -12,16 +12,16 @@ public class Notifications
 
     private void ChangeTime()
     {
-        
+        //Just for full picture purpose...
     }
 
     private void Send()
     {
-        
+       //Same here.. 
     }
 
     private void SendInTime()
     {
-        
+        ///And here...
     }
 }
