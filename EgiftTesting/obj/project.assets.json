@@ -1001,32 +1001,34 @@
     ]
   },
   "packageFolders": {
-    "/Users/marina/.nuget/packages/": {}
+    "C:\\Users\\maksc\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/marina/Documents/GitHub/Egift/EgiftTesting/EgiftTesting.csproj",
+      "projectUniqueName": "C:\\Users\\maksc\\Egift\\EgiftTesting\\EgiftTesting.csproj",
       "projectName": "EgiftTesting",
-      "projectPath": "/Users/marina/Documents/GitHub/Egift/EgiftTesting/EgiftTesting.csproj",
-      "packagesPath": "/Users/marina/.nuget/packages/",
-      "outputPath": "/Users/marina/Documents/GitHub/Egift/EgiftTesting/obj/",
+      "projectPath": "C:\\Users\\maksc\\Egift\\EgiftTesting\\EgiftTesting.csproj",
+      "packagesPath": "C:\\Users\\maksc\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\maksc\\Egift\\EgiftTesting\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/marina/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\maksc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/Users/marina/Documents/GitHub/Egift/Egift_main/Egift_main.csproj": {
-              "projectPath": "/Users/marina/Documents/GitHub/Egift/Egift_main/Egift_main.csproj"
+            "C:\\Users\\maksc\\Egift\\Egift_main\\Egift_main.csproj": {
+              "projectPath": "C:\\Users\\maksc\\Egift\\Egift_main\\Egift_main.csproj"
             }
           }
         }
@@ -1078,7 +1080,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
