@@ -2,7 +2,7 @@
 
 public class Notifications
 {
-    private string _text { get; set; }
+    private string _text;
 
     enum _type
     {
@@ -10,6 +10,11 @@ public class Notifications
         sms
     }
 
+    public string Text
+    {
+        get => _text;
+        set => _text = value;
+    }
     private void ChangeTime()
     {
         
