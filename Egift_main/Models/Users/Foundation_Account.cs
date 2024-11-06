@@ -108,7 +108,7 @@ public class Foundation_Account: User
     }
 
     public Foundation_Account(int id, string phoneNumber, 
-        string email, string _foundation_name) : base(id, phoneNumber, email)
+        string email, Wallet UserWallet, string _foundation_name) : base(id, phoneNumber, email, UserWallet)
     {
         this._foundation_name = _foundation_name;
     }

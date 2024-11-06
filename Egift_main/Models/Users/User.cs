@@ -8,12 +8,14 @@ public class User
     private int id;
     private string PhoneNumber;
     private string Email;
+    private Wallet _UserWallet;
 
-    public User(int id, string phoneNumber, string email)
+    public User(int id, string phoneNumber, string email, Wallet UserWallet)
     {
         this.id = id;
         PhoneNumber = phoneNumber;
         Email = email;
+        _UserWallet = UserWallet;
     }
     
     [XmlElement("Id")]
@@ -21,6 +23,13 @@ public class User
     {
         get => id;
         set => id = value;
+    }
+     
+    [XmlElement("UserWallet")]
+    public Wallet UserWallet
+    {
+        get => _UserWallet;
+        set => _UserWallet = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     [XmlElement("PhoneNumber1")]
@@ -45,7 +54,8 @@ public class User
             var data = new UserInfo
             {
                 Id = this.Id, PhoneNumber1 = this.PhoneNumber1,
-                Email1 = this.Email1
+                Email1 = this.Email1,
+                UserWallet = this.UserWallet,
                     
             };
             serializer.Serialize(writer, data);
@@ -59,6 +69,7 @@ public class User
             Id = 0;
             PhoneNumber1 = String.Empty;
             Email1 = String.Empty;
+            UserWallet = null;
             return false;
         }
 
@@ -71,6 +82,7 @@ public class User
                 this.Id = data.Id;
                 this.PhoneNumber1 = data.PhoneNumber1;
                 this.Email1 = data.Email1;
+                this.UserWallet = data.UserWallet;
             }
             return true;
         }
@@ -79,6 +91,7 @@ public class User
             Id = 0;
             PhoneNumber1 = String.Empty;
             Email1 = String.Empty;
+            UserWallet = null;
             return false;
         }
     }
@@ -89,5 +102,6 @@ public class User
         public int Id { get; set; }
         public string PhoneNumber1 { get; set; }
         public string Email1 { get; set; }
+        public Wallet UserWallet  { get; set; }
     }
 }

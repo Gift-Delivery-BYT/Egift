@@ -64,14 +64,7 @@ public class BusinessAcount: User
     {
         
     }
-
-    public BusinessAcount(int id, string phoneNumber, string email,
-        string business_name, string business_address, double coorparate_discount = 0.03) : base(id, phoneNumber, email)
-    {
-        this.business_name = business_name;
-        this.business_address = business_address;
-        this.coorparate_discount = coorparate_discount;
-    }
+    
     
      public void SaveToFile(string path = "./Users/Serialized/BusinessAcount.xml")
         {
@@ -159,5 +152,14 @@ public class BusinessAcount: User
         [XmlArray("AuthorizedUsers")]
         [XmlArrayItem("User_Id")]
         public ArrayList AuthorizedUsers { get; set; } = new ArrayList();
+    }
+
+    public BusinessAcount(int id, string phoneNumber, string email, 
+        Wallet UserWallet, string business_name, string business_address,
+        double coorparate_discount) : base(id, phoneNumber, email, UserWallet)
+    {
+        this.business_name = business_name;
+        this.business_address = business_address;
+        this.coorparate_discount = coorparate_discount;
     }
 }

@@ -11,15 +11,6 @@ public class Client: User
     private string name;
     private ArrayList _wishlist = new ArrayList();
     private DateFormat birthday;
-    private Wallet _UserWallet;
-
-    public Client(Wallet UserWallet, DateFormat birthday, string name,
-        int id, string phoneNumber, string email) : base(id, phoneNumber, email)
-        {
-            _UserWallet = UserWallet;
-            this.birthday = birthday;
-            this.name = name;
-        }
 
     [XmlElement("Name")]
     public string Name
@@ -33,13 +24,6 @@ public class Client: User
     {
         get => birthday;
         set => birthday = (DateFormat)value;
-    }
-    
-    [XmlElement("UserWallet")]
-    public Wallet UserWallet
-    {
-        get => _UserWallet;
-        set => _UserWallet = value ?? throw new ArgumentNullException(nameof(value));
     }
     
     [XmlArray("WishList")]
@@ -125,5 +109,12 @@ public class Client: User
             public DateFormat? Birthday  { get; set; }
             public string Name  { get; set; }
 
+        }
+
+        public Client(int id, string phoneNumber, string email, Wallet UserWallet,
+            DateFormat birthday, string name) : base(id, phoneNumber, email, UserWallet)
+        {
+            this.birthday = birthday;
+            this.name = name;
         }
 }

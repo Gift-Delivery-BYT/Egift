@@ -40,13 +40,6 @@ public class Employee : User
         Tuple<bool, int> Info = new Tuple<bool, int>(true,this.Id);
         return Info;
     }
-
-    public Employee(int id, string phoneNumber, string email,
-        string name, string address) : base(id, phoneNumber, email)
-    {
-        this.address = address;
-        this.name = name;
-    }
     
     public void SaveToFile(string path = "./Users/Serialized/Employee.xml")
         {
@@ -119,5 +112,12 @@ public class Employee : User
             public Schedule Schedule { get; set; }
             public string Name { get; set; }
             public string Address { get; set; }
+        }
+
+        public Employee(int id, string phoneNumber, string email, Wallet UserWallet,
+            string address, string name) : base(id, phoneNumber, email, UserWallet)
+        {
+            this.address = address;
+            this.name = name;
         }
 }

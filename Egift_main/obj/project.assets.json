@@ -8,26 +8,24 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\maksc\\.nuget\\packages\\": {}
+    "/Users/marina/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\maksc\\Egift\\Egift_main\\Egift_main.csproj",
+      "projectUniqueName": "/Users/marina/Documents/GitHub/Egift/Egift_main/Egift_main.csproj",
       "projectName": "Egift_main",
-      "projectPath": "C:\\Users\\maksc\\Egift\\Egift_main\\Egift_main.csproj",
-      "packagesPath": "C:\\Users\\maksc\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\maksc\\Egift\\Egift_main\\obj\\",
+      "projectPath": "/Users/marina/Documents/GitHub/Egift/Egift_main/Egift_main.csproj",
+      "packagesPath": "/Users/marina/.nuget/packages/",
+      "outputPath": "/Users/marina/Documents/GitHub/Egift/Egift_main/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\maksc\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/marina/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -64,7 +62,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
