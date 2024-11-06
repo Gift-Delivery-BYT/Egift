@@ -26,6 +26,7 @@ using System.Xml.Serialization;
         public List<Object> Documentation { get; set; } = new List<Object>();
         public Exporter() { }
 
+        private static List<Exporter> _exporterlist = new List<Exporter>();
         public Exporter(string name, string country, string address, float shippingCost, float itemsSupplied, int phoneNumber, DateTime timeLeadDate)
         {
             Name = name;
@@ -35,6 +36,8 @@ using System.Xml.Serialization;
             ItemsSupplied = itemsSupplied;
             PhoneNumber = phoneNumber;
             TimeLeadDate = timeLeadDate;
+            
+            _exporterlist.Add(this);
         }
 
        

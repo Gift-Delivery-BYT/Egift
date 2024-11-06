@@ -17,7 +17,7 @@ namespace EgiftTesting
         {
             _wallet = new Wallet();
             _user = new User(1, "1234567890", "user@example.com", _wallet);
-            _employee = new Employee(2, "0987654321", "employee@example.com", "9-5", _wallet);
+            _employee = new Employee(2, "0987654321", "employee@example.com", _wallet, "9-5", "Garry");
             _refund = new Refund();
             _employee.Refund = _refund;
         }
