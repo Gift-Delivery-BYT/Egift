@@ -15,6 +15,7 @@ namespace EgiftTesting
         private Refund _refund;
         private Schedule _schedule;
         private Client _client;
+        private BusinessAcount _businessAcount;
         [SetUp]
         public void Setup()
         {
@@ -25,6 +26,8 @@ namespace EgiftTesting
             _employee.Refund = _refund;
             _schedule = new Schedule();
             _client = new Client(1, "1234567890", "client@example.com", new Wallet(), new DateFormat(), "Abdullah");
+            _businessAcount = new BusinessAcount(99, "1234567890", "business@example.com", 
+                new Wallet(), "China Shirts", "123 Business St", 0.15);
         }
 
         [Test]
@@ -120,6 +123,13 @@ namespace EgiftTesting
         {
             Assert.Throws<ArgumentNullException>(() => _client.WishList = null);
         }
+        
+        [Test]
+        public void Documentation_ThrowsArgumentNullException_WhenNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _businessAcount.Documentation = null);
+        }
+        
 
     }
 }
