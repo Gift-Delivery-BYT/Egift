@@ -130,6 +130,13 @@ namespace EgiftTesting
             Assert.Throws<ArgumentNullException>(() => _businessAcount.Documentation = null);
         }
         
-
+        [Test]
+        public void SpendMoney_CantSpendMoreThanOwned()
+        {
+            var wallet = new Wallet();
+            wallet._AddMoney(100); 
+            var ex = Assert.Throws<InvalidOperationException>(() => wallet.SpendMoney(200));
+            Assert.That(ex.Message, Is.EqualTo("Insufficient balance. Cannot spend more than the current wallet balance."));
+        }
     }
 }

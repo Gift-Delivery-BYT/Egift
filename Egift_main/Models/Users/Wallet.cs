@@ -20,7 +20,16 @@ public class Wallet
     {
         _amount += toAdd;
     }
-
+    public void SpendMoney(double amountToSpend)
+    {
+        if (_amount < amountToSpend)
+        {
+            throw new InvalidOperationException("Insufficient balance. Cannot spend more than the current wallet balance.");
+        }
+        _amount -= amountToSpend;
+        Console.WriteLine($"Spent {amountToSpend} {_currentCurrency}. Current balance: {_amount} {_currentCurrency}");
+    }
+    
     public double GetAmount()
     {
         return _amount;
