@@ -3,6 +3,7 @@ using Egift_main;
 using Egift_main.Order;
 using System;
 using Egift_main.Models.Order;
+using Microsoft.VisualBasic;
 
 namespace EgiftTesting
 {
@@ -13,6 +14,7 @@ namespace EgiftTesting
         private Wallet _wallet;
         private Refund _refund;
         private Schedule _schedule;
+        private Client _client;
         [SetUp]
         public void Setup()
         {
@@ -22,6 +24,7 @@ namespace EgiftTesting
             _refund = new Refund();
             _employee.Refund = _refund;
             _schedule = new Schedule();
+            _client = new Client(1, "1234567890", "client@example.com", new Wallet(), new DateFormat(), "Abdullah");
         }
 
         [Test]
@@ -110,6 +113,12 @@ namespace EgiftTesting
             _schedule.AddHolidays(holiday);
     
             Assert.AreEqual(1, _schedule.Holidays.Count);
+        }
+        
+        [Test]
+        public void Wishlist_ShouldThrowArgumentNullException_WhenSetToNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _client.WishList = null);
         }
 
     }
