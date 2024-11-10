@@ -3,6 +3,7 @@ using Egift_main;
 using Egift_main.Order;
 using System;
 using Egift_main.Models.Order;
+using Egift_main.Subscription;
 using Microsoft.VisualBasic;
 
 namespace EgiftTesting
@@ -16,9 +17,15 @@ namespace EgiftTesting
         private Schedule _schedule;
         private Client _client;
         private BusinessAcount _businessAcount;
+        private Foundation_Account _foundationAccount;
+        private SubscriptionStandart _subscription;
+
         [SetUp]
         public void Setup()
         {
+            var trecker = new Trecker(101, DateTime.Now.AddDays(3));
+
+            
             _wallet = new Wallet();
             _user = new User(1, "1234567890", "user@example.com", _wallet);
             _employee = new Employee(2, "0987654321", "employee@example.com", _wallet, "9-5", "Garry");
@@ -27,7 +34,10 @@ namespace EgiftTesting
             _schedule = new Schedule();
             _client = new Client(1, "1234567890", "client@example.com", new Wallet(), new DateFormat(), "Abdullah");
             _businessAcount = new BusinessAcount(99, "1234567890", "business@example.com", 
-                new Wallet(), "China Shirts", "123 Business St", 0.15);
+                new Wallet(), "China Shirts", "123 Business St", 0.15, trecker);
+            _foundationAccount = new Foundation_Account(1, "1234567890", "foundation@example.com", new Wallet(), "Foundation");
+            _subscription = new SubscriptionStandart();
+
         }
 
         [Test]
@@ -62,23 +72,13 @@ namespace EgiftTesting
         public void AssignTrecker_True()
         {
             var order = new Order();
-            var trecker = new Trecker();
+            var trecker = new Trecker(101, DateTime.Now.AddDays(3));
             
             order.AssignTrecker(trecker);
             Assert.IsTrue(order.IsTreckerAssigned()); // Assuming there's an IsTreckerAssigned method
         }
         //
         
-        [Test]
-        public void Email1_ThrowException_WhenSetToNull()
-        {
-            Assert.Throws<ArgumentNullException>(() => _user.Email1 = null);
-        }
-        [Test]
-        public void UserWallet_ShouldThrowException_WhenSetToNull()
-        {
-            Assert.Throws<ArgumentNullException>(() => _user.UserWallet = null);
-        }
         [Test]
         public void Wallet_InitialBalance_ShouldBeZero()
         {
@@ -138,5 +138,117 @@ namespace EgiftTesting
             var ex = Assert.Throws<InvalidOperationException>(() => wallet.SpendMoney(200));
             Assert.That(ex.Message, Is.EqualTo("Insufficient balance. Cannot spend more than the current wallet balance."));
         }
+        // Unit tests for User attributes
+        [Test]
+        public void UserAttribute_ID()
+        {
+            _user.Id = 10;
+            Assert.AreEqual(10, _user.Id);
+        }
+        
+        [Test]
+        public void UserAttribute_PhoneNumber()
+        {
+            _user.PhoneNumber1 = "4813345456";
+            Assert.AreEqual("4813345456", _user.PhoneNumber1);
+        }
+        
+        [Test]
+        public void UserAttribute_Email()
+        {
+            _user.Email1 = "user@gmail.com";
+            Assert.AreEqual("user@gmail.com", _user.Email1);
+        }
+        
+        [Test]
+        public void Email1_ThrowException_WhenSetToNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _user.Email1 = null);
+        }
+        
+        [Test]
+        public void UserWallet_ThrowException_WhenSetToNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _user.UserWallet = null);
+        }
+        // Unit tests for Client attributes
+        [Test]
+        public void ClientAttribute_Name()
+        {
+            _client.Name = "John Doe";
+            Assert.AreEqual("John Doe", _client.Name);
+        }
+        [Test]
+        public void ClientAttribute_WishList_AddItem()
+        {
+            _client.WishList.Add("New Item");
+            Assert.Contains("New Item", _client.WishList);
+        }
+
+        [Test]
+        public void ClientAttribute_WishList_RemoveItem()
+        {
+            _client.WishList.Add("Gift");
+            _client.WishList.Remove("Gift");
+            Assert.IsFalse(_client.WishList.Contains("Gift"));
+        }
+
+        [Test]
+        public void WishList_ThrowException_WhenSetToNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _client.WishList = null);
+        }
+        
+        // Unit tests for Foundation attributes
+        [Test]
+        public void FoundationAccountAttribute_FoundationName()
+        {
+            _foundationAccount.FoundationName = "Gift Foundation";
+            Assert.AreEqual("Gift Foundation", _foundationAccount.FoundationName);
+        }
+        
+        [Test]
+        public void FoundationAccountAttribute_AccountingInfo()
+        {
+            string accountingInfo = "accountingInfo";
+            _foundationAccount.AddAccountingInfo(accountingInfo);
+            Assert.Contains(accountingInfo, _foundationAccount.AccountingInfo);
+        }
+
+        [Test]
+        public void AccountingInfo_ShouldThrowException_WhenNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _foundationAccount.AccountingInfo = null);
+        }
+
+        [Test]
+        public void AddAccountingInfo_ShouldAddNewInfo()
+        {
+            string newInfo = "New Info";
+            _foundationAccount.AddAccountingInfo(newInfo);
+            Assert.Contains(newInfo, _foundationAccount.AccountingInfo);
+        }
+        
+        // Unit tests for Standart Subscription attributes
+        [Test]
+        public void SubscriptionStandartAttribute_AvailableDates()
+        {
+            var dates = new List<DateTime> { DateTime.Now, DateTime.Now.AddDays(1) };
+            _subscription.AvailableDates = dates;
+            Assert.AreEqual(dates, _subscription.AvailableDates);
+        }
+
+        [Test]
+        public void AvailableDates_ShouldThrowException_WhenNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _subscription.AvailableDates = null);
+        }
+
+        [Test]
+        public void FreeGifts_ShouldThrowException_WhenNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _subscription.FreeGifts = null);
+        }
+        
     }
 }
