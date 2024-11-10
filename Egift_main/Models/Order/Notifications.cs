@@ -1,6 +1,10 @@
-﻿using System.Xml;
+﻿using System.Net;
+using System.Net.Mail;
+using System.Xml;
 using System.Xml.Serialization;
-using Egift_main.Order;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 
 namespace Egift_main;
 
@@ -27,24 +31,92 @@ public class Notifications
     
     public void TimeDeliveryWasChanged(DateTime newTime)
     {
+        _text = $"The delivery time was changed to: {newTime.ToString("f")}";
         
+        if (SendEmail())
+            Send(_type.email);
+
+        if (SendSms())
+            Send(_type.sms); 
     }
 
-    public void Send(_type notifications)
+    public bool Send(_type notifications)
     {
         if (notifications == _type.email)
-        {
-            
-        }
+            return SendEmail();
+        
         else if(notifications == _type.sms)
+            return SendSms();
+        
+        return false;
+    }
+    
+    private bool SendEmail()
+    {
+        try
         {
-            
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587, 
+                Credentials = new NetworkCredential("s27776@pjwstk.edu.pl", "passw0rd"), 
+                EnableSsl = true 
+            };
+
+            MailMessage mailMessage = new MailMessage
+            {
+                From = new MailAddress("s27776@pjwstk.edu.pl"),  
+                Subject = "<h1>Notification from E-gift System<h1>", 
+                Body = _text, 
+                IsBodyHtml = false 
+            };
+
+            mailMessage.To.Add("s26871@pejot.edu.pl");
+
+            smtpClient.Send(mailMessage);
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error sending email: {ex.Message}");
+            return false;
+        }
+        return true;
     }
 
-    public void SendInTime()
+    private bool SendSms()
     {
-        ///And here...
+        //twilio provides a HTTP-based API for sending and receiving phone calls and text messages
+        try
+        {
+            TwilioClient.Init("accountSid", "authToken");
+
+            var message = MessageResource.Create(
+                body: _text,
+                from: new PhoneNumber("+11234567890"), 
+                to: new PhoneNumber("+10987654321")
+            );
+
+            Console.WriteLine(message.Sid);
+        }
+        catch (Twilio.Exceptions.ApiException ex)
+        {
+            Console.WriteLine($"Twilio API error: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error sending SMS: {ex.Message}");
+        }
+        return true;
+    }
+
+    public void SendInTime(DateTime sendTime)
+    {
+        if (DateTime.Now >= sendTime)
+        {
+            Console.WriteLine("Sending a notification");
+            Send(_type.email);
+        }
+        else
+            Console.WriteLine("It's not time to send the notification yet");
     }
     
     public static bool Serialize(string path = "./Order/Serialized/Notifications.xml")
