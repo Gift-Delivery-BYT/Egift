@@ -1,19 +1,11 @@
-﻿using System.Xml.Serialization;
+﻿using System.Xml;
+using System.Xml.Serialization;
 
 namespace Egift_main.Order;
 
 public class Order
 {
-    // public Order(bool treckerAssigned, int id, string location, string description, Trecker shippingTrecker)
-    // {
-    //     _TreckerAssigned = treckerAssigned;
-    //     _id = id;
-    //     _location = location;
-    //     _description = description;
-    //     this.shippingTrecker = shippingTrecker;
-    // }
-
-    enum status
+    public enum status
     {
         arrived,
         shipping,
@@ -27,7 +19,24 @@ public class Order
     
     private bool _TreckerAssigned = false;
     
+    private DateTime _scheduledTimeDelivery { get; set; }
     
+    public Order() { }
+        
+    [XmlArray]
+    private static List<Order> _orderList = new List<Order>();
+
+    public Order(bool treckerAssigned, int id, string location, string description, Trecker shippingTrecker, DateTime scheduledTimeDelivery)
+    {
+        _TreckerAssigned = treckerAssigned;
+        _id = id;
+        _location = location;
+        _description = description;
+        this.shippingTrecker = shippingTrecker;
+        _scheduledTimeDelivery = scheduledTimeDelivery;
+        
+        _orderList.Add(this);
+    }
 
     public void AssignTrecker( Trecker shippingTrecker)
     {
@@ -39,10 +48,10 @@ public class Order
     {
         return _TreckerAssigned;
     }
-
-    public void AddItem()
+    
+    public void AddItem(Item item)
     {
-        
+        Item.AddItem(item);
     }
     
     public void TrackOrder()
@@ -50,47 +59,35 @@ public class Order
         
     }
     
-    public void Save(string path = "./Order/Serialized/Order.xml")
+    public static bool Serialize(string path = "./Order/Serialized/Order.xml")
     {
-        XmlSerializer serializer = new XmlSerializer(typeof(OrderInfo));
-        using (StreamWriter writer = new StreamWriter(path))
-        {
-            var data = new OrderInfo
-            {
-                Id = _id,
-                Location = _location,
-                Description = _description,
-                ShippingTrecker = shippingTrecker,
-                TreckerAssigned = _TreckerAssigned
-            };
-            serializer.Serialize(writer, data);
+        XmlSerializer serializer = new XmlSerializer(typeof(Order));
+        using (StreamWriter writer = new StreamWriter(path)) {
+            serializer.Serialize(writer, _orderList);
         }
+        return true;
     }
-
-    
-    public bool LoadFromFile(string path = "./Order/Serialized/Order.xml")
+    public static bool Deserialize(string path = "./Order/Serialized/Order.xml")
     {
-            XmlSerializer serializer = new XmlSerializer(typeof(OrderInfo));
-            using (StreamReader reader = new StreamReader(path))
-            {
-                var data = (OrderInfo)serializer.Deserialize(reader);
-                _id = data.Id;
-                _location = data.Location;
-                _description = data.Description;
-                shippingTrecker = data.ShippingTrecker;
-                _TreckerAssigned = data.TreckerAssigned;
+        StreamReader file;
+        try {
+            file = File.OpenText(path);
+        }
+        catch (FileNotFoundException) {
+            _orderList.Clear();
+            return false;
+        }
+        XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Exporter>));
+        using (XmlTextReader reader = new XmlTextReader(file)) {
+            try {
+                _orderList = (List<Order>)xmlSerializer.Deserialize(reader);
+            }
+            catch (InvalidCastException) {
+                _orderList.Clear();
+                return false;
             }
             return true;
+        }
     }
     
-    [Serializable]
-    public class OrderInfo
-    {
-        public int Id { get; set; }
-        public string Location { get; set; }
-        public string Description { get; set; }
-        public Trecker ShippingTrecker { get; set; }
-        public bool TreckerAssigned { get; set; }
-    }
-
 }

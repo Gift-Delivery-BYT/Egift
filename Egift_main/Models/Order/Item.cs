@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.Xml;
+using System.Xml.Serialization;
 using Microsoft.VisualBasic;
 
 namespace Egift_main.Order;
@@ -10,9 +11,10 @@ public class Item
      private string name { get; set; }
      private double pricehold { get; set; }
      private DateFormat date_of_production { get; set; }
-     
+     [XmlArray]
      private static List<Item> _itemList = new List<Item>();
 
+     public Item() { }
      public Item(int itemId, string name, double pricehold, DateFormat dateOfProduction)
      {
           ItemID = itemId;
@@ -41,55 +43,39 @@ public class Item
           return false;
      }
      
-     public void Save(string path = "./Item/Serialized/Item.xml")
+     public Item FindItemById(int ItemID)
      {
-          XmlSerializer serializer = new XmlSerializer(typeof(ItemInfo));
-          using (StreamWriter writer = new StreamWriter(path))
-          {
-               var data = new ItemInfo
-               {
-                    ItemID = this.ItemID,
-                    Name = this.name,
-                    PriceHold = this.pricehold,
-                    DateOfProduction = this.date_of_production
-               };
-               serializer.Serialize(writer, data);
-          }
+          return _itemList.Find(x=>x.ItemID == ItemID);
      }
-
     
-     public bool LoadFromFile(string path = "./Item/Serialized/Item.xml")
+     public static bool Serialize(string path = "./Order/Serialized/Item.xml")
      {
-          if (!File.Exists(path))
-          {
+          XmlSerializer serializer = new XmlSerializer(typeof(Item));
+          using (StreamWriter writer = new StreamWriter(path)) {
+               serializer.Serialize(writer, _itemList);
+          }
+          return true;
+     }
+     public static bool Deserialize(string path = "./Order/Serialized/Item.xml")
+     {
+          StreamReader file;
+          try {
+               file = File.OpenText(path);
+          }
+          catch (FileNotFoundException) {
+               _itemList.Clear();
                return false;
           }
-
-          try
-          {
-               XmlSerializer serializer = new XmlSerializer(typeof(ItemInfo));
-               using (StreamReader reader = new StreamReader(path))
-               {
-                    var data = (ItemInfo)serializer.Deserialize(reader);
-                    this.ItemID = data.ItemID;
-                    name = data.Name;
-                    pricehold = data.PriceHold;
-                    date_of_production = data.DateOfProduction;
+          XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Exporter>));
+          using (XmlTextReader reader = new XmlTextReader(file)) {
+               try {
+                    _itemList = (List<Item>)xmlSerializer.Deserialize(reader);
+               }
+               catch (InvalidCastException) {
+                    _itemList.Clear();
+                    return false;
                }
                return true;
           }
-          catch
-          {
-               return false;
-          }
-     }
-     
-     [Serializable]
-     public class ItemInfo
-     {
-          public int ItemID { get; set; }
-          public string Name { get; set; }
-          public double PriceHold { get; set; }
-          public DateFormat DateOfProduction { get; set; }
      }
 }
