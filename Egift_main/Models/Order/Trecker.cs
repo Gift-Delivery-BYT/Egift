@@ -6,14 +6,14 @@ public class Trecker
 {
     private static string _location;
     private int _tracker_id;
-    public DateTime _estimated_time_for_arrival;
+    private DateTime _estimated_time_for_arrival;
     
-    public DateTime EstimatedTimeForArrival
+    private DateTime EstimatedTimeForArrival
     {
         get => _estimated_time_for_arrival;
         set => _estimated_time_for_arrival = value;
     }
-    public static string Location
+    private static string Location
     {
         get => _location;
         set => _location = value;
@@ -24,11 +24,37 @@ public class Trecker
         set => _tracker_id = value;
     }
 
+    private static List<Trecker> _treckers = new List<Trecker>();
+
+    public Trecker(int trackerId, DateTime estimatedTimeForArrival)
+    {
+        _tracker_id = trackerId;
+        _estimated_time_for_arrival = estimatedTimeForArrival;
+        _treckers.Add(this);
+    }
+
     public string GetLocation()
     {
         return _location;
     }
+
+    private static bool AddTrecker(Trecker trecker) {
+        if (TreckerIsValid(trecker)) {
+            _treckers.Add(trecker);
+            return true;
+        }
+        return false;
+    }
     
+
+    private static bool TreckerIsValid(Trecker trecker)
+    {
+        if (!string.IsNullOrEmpty(_location) &&
+            trecker._tracker_id > 0 &&
+            trecker._estimated_time_for_arrival > DateTime.Now)
+            return true;
+        throw new ArgumentNullException();
+    }
     public DateTime GetEstimatedTime()
     {
         return _estimated_time_for_arrival;
