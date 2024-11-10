@@ -239,6 +239,7 @@ namespace EgiftTesting
             _subscription.AvailableDates = dates;
             Assert.AreEqual(dates, _subscription.AvailableDates);
         }
-        
+
+        //
     }
 }
