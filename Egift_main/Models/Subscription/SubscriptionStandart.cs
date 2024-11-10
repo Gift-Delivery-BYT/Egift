@@ -11,13 +11,13 @@ namespace Egift_main.Subscription
 
         private static List<SubscriptionStandart> _subscriptionStandarts = new List<SubscriptionStandart>();
 
-        private List<DateTime> AvailableDates
+        public List<DateTime> AvailableDates
         {
             get => _availableDates;
             set => _availableDates = value ?? new List<DateTime>();
         }
 
-        private List<object> FreeGifts
+        public List<object> FreeGifts
         {
             get => _freeGifts;
             set => _freeGifts = value ?? new List<object>();

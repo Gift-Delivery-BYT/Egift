@@ -3,6 +3,7 @@ using Egift_main;
 using Egift_main.Order;
 using System;
 using Egift_main.Models.Order;
+using Egift_main.Subscription;
 using Microsoft.VisualBasic;
 
 namespace EgiftTesting
@@ -17,6 +18,7 @@ namespace EgiftTesting
         private Client _client;
         private BusinessAcount _businessAcount;
         private Foundation_Account _foundationAccount;
+        private SubscriptionStandart _subscription;
 
         [SetUp]
         public void Setup()
@@ -34,6 +36,7 @@ namespace EgiftTesting
             _businessAcount = new BusinessAcount(99, "1234567890", "business@example.com", 
                 new Wallet(), "China Shirts", "123 Business St", 0.15, trecker);
             _foundationAccount = new Foundation_Account(1, "1234567890", "foundation@example.com", new Wallet(), "Foundation");
+            _subscription = new SubscriptionStandart();
 
         }
 
@@ -224,6 +227,27 @@ namespace EgiftTesting
             string newInfo = "New Info";
             _foundationAccount.AddAccountingInfo(newInfo);
             Assert.Contains(newInfo, _foundationAccount.AccountingInfo);
+        }
+        
+        // Unit tests for Standart Subscription attributes
+        [Test]
+        public void SubscriptionStandartAttribute_AvailableDates()
+        {
+            var dates = new List<DateTime> { DateTime.Now, DateTime.Now.AddDays(1) };
+            _subscription.AvailableDates = dates;
+            Assert.AreEqual(dates, _subscription.AvailableDates);
+        }
+
+        [Test]
+        public void AvailableDates_ShouldThrowException_WhenNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _subscription.AvailableDates = null);
+        }
+
+        [Test]
+        public void FreeGifts_ShouldThrowException_WhenNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _subscription.FreeGifts = null);
         }
         
     }
