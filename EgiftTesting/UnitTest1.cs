@@ -70,16 +70,6 @@ namespace EgiftTesting
         //
         
         [Test]
-        public void Email1_ThrowException_WhenSetToNull()
-        {
-            Assert.Throws<ArgumentNullException>(() => _user.Email1 = null);
-        }
-        [Test]
-        public void UserWallet_ShouldThrowException_WhenSetToNull()
-        {
-            Assert.Throws<ArgumentNullException>(() => _user.UserWallet = null);
-        }
-        [Test]
         public void Wallet_InitialBalance_ShouldBeZero()
         {
             var newWallet = new Wallet();
@@ -137,6 +127,39 @@ namespace EgiftTesting
             wallet._AddMoney(100); 
             var ex = Assert.Throws<InvalidOperationException>(() => wallet.SpendMoney(200));
             Assert.That(ex.Message, Is.EqualTo("Insufficient balance. Cannot spend more than the current wallet balance."));
+        }
+        // Unit tests for User attributes
+        [Test]
+        public void UserAttribute_ID()
+        {
+            _user.Id = 10;
+            Assert.AreEqual(10, _user.Id);
+        }
+        
+        [Test]
+        public void UserAttribute_PhoneNumber()
+        {
+            _user.PhoneNumber1 = "4813345456";
+            Assert.AreEqual("4813345456", _user.PhoneNumber1);
+        }
+        
+        [Test]
+        public void UserAttribute_Email()
+        {
+            _user.Email1 = "user@gmail.com";
+            Assert.AreEqual("user@gmail.com", _user.Email1);
+        }
+        
+        [Test]
+        public void Email1_ThrowException_WhenSetToNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _user.Email1 = null);
+        }
+        
+        [Test]
+        public void UserWallet_ThrowException_WhenSetToNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _user.UserWallet = null);
         }
     }
 }
