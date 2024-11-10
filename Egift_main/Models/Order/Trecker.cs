@@ -6,9 +6,9 @@ public class Trecker
 {
     private static string _location;
     private int _tracker_id;
-    private static DateFormat _estimated_time_for_arrival;
+    public DateTime _estimated_time_for_arrival;
     
-    public static DateFormat EstimatedTimeForArrival
+    public DateTime EstimatedTimeForArrival
     {
         get => _estimated_time_for_arrival;
         set => _estimated_time_for_arrival = value;
@@ -29,7 +29,7 @@ public class Trecker
         return _location;
     }
     
-    public DateFormat GetEstimatedTime()
+    public DateTime GetEstimatedTime()
     {
         return _estimated_time_for_arrival;
     }
@@ -46,7 +46,7 @@ public class Trecker
             
     }
     
-    public void UpdateEstimationTime(DateFormat newTimeEstimation)
+    public void UpdateEstimationTime(DateTime newTimeEstimation)
     {
         if (newTimeEstimation != EstimatedTimeForArrival)
         {

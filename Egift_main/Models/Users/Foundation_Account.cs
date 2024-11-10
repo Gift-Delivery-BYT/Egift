@@ -27,7 +27,7 @@ public class Foundation_Account: User
         set => _accountingInfo = value ?? throw new ArgumentNullException(nameof(value));
     }
     
-    private enum foundation_type
+    public enum foundation_type
     {
         productBased, 
         deliveryBased, 
@@ -37,12 +37,17 @@ public class Foundation_Account: User
 
     public void FindFreePropositions()
     {
-        
+       
     }
     
-    public void AddAccountingInfo()
+    public static List<Foundation_Account> GetAllFoundationAccounts()
     {
-        
+        return _foundationAccountList;
+    }
+    
+    public void AddAccountingInfo(string information)
+    {
+        _accountingInfo.Add(information);
     }
 
     public Foundation_Account(int id, string phoneNumber, 

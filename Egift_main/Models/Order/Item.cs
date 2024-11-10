@@ -7,9 +7,9 @@ namespace Egift_main.Order;
 [Serializable]
 public class Item
 {
-     private int ItemID { get; set; }
-     private string name { get; set; }
-     private double pricehold { get; set; }
+     public int ItemID { get; set; }
+     public string name { get; set; }
+     public double pricehold { get; set; }
      private DateFormat date_of_production { get; set; }
      [XmlArray]
      private static List<Item> _itemList = new List<Item>();
@@ -30,7 +30,7 @@ public class Item
      }
      public static List<Item> GetItems()
      {
-          return new List<Item>(_itemList); 
+          return _itemList;
      }
      
      public static bool RemoveItem(int ItemID){
