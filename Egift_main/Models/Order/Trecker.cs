@@ -24,18 +24,37 @@ public class Trecker
         set => _tracker_id = value;
     }
 
-    public void GetLocation(string location)
+    public string GetLocation()
     {
-        
+        return _location;
     }
     
-    public void GetEstimatedTime()
+    public DateFormat GetEstimatedTime()
     {
-        
+        return _estimated_time_for_arrival;
     }
     
-    public void UpdateCurrentLocation()
+    public void UpdateCurrentLocation(string newLocation)
     {
-        
+        if (newLocation != Location)
+        {
+            Location = newLocation;
+            Console.WriteLine($"New location is : {Location}");
+        }
+        else
+            Console.WriteLine("No updates, location is the same");
+            
+    }
+    
+    public void UpdateEstimationTime(DateFormat newTimeEstimation)
+    {
+        if (newTimeEstimation != EstimatedTimeForArrival)
+        {
+            EstimatedTimeForArrival = newTimeEstimation;
+            Console.WriteLine($"New Estimation Time of deivelry is : {newTimeEstimation}");
+        }
+        else
+            Console.WriteLine("No updates, time of tracker is the same");
+            
     }
 }
