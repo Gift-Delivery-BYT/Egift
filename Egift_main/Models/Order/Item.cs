@@ -10,6 +10,8 @@ public class Item
      private string name { get; set; }
      private double pricehold { get; set; }
      private DateFormat date_of_production { get; set; }
+     
+     private static List<Item> _itemList = new List<Item>();
 
      public Item(int itemId, string name, double pricehold, DateFormat dateOfProduction)
      {
@@ -17,8 +19,27 @@ public class Item
           name = name;
           pricehold = pricehold;
           date_of_production = dateOfProduction;
+          _itemList.Add(this);
      }
      
+     public static void AddItem(Item item)
+     {
+          _itemList.Add(item);
+     }
+     public static List<Item> GetItems()
+     {
+          return new List<Item>(_itemList); 
+     }
+     
+     public static bool RemoveItem(int ItemID){
+          var item = _itemList.Find(x=>x.ItemID == ItemID);
+          if (item != null)
+          {
+               _itemList.Remove(item);
+               return true;
+          }
+          return false;
+     }
      
      public void Save(string path = "./Item/Serialized/Item.xml")
      {
