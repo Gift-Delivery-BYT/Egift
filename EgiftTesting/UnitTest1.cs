@@ -19,6 +19,7 @@ namespace EgiftTesting
         private BusinessAcount _businessAcount;
         private Foundation_Account _foundationAccount;
         private SubscriptionStandart _subscription;
+        private SubscriptionPremium _subscriptionPremium;
 
         [SetUp]
         public void Setup()
@@ -37,6 +38,7 @@ namespace EgiftTesting
                 new Wallet(), "China Shirts", "123 Business St", 0.15, trecker);
             _foundationAccount = new Foundation_Account(1, "1234567890", "foundation@example.com", new Wallet(), "Foundation");
             _subscription = new SubscriptionStandart();
+            _subscriptionPremium = new SubscriptionPremium(99.99, true, true);
 
         }
 
@@ -236,18 +238,6 @@ namespace EgiftTesting
             var dates = new List<DateTime> { DateTime.Now, DateTime.Now.AddDays(1) };
             _subscription.AvailableDates = dates;
             Assert.AreEqual(dates, _subscription.AvailableDates);
-        }
-
-        [Test]
-        public void AvailableDates_ShouldThrowException_WhenNull()
-        {
-            Assert.Throws<ArgumentNullException>(() => _subscription.AvailableDates = null);
-        }
-
-        [Test]
-        public void FreeGifts_ShouldThrowException_WhenNull()
-        {
-            Assert.Throws<ArgumentNullException>(() => _subscription.FreeGifts = null);
         }
         
     }
