@@ -16,6 +16,8 @@ namespace EgiftTesting
         private Schedule _schedule;
         private Client _client;
         private BusinessAcount _businessAcount;
+        private Foundation_Account _foundationAccount;
+
         [SetUp]
         public void Setup()
         {
@@ -31,6 +33,8 @@ namespace EgiftTesting
             _client = new Client(1, "1234567890", "client@example.com", new Wallet(), new DateFormat(), "Abdullah");
             _businessAcount = new BusinessAcount(99, "1234567890", "business@example.com", 
                 new Wallet(), "China Shirts", "123 Business St", 0.15, trecker);
+            _foundationAccount = new Foundation_Account(1, "1234567890", "foundation@example.com", new Wallet(), "Foundation");
+
         }
 
         [Test]
@@ -190,6 +194,36 @@ namespace EgiftTesting
         public void WishList_ThrowException_WhenSetToNull()
         {
             Assert.Throws<ArgumentNullException>(() => _client.WishList = null);
+        }
+        
+        // Unit tests for Foundation attributes
+        [Test]
+        public void FoundationAccountAttribute_FoundationName()
+        {
+            _foundationAccount.FoundationName = "Gift Foundation";
+            Assert.AreEqual("Gift Foundation", _foundationAccount.FoundationName);
+        }
+        
+        [Test]
+        public void FoundationAccountAttribute_AccountingInfo()
+        {
+            string accountingInfo = "accountingInfo";
+            _foundationAccount.AddAccountingInfo(accountingInfo);
+            Assert.Contains(accountingInfo, _foundationAccount.AccountingInfo);
+        }
+
+        [Test]
+        public void AccountingInfo_ShouldThrowException_WhenNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _foundationAccount.AccountingInfo = null);
+        }
+
+        [Test]
+        public void AddAccountingInfo_ShouldAddNewInfo()
+        {
+            string newInfo = "New Info";
+            _foundationAccount.AddAccountingInfo(newInfo);
+            Assert.Contains(newInfo, _foundationAccount.AccountingInfo);
         }
         
     }
