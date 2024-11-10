@@ -19,6 +19,9 @@ namespace EgiftTesting
         [SetUp]
         public void Setup()
         {
+            var trecker = new Trecker(101, DateTime.Now.AddDays(3));
+
+            
             _wallet = new Wallet();
             _user = new User(1, "1234567890", "user@example.com", _wallet);
             _employee = new Employee(2, "0987654321", "employee@example.com", _wallet, "9-5", "Garry");
@@ -27,7 +30,7 @@ namespace EgiftTesting
             _schedule = new Schedule();
             _client = new Client(1, "1234567890", "client@example.com", new Wallet(), new DateFormat(), "Abdullah");
             _businessAcount = new BusinessAcount(99, "1234567890", "business@example.com", 
-                new Wallet(), "China Shirts", "123 Business St", 0.15);
+                new Wallet(), "China Shirts", "123 Business St", 0.15, trecker);
         }
 
         [Test]
@@ -62,7 +65,7 @@ namespace EgiftTesting
         public void AssignTrecker_True()
         {
             var order = new Order();
-            var trecker = new Trecker();
+            var trecker = new Trecker(101, DateTime.Now.AddDays(3));
             
             order.AssignTrecker(trecker);
             Assert.IsTrue(order.IsTreckerAssigned()); // Assuming there's an IsTreckerAssigned method
@@ -161,5 +164,33 @@ namespace EgiftTesting
         {
             Assert.Throws<ArgumentNullException>(() => _user.UserWallet = null);
         }
+        // Unit tests for Client attributes
+        [Test]
+        public void ClientAttribute_Name()
+        {
+            _client.Name = "John Doe";
+            Assert.AreEqual("John Doe", _client.Name);
+        }
+        [Test]
+        public void ClientAttribute_WishList_AddItem()
+        {
+            _client.WishList.Add("New Item");
+            Assert.Contains("New Item", _client.WishList);
+        }
+
+        [Test]
+        public void ClientAttribute_WishList_RemoveItem()
+        {
+            _client.WishList.Add("Gift");
+            _client.WishList.Remove("Gift");
+            Assert.IsFalse(_client.WishList.Contains("Gift"));
+        }
+
+        [Test]
+        public void WishList_ThrowException_WhenSetToNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _client.WishList = null);
+        }
+        
     }
 }
