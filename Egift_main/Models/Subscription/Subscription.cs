@@ -11,73 +11,79 @@ namespace Egift_main.Subscription
     {
         private ArrayList _features = new ArrayList();
         private double _price;
+        private static double _taxValue = 10.2;
 
         protected Subscription(double price)
         {
             _price = price;
         }
-
-        [XmlElement("Price")]
-        public double Price
+        private double Price
         {
             get => _price;
             set => _price = value;
         }
-
-        [XmlArray("Features")]
-        [XmlArrayItem("Feature")]
-        public ArrayList Features
+        private ArrayList Features
         {
             get => _features;
             set => _features = value ?? throw new ArgumentNullException(nameof(value));
         }
-        public void Save(string path = "./Subscription/Serialized/Subscription.xml")
+
+      /*  private  static List<Subscription> _subscriptions = new List<Subscription>();
+        public static bool addNewSubscriptionUser(Subscription subscription)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(SubscriptionInfo));
-            using (StreamWriter writer = new StreamWriter(path))
-            {
-                var data = new SubscriptionInfo { Price = this.Price, Features = this.Features };
-                serializer.Serialize(writer, data);
+            if (SubscriptionIsValid(subscription)) {
+                _subscriptions.Add(subscription);
+                return true;
             }
+            return false;
+        }
+        
+        public static bool Serialize(string path = "./Subscription/Serialized/Subscription.xml")
+        {
+            
+            XmlSerializer serializer = new XmlSerializer(typeof(Subscription));
+            using (StreamWriter writer = new StreamWriter(path)) {
+                serializer.Serialize(writer, _subscriptions);
+            }
+            return true;
         }
 
        
-        public bool LoadFromFile(string path = "./Subscription/Serialized/Subscription.xml")
+        public static bool Deserialize(string path = "./Order/Serialized/Subscription.xml")
         {
-            if (!File.Exists(path))
-            {
-                Features.Clear();
-                Price = 0;
+            StreamReader file;
+            try {
+                file = File.OpenText(path);
+            }
+            catch (FileNotFoundException) {
+                _subscriptions.Clear();
                 return false;
             }
-
-            try
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(SubscriptionInfo));
-                using (StreamReader reader = new StreamReader(path))
-                {
-                    var data = (SubscriptionInfo)serializer.Deserialize(reader);
-                    this.Price = data.Price;
-                    this.Features = data.Features;
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Subscription>));
+            using (XmlTextReader reader = new XmlTextReader(file)) {
+                try {
+                    _subscriptions = (List<Subscription>)xmlSerializer.Deserialize(reader);
+                }
+                catch (InvalidCastException) {
+                    _subscriptions.Clear();
+                    return false;
                 }
                 return true;
             }
-            catch
-            {
-                Features.Clear();
-                Price = 0;
-                return false;
-            }
         }
         
-        [Serializable]
-        public class SubscriptionInfo
-        {
-            public double Price { get; set; }
-
-            [XmlArray("Features")]
-            [XmlArrayItem("Feature")]
-            public ArrayList Features { get; set; } = new ArrayList();
-        }
+        private static bool SubscriptionIsValid(Subscription subscription) {
+            try {
+                if (subscription != null &&
+                    subscription.Price > 0 &&
+                    subscription._features != null
+                   ) return true;
+            }
+            catch (ArgumentNullException e) {
+                Console.WriteLine("Some of arguments is not valid");
+                throw;
+            }
+            return false;
+        }*/
     }
 }
