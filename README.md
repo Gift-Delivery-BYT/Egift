@@ -1,5 +1,8 @@
 # Gift delivery management system
 #### Authors: _Maksym Tautkevychuis, Maryna Kamienieva, Dauirzhan Akmurat_
+![Blank diagram-3](https://github.com/user-attachments/assets/c9572693-a870-431a-9bff-3aa6204b8f33)
+
+
 ## Description:
 A company that decided to open a new field - gift delivery that is specific on good and cheap products that can be delivered -  needs a system. The system allows users to browse various gift types(items), place orders, manage payments, and track the delivery of gifts to recipients and if it’s needed - refund them. 
 
