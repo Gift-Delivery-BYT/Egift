@@ -44,7 +44,8 @@ namespace EgiftTesting
         public void ApproveRefund_ShouldReturnTrueAndEmployeeId()
         {
             double amount = 100.0;
-            var result = _employee.ApproveRefund(_user, amount);
+            DateTime purchaseDate = DateTime.Now;
+            var result = _employee.ApproveRefund(_user, amount, purchaseDate);
             
             Assert.AreEqual(true, result.Item1);
             Assert.AreEqual(2, result.Item2); // Assuming employee's ID is 2
@@ -250,5 +251,8 @@ namespace EgiftTesting
             Assert.Throws<ArgumentNullException>(() => _subscription.FreeGifts = null);
         }
         
+        // Unit tests for Notification attributes
+        
+       
     }
 }

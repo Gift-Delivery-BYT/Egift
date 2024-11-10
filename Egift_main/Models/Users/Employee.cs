@@ -41,9 +41,9 @@ public class Employee : User
         set => _schedule = value ?? throw new ArgumentNullException(nameof(value));
     }
 
-   public Tuple<bool, int> ApproveRefund(User user,double amount)
+   public Tuple<bool, int> ApproveRefund(User user,double amount, DateTime purchaseDate)
     {
-        _refund.sendRefundRequest(user, amount);
+        _refund.sendRefundRequest(user, amount, purchaseDate);
         Tuple<bool, int> Info = new Tuple<bool, int>(true,this.Id);
         return Info;
     }

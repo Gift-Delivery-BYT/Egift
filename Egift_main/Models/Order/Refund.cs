@@ -8,15 +8,19 @@ public class Refund
     private static DateFormat _date;
     private static bool _isApproved = false;
 
-   public void sendRefundRequest(User user, double amount)
+   public void sendRefundRequest(User user, double amount, DateTime purchaseDate)
     {
-        CheckApproval();
-        user.UserWallet._AddMoney(amount);
+        CheckApproval(purchaseDate);
+        if(!_isApproved)
+            user.UserWallet._AddMoney(amount);
+        else
+            Console.WriteLine("Refund not approved");
     }
 
-    void CheckApproval()
+    public bool CheckApproval(DateTime purchaseDate)
     {
-        //Information must to be taken from the server
+        DateTime currentDate = DateTime.Now;
+        return (currentDate - purchaseDate).TotalDays <= 30;
     }
 
     public static DateFormat Date
