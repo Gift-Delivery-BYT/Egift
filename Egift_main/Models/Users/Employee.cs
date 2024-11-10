@@ -1,7 +1,9 @@
 ﻿using System.Collections;
+using System.Xml;
 using System.Xml.Serialization;
 using Egift_main.Models.Order;
 using Egift_main.Order;
+using Egift_main.Subscription;
 
 namespace Egift_main;
 [Serializable]
@@ -11,6 +13,11 @@ public class Employee : User
     private Schedule _schedule;
     private string name;
     private string address;
+    
+    [XmlArray]
+    private static List<Employee> _emoloyeeList = new List<Employee>();
+
+    public Employee() { }
     
     public Refund Refund
     {
@@ -40,84 +47,46 @@ public class Employee : User
         Tuple<bool, int> Info = new Tuple<bool, int>(true,this.Id);
         return Info;
     }
-    
-    public void SaveToFile(string path = "./Users/Serialized/Employee.xml")
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(EmployeeInfo));
-            using (StreamWriter writer = new StreamWriter(path))
-            {
-                var data = new EmployeeInfo
-                {
-                    Id = this.Id,
-                    PhoneNumber1 = this.PhoneNumber1,
-                    Email1 = this.Email1,
-                    Schedule = this.Schedule,
-                    Refund = this.Refund,
-                    Name = this.Name,
-                    Address = this.Address
-                };
-                serializer.Serialize(writer, data);
-            }
+    private static bool Serialize(string path = "./Users/Serialized/Employee.xml")
+    {
+            
+        XmlSerializer serializer = new XmlSerializer(typeof(Employee));
+        using (StreamWriter writer = new StreamWriter(path)) {
+            serializer.Serialize(writer, _emoloyeeList);
         }
+        return true;
+    }
+
+    private static bool Deserialize(string path = "./Users/Serialized/Employee.xml")
+    {
+        StreamReader file;
+        try {
+            file = File.OpenText(path);
+        }
+        catch (FileNotFoundException) {
+            _emoloyeeList.Clear();
+            return false;
+        }
+        XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Employee>));
+        using (XmlTextReader reader = new XmlTextReader(file)) {
+            try {
+                _emoloyeeList = (List<Employee>)xmlSerializer.Deserialize(reader);
+            }
+            catch (InvalidCastException) {
+                _emoloyeeList.Clear();
+                return false;
+            }
+            return true;
+        }
+    }
+       
+
+    public Employee(int id, string phoneNumber, string email, 
+        Wallet UserWallet, string address, string name) : base(id, phoneNumber, email, UserWallet)
+    { 
+        this.address = address; 
+        this.name = name;
         
-        public bool LoadFromFile(string path = "./Users/Serialized/Employee.xml")
-        {
-            if (!File.Exists(path))
-            {
-                Id = 0;
-                PhoneNumber1 = string.Empty;
-                Email1 = string.Empty;
-                Refund = null;
-                Schedule = null;
-                Address = string.Empty;
-                Name = string.Empty;
-                return false;
-            }
-
-            try
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(EmployeeInfo));
-                using (StreamReader reader = new StreamReader(path))
-                {
-                    var data = (EmployeeInfo)serializer.Deserialize(reader);
-                    this.Id = data.Id;
-                    this.PhoneNumber1 = data.PhoneNumber1;
-                    this.Email1 = data.Email1;
-                    this.Schedule = data.Schedule;
-                    this.Refund = data.Refund;
-                    this.Name = data.Name;
-                    this.address = data.Address;
-                }
-                return true;
-            }
-            catch
-            {
-                Id = 0;
-                PhoneNumber1 = string.Empty;
-                Email1 = string.Empty;
-                Refund = null;
-                Schedule = null;
-                Address = string.Empty;
-                Name = string.Empty;
-                return false;
-            }
-        }
-        [Serializable]
-        public class EmployeeInfo
-        {
-            public int Id { get; set; }
-            public string PhoneNumber1 { get; set; }
-            public string Email1 { get; set; }
-            public Refund Refund  { get; set; }
-            public Schedule Schedule { get; set; }
-            public string Name { get; set; }
-            public string Address { get; set; }
-        }
-
-        public Employee(int id, string phoneNumber, string email, Wallet UserWallet,
-            string address, string name) : base(id, phoneNumber, email, UserWallet)
-        {
-            this.address = address;
-            this.name = name;
-        }
+        _emoloyeeList.Add(this);
+    }
 }

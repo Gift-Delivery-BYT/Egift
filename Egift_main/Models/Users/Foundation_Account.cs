@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace Egift_main;
@@ -9,86 +10,23 @@ public class Foundation_Account: User
     private ArrayList _accountingInfo = new ArrayList();
     private string _foundation_name;
     
-    [XmlElement("FoundationName")]
+
+    [XmlArray]
+    private static List<Foundation_Account> _foundationAccountList = new List<Foundation_Account>();
+
+    public Foundation_Account() { }
     public string FoundationName
     {
         get => _foundation_name;
         set => _foundation_name = value;
     }
-    [XmlArray("AccountingInfo")]
-    [XmlArrayItem("AccountingInfo")]
+
     public ArrayList AccountingInfo
     {
         get => _accountingInfo;
         set => _accountingInfo = value ?? throw new ArgumentNullException(nameof(value));
     }
     
-    public void SaveToFile(string path = "./Users/Serialized/Foundation_Account.xml")
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(Foundation_AccountInfo));
-            using (StreamWriter writer = new StreamWriter(path))
-            {
-                var data = new Foundation_AccountInfo
-                {
-                    Id = this.Id,
-                    PhoneNumber1 = this.PhoneNumber1,
-                    Email1 = this.Email1,
-                    AccountingInfo = this.AccountingInfo,
-                    FoundationName = this.FoundationName
-                };
-                serializer.Serialize(writer, data);
-            }
-        }
-        
-        public bool LoadFromFile(string path = "./Users/Serialized/Foundation_Account.xml")
-        {
-            if (!File.Exists(path))
-            {
-                Id = 0;
-                PhoneNumber1 = String.Empty;
-                Email1 = String.Empty;
-                AccountingInfo.Clear();
-                FoundationName = String.Empty;
-                return false;
-            }
-
-            try
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(Foundation_AccountInfo));
-                using (StreamReader reader = new StreamReader(path))
-                {
-                    var data = (Foundation_AccountInfo)serializer.Deserialize(reader);
-                    this.Id = data.Id;
-                    this.PhoneNumber1 = data.PhoneNumber1;
-                    this.Email1 = data.Email1;
-                    this. AccountingInfo = data.AccountingInfo;
-                    this.FoundationName = data.FoundationName;
-                }
-                return true;
-            }
-            catch
-            {
-                Id = 0;
-                PhoneNumber1 = String.Empty;
-                Email1 = String.Empty;
-                FoundationName = String.Empty;
-                AccountingInfo.Clear();
-                FoundationName = String.Empty;
-                return false;
-            }
-        }
-    
-    [Serializable]
-    public class Foundation_AccountInfo
-    {
-        public string FoundationName { get; set; }
-        public int Id { get; set; }
-        public string PhoneNumber1 { get; set; }
-        public string Email1 { get; set; }
-        [XmlArray("AccountingInfo")]
-        [XmlArrayItem("AccountingInfo")]
-        public ArrayList AccountingInfo { get; set; } = new ArrayList();
-    }
     private enum foundation_type
     {
         productBased, 
@@ -111,5 +49,38 @@ public class Foundation_Account: User
         string email, Wallet UserWallet, string _foundation_name) : base(id, phoneNumber, email, UserWallet)
     {
         this._foundation_name = _foundation_name;
+        
+        _foundationAccountList.Add(this);
+    }
+    
+    public static bool Serialize(string path = "./Users/Serialized/Foundation_Account.xml")
+    {
+        XmlSerializer serializer = new XmlSerializer(typeof(Foundation_Account));
+        using (StreamWriter writer = new StreamWriter(path)) {
+            serializer.Serialize(writer, (_foundationAccountList));
+        }
+        return true;
+    }
+    public static bool Deserialize(string path = "./Users/Serialized/Foundation_Account.xml")
+    {
+        StreamReader file;
+        try {
+            file = File.OpenText(path);
+        }
+        catch (FileNotFoundException) {
+            _foundationAccountList.Clear();
+            return false;
+        }
+        XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<User>));
+        using (XmlTextReader reader = new XmlTextReader(file)) {
+            try {
+                _foundationAccountList = (List<Foundation_Account>)xmlSerializer.Deserialize(reader);
+            }
+            catch (InvalidCastException) {
+                _foundationAccountList.Clear();
+                return false;
+            }
+            return true;
+        }
     }
 }
