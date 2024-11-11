@@ -18,7 +18,6 @@ using System.Xml.Serialization;
         private string Country { get; set; }
         private string Address { get; set; }
         private float ShippingCost { get; set; }
-        private float ItemsSupplied { get; set; }
         private int PhoneNumber { get; set; }
         private DateTime TimeLeadDate { get; set; }
         public List<Object> Documentation { get; set; } = new List<Object>();
@@ -26,12 +25,11 @@ using System.Xml.Serialization;
         
         [XmlArray]
         private static List<Exporter> _exporterlist = new List<Exporter>();
-        public Exporter(string name, string country, string address, float shippingCost, float itemsSupplied, int phoneNumber, DateTime timeLeadDate){
+        public Exporter(string name, string country, string address, float shippingCost, int phoneNumber, DateTime timeLeadDate){
             Name = name;
             Country = country;
             Address = address;
             ShippingCost = shippingCost;
-            ItemsSupplied = itemsSupplied;
             PhoneNumber = phoneNumber;
             TimeLeadDate = timeLeadDate;
             _exporterlist.Add(this);
@@ -84,7 +82,6 @@ using System.Xml.Serialization;
                    !string.IsNullOrWhiteSpace(exporter.Country) &&
                    !string.IsNullOrWhiteSpace(exporter.Address) &&
                    exporter.ShippingCost > 0 &&
-                   exporter.ItemsSupplied > 0 &&
                    exporter.PhoneNumber > 0 &&
                    exporter.TimeLeadDate != default;
         }

@@ -19,7 +19,7 @@ public class Review_Sys
         {
             try
             {
-                if (raiting < 1 || raiting > 10)
+                if (raiting <= 1 || raiting >= 10)
                     throw new ArgumentOutOfRangeException(nameof(raiting), "Rating must be between 1 and 10.");
 
                 this.raiting = raiting;

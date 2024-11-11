@@ -80,7 +80,6 @@ namespace EgiftTesting
             order.AssignTrecker(trecker);
             Assert.IsTrue(order.IsTreckerAssigned()); // Assuming there's an IsTreckerAssigned method
         }
-        //
         
         [Test]
         public void Wallet_InitialBalance_ShouldBeZero()
