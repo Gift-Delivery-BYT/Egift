@@ -241,8 +241,95 @@ namespace EgiftTesting
             Assert.AreEqual(dates, _subscription.AvailableDates);
         }
         
-        // Unit tests for Notification attributes
+        // Unit tests for Tracker attributes
+        [Test]
+        public void Tracker_ID()
+        {
+            var expectedId = 1;
+            var trecker = new Trecker(expectedId, DateTime.Now.AddHours(5));
+
+            var actualId = trecker.TrackerID;
+
+            Assert.AreEqual(expectedId, actualId);
+        }
+
+        [Test]
+        public void Tracker_Location()
+        {
+            Assert.AreEqual("Warsaw", 
+                new Trecker(1, DateTime.Now.AddHours(5)) { Location = "Warsaw" }.GetLocation());
+        }
         
+        [Test]
+        public void Tracker_EstimatedTimeForArrival()
+        {
+            var expectedTime = DateTime.Now.AddHours(5);
+            var trecker = new Trecker(1, expectedTime);
+            
+            var actualTime = trecker.GetEstimatedTime();
+            
+            Assert.AreEqual(expectedTime, actualTime);
+        }
+        
+        [Test]
+        public void AddTreckerIsValidException()
+        {
+            var trecker = new Trecker(1, DateTime.Now.AddHours(-5));
+            trecker.Location = null; 
+
+            Assert.Throws<ArgumentNullException>(() => trecker.AddTrecker(trecker));
+        }
+
+        [Test]
+        public void AddTreckerReturnTrueIfTrackerIsValid()
+        {
+            var trecker = new Trecker(1, DateTime.Now.AddHours(5));
+            trecker.Location = "Warsaw";
+
+            Assert.IsTrue(trecker.AddTrecker(trecker));
+        }
+        
+        [Test]
+        public void UpdateCurrentLocation_NewLocation_UpdateLocation()
+        {
+            var trecker = new Trecker(1, DateTime.Now.AddHours(5)) { Location = "Warsaw" };
+
+            trecker.UpdateCurrentLocation("Krakow");
+
+            Assert.AreEqual("Krakow", trecker.GetLocation());
+        }
+        
+        [Test]
+        public void UpdateCurrentLocation_SameLocation_NotUpdateLocation()
+        {
+            var trecker = new Trecker(1, DateTime.Now.AddHours(5)) { Location = "Warsaw" };
+            trecker.UpdateCurrentLocation("Warsaw");
+
+            Assert.AreEqual("Warsaw", trecker.GetLocation());
+        }
+        
+        [Test]
+        public void UpdateEstimationTime_NewTime_UpdateEstimatedTime()
+        {
+            var trecker = new Trecker(1, DateTime.Now.AddHours(5));
+            var newTime = DateTime.Now.AddHours(6);
+
+            trecker.UpdateEstimationTime(DateTime.Now.AddHours(6));
+
+            Assert.AreEqual(newTime, trecker.GetEstimatedTime());
+        }
+        
+        [Test]
+        public void UpdateEstimationTime_SameTime_dNotUpdateEstimatedTime()
+        {
+            var trecker = new Trecker(1, DateTime.Now.AddHours(5));
+            DateTime beforeUpdate = trecker.GetEstimatedTime();
+    
+            trecker.UpdateEstimationTime(beforeUpdate);
+    
+            Assert.That(trecker.GetEstimatedTime(), 
+                Is.EqualTo(beforeUpdate).Within(TimeSpan.FromMilliseconds(1)));
+        }
        
     }
 }

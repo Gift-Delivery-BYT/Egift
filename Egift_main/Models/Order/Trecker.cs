@@ -4,7 +4,7 @@ namespace Egift_main.Order;
 
 public class Trecker
 {
-    private static string _location;
+    private string _location;
     private int _tracker_id;
     private DateTime _estimated_time_for_arrival;
     
@@ -13,7 +13,8 @@ public class Trecker
         get => _estimated_time_for_arrival;
         set => _estimated_time_for_arrival = value;
     }
-    private static string Location
+
+    public string Location
     {
         get => _location;
         set => _location = value;
@@ -38,21 +39,21 @@ public class Trecker
         return _location;
     }
 
-    private static bool AddTrecker(Trecker trecker) {
+    public bool AddTrecker(Trecker trecker) {
         if (TreckerIsValid(trecker)) {
             _treckers.Add(trecker);
             return true;
         }
         return false;
     }
-    
 
-    private static bool TreckerIsValid(Trecker trecker)
+
+    public bool TreckerIsValid(Trecker trecker)
     {
-        if (!string.IsNullOrEmpty(_location) &&
-            trecker._tracker_id > 0 &&
+        if (!string.IsNullOrEmpty(_location) && trecker._tracker_id > 0 &&
             trecker._estimated_time_for_arrival > DateTime.Now)
             return true;
+        
         throw new ArgumentNullException();
     }
     public DateTime GetEstimatedTime()
