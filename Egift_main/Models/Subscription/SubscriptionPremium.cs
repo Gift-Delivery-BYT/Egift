@@ -50,7 +50,7 @@ namespace Egift_main.Subscription
             return false;
         }
         
-        private static bool Serialize(string path = "./Subscription/Serialized/SubPremium.xml")
+        public static bool Serialize(string path = "./Subscription/Serialized/SubPremium.xml")
         {
             
             XmlSerializer serializer = new XmlSerializer(typeof(Subscription));
@@ -61,7 +61,7 @@ namespace Egift_main.Subscription
         }
 
        
-        private static bool Deserialize(string path = "./Order/Serialized/SubPremium.xml")
+        public static bool Deserialize(string path = "./Order/Serialized/SubPremium.xml")
         {
             StreamReader file;
             try {
