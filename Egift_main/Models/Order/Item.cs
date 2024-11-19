@@ -32,8 +32,9 @@ public class Item
      }
      public static List<Item> GetItems()
      {
-          return _itemList;
+          return new List<Item>(_itemList);  
      }
+
      
      public static bool RemoveItem(int ItemID){
           var item = _itemList.Find(x=>x.ItemID == ItemID);

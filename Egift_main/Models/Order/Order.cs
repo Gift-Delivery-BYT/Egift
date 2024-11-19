@@ -123,8 +123,14 @@ public class Order
 
     public static List<Order> GetAllOrders()
     {
-        return _orderList;
+        return new List<Order>(_orderList);  
     }
+
+    public List<Item> GetItems()
+    {
+        return new List<Item>(_items); 
+    }
+
     
     public static bool Serialize(string path = "./Order/Serialized/Order.xml")
     {
