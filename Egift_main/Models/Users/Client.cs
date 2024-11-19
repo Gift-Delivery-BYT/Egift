@@ -39,7 +39,7 @@ public class Client: User
     private static bool Serialize(string path = "./Users/Serialized/Client.xml")
     {
             
-        XmlSerializer serializer = new XmlSerializer(typeof(Client));
+        XmlSerializer serializer = new XmlSerializer(typeof(List<Client>));
         using (StreamWriter writer = new StreamWriter(path)) {
             serializer.Serialize(writer, _clientList);
         }
@@ -76,5 +76,17 @@ public class Client: User
         this.name = name;
         
         _clientList.Add(this);
+    }
+    
+    private static bool IsValidClient(Client client)
+    {
+        if (client != null &&
+            !string.IsNullOrWhiteSpace(client.Name) &&
+            client.Birthday != null &&
+            client.WishList.Count > 0)
+        {
+            return true;
+        }
+        throw new ArgumentNullException("Invalid client attributes");
     }
 }

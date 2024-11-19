@@ -128,7 +128,7 @@ public class Order
     
     public static bool Serialize(string path = "./Order/Serialized/Order.xml")
     {
-        XmlSerializer serializer = new XmlSerializer(typeof(Order));
+        XmlSerializer serializer = new XmlSerializer(typeof(List<Order>));
         using (StreamWriter writer = new StreamWriter(path)) {
             serializer.Serialize(writer, _orderList);
         }
@@ -144,7 +144,7 @@ public class Order
             _orderList.Clear();
             return false;
         }
-        XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Exporter>));
+        XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Order>));
         using (XmlTextReader reader = new XmlTextReader(file)) {
             try {
                 _orderList = (List<Order>)xmlSerializer.Deserialize(reader);
@@ -155,6 +155,19 @@ public class Order
             }
             return true;
         }
+    }
+    
+    private static bool IsValidOrder(Order order)
+    {
+        if (order != null &&
+            order._id > 0 && 
+            !string.IsNullOrWhiteSpace(order._location) && 
+            !string.IsNullOrWhiteSpace(order._description) && 
+            order._items.Count > 0) 
+        {
+            return true;
+        }
+        throw new ArgumentNullException("Invalid Order: One or more properties are not valid.");
     }
     
 }

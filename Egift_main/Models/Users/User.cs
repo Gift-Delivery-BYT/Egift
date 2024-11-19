@@ -52,7 +52,7 @@ public class User
     
     public static bool Serialize(string path = "./Users/Serialized/User.xml")
     {
-        XmlSerializer serializer = new XmlSerializer(typeof(User));
+        XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
         using (StreamWriter writer = new StreamWriter(path)) {
             serializer.Serialize(writer, (_userList));
         }

@@ -94,7 +94,7 @@ public class BusinessAcount: User
     
     public static bool Serialize(string path = "./Users/Serialized/BusinessAcount.xml")
     {
-        XmlSerializer serializer = new XmlSerializer(typeof(BusinessAcount));
+        XmlSerializer serializer = new XmlSerializer(typeof(List<BusinessAcount>));
         using (StreamWriter writer = new StreamWriter(path)) {
             serializer.Serialize(writer, _businessaccountList);
         }
@@ -134,5 +134,14 @@ public class BusinessAcount: User
         this.shippingTrecker = tracker;
         
         _businessaccountList.Add(this);
+    }
+    
+    private static bool IsValidBusinessAccount(BusinessAcount account)
+    {
+        return account != null &&
+               !string.IsNullOrWhiteSpace(account.BusinessName) &&
+               !string.IsNullOrWhiteSpace(account.BusinessAddress) &&
+               account.Corparate_Discount >= 0 && 
+               account.AuthorizedUsers.Count > 0;
     }
 }

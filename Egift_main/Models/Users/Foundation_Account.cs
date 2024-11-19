@@ -60,7 +60,7 @@ public class Foundation_Account: User
     
     public static bool Serialize(string path = "./Users/Serialized/Foundation_Account.xml")
     {
-        XmlSerializer serializer = new XmlSerializer(typeof(Foundation_Account));
+        XmlSerializer serializer = new XmlSerializer(typeof(List<Foundation_Account>));
         using (StreamWriter writer = new StreamWriter(path)) {
             serializer.Serialize(writer, (_foundationAccountList));
         }
@@ -88,4 +88,5 @@ public class Foundation_Account: User
             return true;
         }
     }
+    
 }

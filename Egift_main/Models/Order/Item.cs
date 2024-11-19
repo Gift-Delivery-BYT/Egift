@@ -1,6 +1,7 @@
 ﻿using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.VisualBasic;
+using Twilio.Rest.Api.V2010.Account.Usage.Record;
 
 namespace Egift_main.Order;
 
@@ -26,7 +27,8 @@ public class Item
      
      public static void AddItem(Item item)
      {
-          _itemList.Add(item);
+          if (IsValidItem(item)) _itemList.Add(item);
+          else throw new NullReferenceException();
      }
      public static List<Item> GetItems()
      {
@@ -50,7 +52,7 @@ public class Item
     
      public static bool Serialize(string path = "./Order/Serialized/Item.xml")
      {
-          XmlSerializer serializer = new XmlSerializer(typeof(Item));
+          XmlSerializer serializer = new XmlSerializer(typeof(List<Item>));
           using (StreamWriter writer = new StreamWriter(path)) {
                serializer.Serialize(writer, _itemList);
           }
@@ -66,7 +68,7 @@ public class Item
                _itemList.Clear();
                return false;
           }
-          XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Exporter>));
+          XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Item>));
           using (XmlTextReader reader = new XmlTextReader(file)) {
                try {
                     _itemList = (List<Item>)xmlSerializer.Deserialize(reader);
@@ -77,5 +79,13 @@ public class Item
                }
                return true;
           }
+     }
+     private static bool IsValidItem(Item item)
+     {
+          return item != null &&
+                 item.ItemID != null &&
+                 !string.IsNullOrWhiteSpace(item.name) &&
+                 item.pricehold != null &&
+                 item.date_of_production != null;
      }
 }

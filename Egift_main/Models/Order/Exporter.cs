@@ -47,7 +47,7 @@ using System.Xml.Serialization;
        
         public static bool Serialize(string path = "./Order/Serialized/Exporter.xml")
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(Exporter));
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Exporter>));
             using (StreamWriter writer = new StreamWriter(path)) {
                 serializer.Serialize(writer, _exporterlist);
             }

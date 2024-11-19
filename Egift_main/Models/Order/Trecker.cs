@@ -84,4 +84,16 @@ public class Trecker
             Console.WriteLine("No updates, time of tracker is the same");
             
     }
+    
+    private static bool IsValidTrecker(Trecker trecker)
+    {
+        if (trecker != null &&
+            !string.IsNullOrEmpty(trecker.Location) &&
+            trecker.TrackerID > 0 &&
+            trecker.GetEstimatedTime() > DateTime.Now) 
+        {
+            return true;
+        }
+        throw new ArgumentNullException("invalid variables");
+    }
 }

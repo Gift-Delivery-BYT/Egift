@@ -10,12 +10,15 @@ namespace Egift_main.Subscription
     public abstract class Subscription
     {
         private ArrayList _features = new ArrayList();
-        private double _price;
+        protected double _price { get; set; }
         private static double _taxValue = 10.2;
 
         protected Subscription(double price)
         {
             _price = price;
+        }
+        protected Subscription()
+        {
         }
         private double Price
         {
@@ -26,6 +29,12 @@ namespace Egift_main.Subscription
         {
             get => _features;
             set => _features = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
+        private void EvaluatePrice()
+        {
+            double sum = Price;
+            Price = sum + ((Price / 100) * _taxValue);
         }
 
       /*  private  static List<Subscription> _subscriptions = new List<Subscription>();

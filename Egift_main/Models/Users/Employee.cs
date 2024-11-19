@@ -49,9 +49,9 @@ public class Employee : User
     }
     private static bool Serialize(string path = "./Users/Serialized/Employee.xml")
     {
-            
-        XmlSerializer serializer = new XmlSerializer(typeof(Employee));
-        using (StreamWriter writer = new StreamWriter(path)) {
+        XmlSerializer serializer = new XmlSerializer(typeof(List<Employee>));
+        using (StreamWriter writer = new StreamWriter(path))
+        {
             serializer.Serialize(writer, _emoloyeeList);
         }
         return true;
@@ -88,5 +88,17 @@ public class Employee : User
         this.name = name;
         
         _emoloyeeList.Add(this);
+    }
+    
+    private static bool IsValidEmployee(Employee employee)
+    {
+        if (employee != null &&
+            !string.IsNullOrWhiteSpace(employee.Name) &&
+            !string.IsNullOrWhiteSpace(employee.Address) &&
+            employee.Refund != null)
+        {
+            return true;
+        }
+        throw new ArgumentNullException("invalid employee");
     }
 }

@@ -40,6 +40,12 @@ namespace Egift_main.Subscription
             _freePriority = freePriority;
             _subscriptionPremiums.Add(this);
         }
+
+        public SubscriptionPremium() 
+        {
+  
+        }
+        
         
         private static bool addNewSubscriptionUser(SubscriptionPremium subscription)
         {
@@ -53,7 +59,7 @@ namespace Egift_main.Subscription
         public static bool Serialize(string path = "./Subscription/Serialized/SubPremium.xml")
         {
             
-            XmlSerializer serializer = new XmlSerializer(typeof(Subscription));
+            XmlSerializer serializer = new XmlSerializer(typeof(List<SubscriptionPremium>));
             using (StreamWriter writer = new StreamWriter(path)) {
                 serializer.Serialize(writer, _subscriptionPremiums);
             }
@@ -83,7 +89,17 @@ namespace Egift_main.Subscription
                 return true;
             }
         }
-
+        private static bool SubscriptionPremiumIsValid(SubscriptionPremium subscriptionPremium)
+        {
+            if (subscriptionPremium != null &&
+                subscriptionPremium._price > 0 &&
+                subscriptionPremium.FreeDelivery != null &&
+                subscriptionPremium.FreePriority != null)
+            {
+                return true;
+            }
+            throw new ArgumentNullException("error");
+        }
        
     }
 }
