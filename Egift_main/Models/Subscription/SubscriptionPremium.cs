@@ -89,7 +89,7 @@ namespace Egift_main.Subscription
                 return true;
             }
         }
-        private static bool SubscriptionPremiumIsValid(SubscriptionPremium subscriptionPremium)
+        public static bool SubscriptionPremiumIsValid(SubscriptionPremium subscriptionPremium)
         {
             if (subscriptionPremium != null &&
                 subscriptionPremium._price > 0 &&

@@ -542,8 +542,8 @@ namespace EgiftTesting
             var employee = new Employee(1, "1234567890", "test@mail.com", new Wallet(), "123", "test");
             Employee.Serialize("./Employee.xml");
 
-            Assert.IsTrue(File.Exists("test@mail.com"), "serialized file should be created");
-            Assert.IsNotEmpty(File.ReadAllText("test@mail.com"), "serialized file should have smth");
+            Assert.IsTrue(File.Exists("./Employee.xml"), "serialized file should be created");
+            Assert.IsNotEmpty(File.ReadAllText("./Employee.xml"), "serialized file should have smth");
         }
 
         [Test]

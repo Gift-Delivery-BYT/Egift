@@ -36,7 +36,7 @@ public class Client: User
         set => _wishlist = value ?? throw new ArgumentNullException(nameof(value));
     }
 
-    private static bool Serialize(string path = "./Users/Serialized/Client.xml")
+    public static bool Serialize(string path = "./Users/Serialized/Client.xml")
     {
             
         XmlSerializer serializer = new XmlSerializer(typeof(List<Client>));
@@ -46,7 +46,7 @@ public class Client: User
         return true;
     }
 
-    private static bool Deserialize(string path = "./Users/Serialized/Client.xml")
+    public static bool Deserialize(string path = "./Users/Serialized/Client.xml")
     {
         StreamReader file;
         try {

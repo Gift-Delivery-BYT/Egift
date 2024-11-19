@@ -47,7 +47,7 @@ public class Employee : User
         Tuple<bool, int> Info = new Tuple<bool, int>(true,this.Id);
         return Info;
     }
-    private static bool Serialize(string path = "./Users/Serialized/Employee.xml")
+    public static bool Serialize(string path = "./Users/Serialized/Employee.xml")
     {
         XmlSerializer serializer = new XmlSerializer(typeof(List<Employee>));
         using (StreamWriter writer = new StreamWriter(path))
@@ -57,7 +57,7 @@ public class Employee : User
         return true;
     }
 
-    private static bool Deserialize(string path = "./Users/Serialized/Employee.xml")
+    public static bool Deserialize(string path = "./Users/Serialized/Employee.xml")
     {
         StreamReader file;
         try {
