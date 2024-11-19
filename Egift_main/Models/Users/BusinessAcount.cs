@@ -36,12 +36,19 @@ public class BusinessAcount: User
         get => authorizedUsers;
         set => authorizedUsers = value ?? throw new ArgumentNullException(nameof(value));
     }
-    
     public double Corparate_Discount
     {
         get => coorparate_discount;
-        set => coorparate_discount = value;
+        set
+        {
+            if (value > 0.99)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value), "The discount cannot exceed 99%.");
+            }
+            coorparate_discount = value;
+        }
     }
+
     
     public string BusinessName
     {
