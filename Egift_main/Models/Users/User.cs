@@ -47,8 +47,22 @@ public class User
     public string Email1
     {
         get => Email;
-        set => Email = value ?? throw new ArgumentNullException(nameof(value));
+        set
+        {
+            if (value == null) 
+            {
+                throw new ArgumentNullException(nameof(value), "Email cannot be null.");
+            }
+        
+            if (string.IsNullOrEmpty(value) || !value.Contains("@"))
+            {
+                throw new ArgumentException("Email must contain '@'.");
+            }
+        
+            Email = value;
+        }
     }
+
     
     public static bool Serialize(string path = "./Users/Serialized/User.xml")
     {

@@ -141,6 +141,18 @@ namespace EgiftTesting
         }
         
         [Test]
+        public void DiscountCantBeMoreThan99()
+        {
+            var trecker = new Trecker(101, DateTime.Now.AddDays(3));
+
+            var businessAccount = new BusinessAcount(1, "123-456-789", "business@example.com", new Wallet(), "My Business", "123 Business St", 0.03, trecker);
+
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => businessAccount.Corparate_Discount = 1.1); 
+            Assert.That(exception.ParamName, Is.EqualTo("value")); 
+            Assert.That(exception.Message, Contains.Substring("The discount cannot exceed 99%")); 
+        }
+        
+        [Test]
         public void SpendMoney_CantSpendMoreThanOwned()
         {
             var wallet = new Wallet();
@@ -180,6 +192,15 @@ namespace EgiftTesting
         public void UserWallet_ThrowException_WhenSetToNull()
         {
             Assert.Throws<ArgumentNullException>(() => _user.UserWallet = null);
+        }
+        
+        [Test]
+        public void User_Email1_ShouldThrowArgumentException_WhenEmailIsInvalid()
+        {
+            var user = new User(1, "1234567890", "test@example.com", new Wallet());
+
+            var ex = Assert.Throws<ArgumentException>(() => user.Email1 = "invalidemail.com");
+            Assert.That(ex.Message, Is.EqualTo("Email must contain '@'."));
         }
         
         [Test]
