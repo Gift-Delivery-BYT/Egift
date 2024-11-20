@@ -76,7 +76,7 @@ public class Foundation_Account: User
             _foundationAccountList.Clear();
             return false;
         }
-        XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<User>));
+        XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Foundation_Account>));
         using (XmlTextReader reader = new XmlTextReader(file)) {
             try {
                 _foundationAccountList = (List<Foundation_Account>)xmlSerializer.Deserialize(reader);
