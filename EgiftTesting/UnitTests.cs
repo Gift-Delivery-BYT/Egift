@@ -521,12 +521,13 @@ namespace EgiftTesting
         [Test]
         public void DeserializeClient_ShouldLoadDataFromXmlFile()
         {
-            var client = new Client(1, "1234567890", "test@mail.com", new Wallet(), new DateFormat(), "test");
-            Client.Serialize("./Client.xml");
-            
             typeof(Client)
                 .GetField("_clientList", BindingFlags.Static | BindingFlags.NonPublic)
                 ?.SetValue(null, new List<Client>());
+
+            var client = new Client(1, "1234567890", "test@mail.com", new Wallet(), new DateFormat(), "test");
+            Client.Serialize("./Client.xml");
+    
             Client.Deserialize("./Client.xml");
 
             var clients = typeof(Client)
@@ -534,8 +535,9 @@ namespace EgiftTesting
                 ?.GetValue(null) as List<Client>;
 
             Assert.AreEqual(1, clients?.Count, "Client count should match after deserialization.");
-            Assert.AreEqual("test", clients[1].Name, "Client name should match.");
+            Assert.AreEqual("test", clients?[0].Name, "Client name should match.");
         }
+
         [Test]
         public void SerializeEmployee_ShouldCreateXmlFile()
         {
