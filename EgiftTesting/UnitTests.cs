@@ -383,11 +383,11 @@ namespace EgiftTesting
         [Test]
         public void UserCantHavePhoneNumberLenghtLessThan4()
         {
-            // Arrange
+            
             var user = new User(1, "1234567890", "test@mail.com", new Wallet());
 
-            // Act & Assert
-            var ex = Assert.Throws<ArgumentException>(() => user.PhoneNumber1 = "123"); // Invalid phone number (3 characters)
+            
+            var ex = Assert.Throws<ArgumentException>(() => user.PhoneNumber1 = "123"); 
             Assert.AreEqual("Phone number must be at least 4 characters long.", ex.Message, "Exception message should match.");
         }
         
@@ -396,7 +396,7 @@ namespace EgiftTesting
         public void CheduleCannotBeSetToPast()
         {
             var schedule = new Schedule();
-            var pastDate = new List<DateTime> { DateTime.Now.AddMinutes(-10) }; // Past date
+            var pastDate = new List<DateTime> { DateTime.Now.AddMinutes(-10) }; 
 
             var ex = Assert.Throws<ArgumentException>(() => schedule.ScheduleDate = pastDate);
             Assert.AreEqual("Schedule date cannot be in the past.", ex.Message);
@@ -424,7 +424,7 @@ namespace EgiftTesting
 /// <summary>
 /// ??? the heck it not working ???
 /// </summary>
-        [Test]
+        [Test] // have to run this one separately
         public void DeserializeItem_ShouldLoadDataFromXmlFile()
         {
             var item = new List<Item> { new Item(1, "TestItem", 10.0, DateFormat.GeneralDate) };
@@ -472,7 +472,7 @@ namespace EgiftTesting
             Assert.IsNotEmpty(File.ReadAllText("./SubscriptionPremium.xml"), "Serialized file should not be empty.");
         }
 
-        [Test]
+        [Test] // have to run this one separately
         public void DeserializeSubscriptionPremium_ShouldLoadDataFromXmlFile() { 
             SubscriptionPremium.Serialize("./SubscriptionPremium.xml");
 
@@ -522,13 +522,12 @@ namespace EgiftTesting
             Assert.IsNotEmpty(File.ReadAllText("./BusinessAcc.xml"), "Serialized file should not be empty.");
         }
 
-        [Test]
+        [Test] // Run separately
         public void DeserializeBusinessAccount_ShouldLoadDataFromXmlFile()
         {
             var account = new BusinessAcount(1, "1234567890", "test@mail.com", new Wallet(), "Test Business", "123 Test St", 0.03, new Trecker(1,DateTime.Now));
             BusinessAcount.Serialize("./BusinessAcc.xml");
 
-            // Clear the static list and deserialize
             typeof(BusinessAcount)
                 .GetField("_businessaccountList", BindingFlags.Static | BindingFlags.NonPublic)
                 ?.SetValue(null, new List<BusinessAcount>());
@@ -575,6 +574,10 @@ namespace EgiftTesting
         [Test]
         public void SerializeEmployee_ShouldCreateXmlFile()
         {
+            typeof(Employee)
+                .GetField("_emoloyeeList", BindingFlags.Static | BindingFlags.NonPublic)
+                ?.SetValue(null, new List<Employee>());
+
             var employee = new Employee(1, "1234567890", "test@mail.com", new Wallet(), "123", "test");
             Employee.Serialize("./Employee.xml");
 
@@ -585,12 +588,17 @@ namespace EgiftTesting
         [Test]
         public void DeserializeEmployee_ShouldLoadDataFromXmlFile()
         {
+            typeof(Employee)
+                .GetField("_emoloyeeList", BindingFlags.Static | BindingFlags.NonPublic)
+                ?.SetValue(null, new List<Employee>());
+
             var employee = new Employee(1, "1234567890", "test@mail.com", new Wallet(), "123", "test");
             Employee.Serialize("./Employee.xml");
 
             typeof(Employee)
                 .GetField("_emoloyeeList", BindingFlags.Static | BindingFlags.NonPublic)
                 ?.SetValue(null, new List<Employee>());
+    
             Employee.Deserialize("./Employee.xml");
 
             var employees = typeof(Employee)
@@ -598,8 +606,9 @@ namespace EgiftTesting
                 ?.GetValue(null) as List<Employee>;
 
             Assert.AreEqual(1, employees?.Count, "Employee count should match after deserialization.");
-            Assert.AreEqual("Test Employee", employees[0].Name, "Employee name should match.");
+            Assert.AreEqual("test", employees[0].Name, "Employee name should match.");
         }
+
         [Test]
         public void SerializeFoundationAccount_ShouldCreateXmlFile()
         {
