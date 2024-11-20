@@ -622,21 +622,19 @@ namespace EgiftTesting
         [Test]
         public void DeserializeFoundationAccount_ShouldLoadDataFromXmlFile()
         {
-            var foundationAccount = new Foundation_Account(1, "1234567890", "test@mail.com", new Wallet(), "test");
-            Foundation_Account.Serialize("./FoundAcc.xml");
-
-         
             typeof(Foundation_Account)
                 .GetField("_foundationAccountList", BindingFlags.Static | BindingFlags.NonPublic)
                 ?.SetValue(null, new List<Foundation_Account>());
+
             Foundation_Account.Deserialize("./FoundAcc.xml");
 
             var foundations = typeof(Foundation_Account)
                 .GetField("_foundationAccountList", BindingFlags.Static | BindingFlags.NonPublic)
                 ?.GetValue(null) as List<Foundation_Account>;
 
-            Assert.AreEqual(1, foundations?.Count, "fund_acc  no match");
-            Assert.AreEqual("Test Foundation", foundations[2].FoundationName, "foundation name should match");
+            Assert.AreEqual(1, foundations?.Count, "fund_acc no match");
+
+            Assert.AreEqual("Test Foundation", foundations[0].FoundationName, "foundation name should match");
         }
     }
     
