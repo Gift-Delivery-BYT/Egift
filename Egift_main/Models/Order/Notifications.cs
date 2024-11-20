@@ -31,14 +31,20 @@ public class Notifications
     
     public void TimeDeliveryWasChanged(DateTime newTime)
     {
+        if (newTime < DateTime.Now)
+        {
+            throw new ArgumentException("Delivery time cannot be set to the past.");
+        }
+
         _text = $"The delivery time was changed to: {newTime.ToString("f")}";
-        
+    
         if (SendEmail())
             Send(_type.email);
 
         if (SendSms())
             Send(_type.sms); 
     }
+
 
     public bool Send(_type notifications)
     {

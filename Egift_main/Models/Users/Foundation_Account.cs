@@ -23,7 +23,7 @@ public class Foundation_Account: User
 
     public ArrayList AccountingInfo
     {
-        get => _accountingInfo;
+        get => new ArrayList(_accountingInfo);  
         set => _accountingInfo = value ?? throw new ArgumentNullException(nameof(value));
     }
     
