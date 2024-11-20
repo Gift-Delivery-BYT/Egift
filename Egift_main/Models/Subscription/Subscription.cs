@@ -27,7 +27,7 @@ namespace Egift_main.Subscription
         }
         private ArrayList Features
         {
-            get => _features;
+            get => new ArrayList(_features);
             set => _features = value ?? throw new ArgumentNullException(nameof(value));
         }
 
