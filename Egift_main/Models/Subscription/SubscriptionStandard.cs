@@ -13,22 +13,20 @@ namespace Egift_main.Subscription
 
         public List<DateTime> AvailableDates
         {
-            get => _availableDates;
-            set => _availableDates = value ?? new List<DateTime>();
+            get => new List<DateTime>(_availableDates);  
+            set => _availableDates = value ?? new List<DateTime>(); 
         }
 
         public List<object> FreeGifts
         {
-            get => _freeGifts;
-            set => _freeGifts = value ?? new List<object>();
+            get => new List<object>(_freeGifts);  
+            set => _freeGifts = value ?? new List<object>();  
         }
 
         public SubscriptionStandard()
         {
             _subscriptionStandarts.Add(this);
         }
-
-        
 
 
         private static bool SubscriptionStandartIsValid(SubscriptionStandard subscriptionStandard)

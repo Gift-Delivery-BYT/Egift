@@ -11,7 +11,23 @@ public class Schedule
     public List<DateTime> ScheduleDate
     {
         get => scheduleDate;
-        set => scheduleDate = value ?? throw new ArgumentNullException(nameof(value));
+        set
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            foreach (var date in value)
+            {
+                if (date < DateTime.Now)
+                {
+                    throw new ArgumentException("Schedule date cannot be in the past.");
+                }
+            }
+
+            scheduleDate = value;
+        }
     }
     
     public List<DateTime> Holidays

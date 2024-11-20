@@ -27,13 +27,13 @@ public class BusinessAcount: User
     
     public ArrayList Documentation
     {
-        get => documentation;
+        get => new ArrayList(documentation); 
         set => documentation = value ?? throw new ArgumentNullException(nameof(value));
     }
     
     public ArrayList AuthorizedUsers
     {
-        get => authorizedUsers;
+        get => new ArrayList(authorizedUsers);  
         set => authorizedUsers = value ?? throw new ArgumentNullException(nameof(value));
     }
     public double Corparate_Discount

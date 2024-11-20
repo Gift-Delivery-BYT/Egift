@@ -41,8 +41,16 @@ public class User
     public string PhoneNumber1
     {
         get => PhoneNumber;
-        set => PhoneNumber = value;
+        set
+        {
+            if (value.Length < 4)
+            {
+                throw new ArgumentException("Phone number must be at least 4 characters long.");
+            }
+            PhoneNumber = value;
+        }
     }
+
     
     public string Email1
     {

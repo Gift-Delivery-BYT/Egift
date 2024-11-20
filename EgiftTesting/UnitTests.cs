@@ -381,11 +381,45 @@ namespace EgiftTesting
         }
         
         [Test]
+        public void UserCantHavePhoneNumberLenghtLessThan4()
+        {
+            // Arrange
+            var user = new User(1, "1234567890", "test@mail.com", new Wallet());
+
+            // Act & Assert
+            var ex = Assert.Throws<ArgumentException>(() => user.PhoneNumber1 = "123"); // Invalid phone number (3 characters)
+            Assert.AreEqual("Phone number must be at least 4 characters long.", ex.Message, "Exception message should match.");
+        }
+        
+        
+        [Test]
+        public void CheduleCannotBeSetToPast()
+        {
+            var schedule = new Schedule();
+            var pastDate = new List<DateTime> { DateTime.Now.AddMinutes(-10) }; // Past date
+
+            var ex = Assert.Throws<ArgumentException>(() => schedule.ScheduleDate = pastDate);
+            Assert.AreEqual("Schedule date cannot be in the past.", ex.Message);
+        }
+        
+        
+        [Test]
         public void SerializeItem_ShouldCreateXmlFile()
         {
             Item.Serialize("./Item.xml");
             Assert.IsTrue(File.Exists("./Item.xml"), "Serialized file should be created.");
             Assert.IsNotEmpty(File.ReadAllText("./Item.xml"), "Serialized file should not be empty.");
+        }
+        
+        [Test]
+        public void TimeDeliveryCantBeChangedToPast()
+        {
+            var notification = new Notifications();
+            var pastTime = DateTime.Now.AddMinutes(-5);  
+
+            
+            var ex = Assert.Throws<ArgumentException>(() => notification.TimeDeliveryWasChanged(pastTime));
+            Assert.AreEqual("Delivery time cannot be set to the past.", ex.Message);
         }
 /// <summary>
 /// ??? the heck it not working ???
