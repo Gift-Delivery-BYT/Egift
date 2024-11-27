@@ -17,8 +17,7 @@ namespace EgiftTesting
         private Refund _refund;
         private Schedule _schedule;
         private Client _client;
-        private BusinessAcount _businessAcount;
-        private Foundation_Account _foundationAccount;
+
         private SubscriptionStandard _subscription;
         private SubscriptionPremium _subscriptionPremium;
         private Exporter _exporter;
@@ -37,9 +36,6 @@ namespace EgiftTesting
             _employee.Refund = _refund;
             _schedule = new Schedule();
             _client = new Client(1, "1234567890", "test@mail.com", new Wallet(), new DateFormat(), "Abdullah");
-            _businessAcount = new BusinessAcount(99, "1234567890", "business@example.com", 
-                new Wallet(), "China Shirts", "123 Business St", 0.15, trecker);
-            _foundationAccount = new Foundation_Account(1, "1234567890", "test@mail.com", new Wallet(), "Foundation");
             _subscription = new SubscriptionStandard();
             _subscriptionPremium = new SubscriptionPremium(99.99, true, true);
             _exporter = new Exporter("Company Vinntsia", "USA", "123", 100.5f, 1234567890, DateTime.Now.AddDays(10));
@@ -135,24 +131,6 @@ namespace EgiftTesting
         }
         
         [Test]
-        public void Documentation_ThrowsArgumentNullException_WhenNull()
-        {
-            Assert.Throws<ArgumentNullException>(() => _businessAcount.Documentation = null);
-        }
-        
-        [Test]
-        public void DiscountCantBeMoreThan99()
-        {
-            var trecker = new Trecker(101, DateTime.Now.AddDays(3));
-
-            var businessAccount = new BusinessAcount(1, "123-456-789", "business@example.com", new Wallet(), "My Business", "123 Business St", 0.03, trecker);
-
-            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => businessAccount.Corparate_Discount = 1.1); 
-            Assert.That(exception.ParamName, Is.EqualTo("value")); 
-            Assert.That(exception.Message, Contains.Substring("The discount cannot exceed 99%")); 
-        }
-        
-        [Test]
         public void SpendMoney_CantSpendMoreThanOwned()
         {
             var wallet = new Wallet();
@@ -230,35 +208,6 @@ namespace EgiftTesting
             Assert.Throws<ArgumentNullException>(() => _client.WishList = null);
         }
         
-        
-        [Test]
-        public void FoundationAccountAttribute_FoundationName()
-        {
-            _foundationAccount.FoundationName = "Gift Foundation";
-            Assert.AreEqual("Gift Foundation", _foundationAccount.FoundationName);
-        }
-        
-        [Test]
-        public void FoundationAccountAttribute_AccountingInfo()
-        {
-            string accountingInfo = "accountingInfo";
-            _foundationAccount.AddAccountingInfo(accountingInfo);
-            Assert.Contains(accountingInfo, _foundationAccount.AccountingInfo);
-        }
-
-        [Test]
-        public void AccountingInfo_ShouldThrowException_WhenNull()
-        {
-            Assert.Throws<ArgumentNullException>(() => _foundationAccount.AccountingInfo = null);
-        }
-
-        [Test]
-        public void AddAccountingInfo_ShouldAddNewInfo()
-        {
-            string newInfo = "New Info";
-            _foundationAccount.AddAccountingInfo(newInfo);
-            Assert.Contains(newInfo, _foundationAccount.AccountingInfo);
-        }
         
         [Test]
         public void SubscriptionStandartAttribute_AvailableDates()
@@ -513,35 +462,6 @@ namespace EgiftTesting
         }
         
         [Test]
-        public void SerializeBusinessAccount_ShouldCreateXmlFile()
-        {
-            var account = new BusinessAcount(1, "1234567890", "test@mail.com", new Wallet(), "Test Business", "123 Test St", 0.03, new Trecker(1,DateTime.Now));
-            BusinessAcount.Serialize("./BusinessAcc.xml");
-
-            Assert.IsTrue(File.Exists("./BusinessAcc.xml"), "Serialized file should be created.");
-            Assert.IsNotEmpty(File.ReadAllText("./BusinessAcc.xml"), "Serialized file should not be empty.");
-        }
-
-        [Test] // Run separately
-        public void DeserializeBusinessAccount_ShouldLoadDataFromXmlFile()
-        {
-            var account = new BusinessAcount(1, "1234567890", "test@mail.com", new Wallet(), "Test Business", "123 Test St", 0.03, new Trecker(1,DateTime.Now));
-            BusinessAcount.Serialize("./BusinessAcc.xml");
-
-            typeof(BusinessAcount)
-                .GetField("_businessaccountList", BindingFlags.Static | BindingFlags.NonPublic)
-                ?.SetValue(null, new List<BusinessAcount>());
-            BusinessAcount.Deserialize("./BusinessAcc.xml");
-
-            var accounts = typeof(BusinessAcount)
-                .GetField("_businessaccountList", BindingFlags.Static | BindingFlags.NonPublic)
-                ?.GetValue(null) as List<BusinessAcount>;
-
-            Assert.AreEqual(2, accounts?.Count, "Business account count should match after deserialization.");
-            Assert.AreEqual("Test Business", accounts[1].BusinessName, "Business name should match.");
-        }
-        
-        [Test]
         public void SerializeClient_ShouldCreateXmlFile()
         {
           
@@ -607,34 +527,6 @@ namespace EgiftTesting
 
             Assert.AreEqual(1, employees?.Count, "Employee count should match after deserialization.");
             Assert.AreEqual("test", employees[0].Name, "Employee name should match.");
-        }
-
-        [Test]
-        public void SerializeFoundationAccount_ShouldCreateXmlFile()
-        {
-            var foundationAccount = new Foundation_Account(1, "1234567890", "test@mail.com", new Wallet(), "test");
-            Foundation_Account.Serialize("./FoundAcc.xml");
-
-            Assert.IsTrue(File.Exists("./FoundAcc.xml"), "Serialized file should be created.");
-            Assert.IsNotEmpty(File.ReadAllText("./FoundAcc.xml"), "Serialized file should not be empty.");
-        }
-
-        [Test]
-        public void DeserializeFoundationAccount_ShouldLoadDataFromXmlFile()
-        {
-            typeof(Foundation_Account)
-                .GetField("_foundationAccountList", BindingFlags.Static | BindingFlags.NonPublic)
-                ?.SetValue(null, new List<Foundation_Account>());
-
-            Foundation_Account.Deserialize("./FoundAcc.xml");
-
-            var foundations = typeof(Foundation_Account)
-                .GetField("_foundationAccountList", BindingFlags.Static | BindingFlags.NonPublic)
-                ?.GetValue(null) as List<Foundation_Account>;
-
-            Assert.AreEqual(1, foundations?.Count, "fund_acc no match");
-
-            Assert.AreEqual("Test Foundation", foundations[0].FoundationName, "foundation name should match");
         }
     }
     
