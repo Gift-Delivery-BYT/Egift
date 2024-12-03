@@ -22,7 +22,12 @@ public class Employee : User
     public Refund Refund
     {
         get => _refund;
-        set => _refund = value ?? throw new ArgumentNullException(nameof(value));
+        set
+        {
+            _refund = value ?? throw new ArgumentNullException(nameof(value));
+            _refund.Employee = this; 
+        }
+        
     }
 
     public string Name

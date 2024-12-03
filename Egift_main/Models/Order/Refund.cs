@@ -7,7 +7,14 @@ public class Refund
 {
     private static DateFormat _date;
     private static bool _isApproved = false;
-
+    private Employee _employee;
+    
+    public Employee Employee
+    {
+        get => _employee;
+        set => _employee = value ?? throw new ArgumentNullException(nameof(value));
+    }
+    
    public void sendRefundRequest(User user, double amount, DateTime purchaseDate)
     {
         CheckApproval(purchaseDate);
