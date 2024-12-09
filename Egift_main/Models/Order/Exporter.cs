@@ -21,6 +21,8 @@ using System.Xml.Serialization;
         private int PhoneNumber { get; set; }
         private DateTime TimeLeadDate { get; set; }
         public List<Object> Documentation { get; set; } = new List<Object>();
+        private List<Item> _ItemsOfExporter { get; }
+        public IReadOnlyList<Item> ItemsOfExporter => _ItemsOfExporter.AsReadOnly();
         public Exporter() { }
         
         [XmlArray]
@@ -35,12 +37,23 @@ using System.Xml.Serialization;
             _exporterlist.Add(this);
         }
 
+        public void MarkItem(Item item) {
+            _ItemsOfExporter.Add(item);
+        }
+
+        public void UnMarkItem(Item item) {
+            _ItemsOfExporter.Remove(item);
+        }
+
+        public bool IsItemMarked(Item item) {
+            if (ItemsOfExporter.Contains(item)) return true;
+            return false;
+        }
+        
+        
         public static void addNewExporter(Exporter exporter)
         {
-            if (exporter!=null && !IsValidExporter(exporter))
-            {
-                throw new ArgumentException("Empty Exporter or attribute tried to be added");
-            }
+            if (exporter!=null && !IsValidExporter(exporter)) throw new ArgumentException("Empty Exporter or attribute tried to be added");
             _exporterlist.Add(exporter);
         }
 

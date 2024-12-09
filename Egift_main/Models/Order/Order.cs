@@ -15,21 +15,33 @@ public class Order
     private int _id { get; set; }
     private string _location { get; set; }
     private string _description { get; set; }
-    private Trecker shippingTrecker { get; set; }
-    
+
+    private Tracker _ShippingTracker
+    {
+        get => _ShippingTracker;
+        set => _ShippingTracker=value;
+    }
+
     private bool _TreckerAssigned = false;
+    
     private List<Item> _items = new List<Item>();
-    private double _totalPrice  { get; set; }
+    private double _totalPrice { get; set; }
     private double _discount { get; set; }
     private double _finalPrice { get; set; }
-    
-    public Order() { }
-        
-    [XmlArray]
-    public static List<Order> _orderList = new List<Order>();
+
+    public Order()
+    {
+    }
+
+    [XmlArray] public static List<Order> _orderList = new List<Order>();
+
+    [XmlArray] private List<Item> _itemsInOrder { get; }
+
+    public IReadOnlyList<Item> ItemsInOrder => _itemsInOrder.AsReadOnly();
+
 
     public Order(bool treckerAssigned, int id, List<Item> items,
-        string location, string description, Trecker shippingTrecker, double discount = 0)
+        string location, string description, double discount = 0)
     {
         _TreckerAssigned = treckerAssigned;
         _id = id;
@@ -39,8 +51,6 @@ public class Order
         _discount = discount;
         _totalPrice = CalculateTotalPrice();
         _finalPrice = _totalPrice - (_totalPrice * discount);
-        this.shippingTrecker = shippingTrecker;
-        
         _orderList.Add(this);
     }
     
@@ -53,16 +63,32 @@ public class Order
         }
         return total;
     }
-
-    public double GetFinalPrice()
-    {
-        return _finalPrice;
+    
+    public void AddItemToOrder(Item item, int quantity) {
+        for (int i = 0; i < quantity; i++) _itemsInOrder.Add(item);
+        if (!ItemIsConnected(item)) item.AddOrderHavingItem(this);
+        
+    }
+    public void RemoveItemFromOrder(Item item) {
+        if (item._OrdersHavingItems.Count >= 1) item.RemoveOrderHavingItem(this);
+        else throw new Exception("There must be at least one item in order");
+        _itemsInOrder.Remove(item);
     }
 
-    public void AssignTrecker( Trecker shippingTrecker)
+    private bool ItemIsConnected(Item item) {
+        if (ItemsInOrder.Contains(item)) return true;
+        return false;
+    }
+
+    public void AssignTrecker( Tracker shippingTracker)
     {
         _TreckerAssigned = true;
-        this.shippingTrecker = shippingTrecker;
+        this._ShippingTracker = shippingTracker;
+        shippingTracker.AssignTrecker(this);
+    }
+
+    public void RemoveTracker() {
+        _ShippingTracker = null;
     }
 
     public bool IsTreckerAssigned()
@@ -75,6 +101,7 @@ public class Order
         return _orderList.Count + 1;
     }
     
+   /* methods not needed
     public void AddItem(Item item)
     {
         Item.AddItem(item);
@@ -87,18 +114,18 @@ public class Order
         _items.Remove(item);
         _totalPrice = CalculateTotalPrice();
         _finalPrice = _totalPrice - (_totalPrice * _discount);
-    }
+    } */
     
     public void TrackOrder()
     {
         if (_TreckerAssigned)
         {
             string status = $"Tracking Order ID: {_id}\n" +
-                            $"Tracking Number: {shippingTrecker.TrackerID}\n" +
-                            $"Current Location: {shippingTrecker.GetLocation()}\n" +
-                            $"Estimated Time of Arrival: {shippingTrecker.GetEstimatedTime()}";
+                            $"Tracking Number: {_ShippingTracker.TrackerID}\n" +
+                            $"Current Location: {_ShippingTracker.GetLocation()}\n" +
+                            $"Estimated Time of Arrival: {_ShippingTracker.GetEstimatedTime()}";
 
-            if (shippingTrecker.GetEstimatedTime() < DateTime.Now)
+            if (_ShippingTracker.GetEstimatedTime() < DateTime.Now)
             {
                 status += "The order has been delayed";
             }
@@ -161,6 +188,11 @@ public class Order
             }
             return true;
         }
+    }
+    
+    public double GetFinalPrice()
+    {
+        return _finalPrice;
     }
     
     private static bool IsValidOrder(Order order)

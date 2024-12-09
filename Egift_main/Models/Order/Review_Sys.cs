@@ -1,16 +1,34 @@
-﻿namespace Egift_main;
+﻿using Egift_main.Order;
+
+namespace Egift_main;
 
 public class Review_Sys
 {
     private int raiting { get; set; }
     private string comment { get; set; }
 
-    public Review_Sys(int raiting, string comment)
-    {
+    private List<Item> _ItemsWithReviews { get; }
+    public IReadOnlyList<Item> ItemsWithReviews => _ItemsWithReviews.AsReadOnly();
+
+    public Review_Sys(int raiting, string comment) {
         this.raiting = raiting;
         this.comment = comment;
     }
 
+    public void AddReviewToItem(Item item) {
+        if (!ItemIsConnected(item)){item.AddReview(this);}
+        _ItemsWithReviews.Add(item);
+    }
+
+    public void RemoveItemOfReview(Item item) {
+        _ItemsWithReviews.Remove(item);
+    }
+    
+    private bool ItemIsConnected(Item item) {
+        if (ItemsWithReviews.Contains(item)) return true;
+        return false;
+    }
+    
     public void LeaveReview(string comment = "", int raiting = 0)
     {
         bool isCorrectRaiting = false;

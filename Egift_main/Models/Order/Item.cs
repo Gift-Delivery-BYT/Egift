@@ -12,8 +12,26 @@ public class Item
      public string name { get; set; }
      public double pricehold { get; set; }
      private DateFormat date_of_production { get; set; }
+
+     private Exporter _Exporter
+     {
+          get => _Exporter;
+          set
+          {
+               _Exporter = value;
+          }
+     }
+
+     [XmlArray]
+     private List<Review_Sys> _ReviewsOfItem { get; }
+     public IReadOnlyList<Review_Sys> ReviewSysList => _ReviewsOfItem.AsReadOnly();
+     
      [XmlArray]
      private static List<Item> _itemList = new List<Item>();
+     public IReadOnlyList<Order> OrdersHavingItems => _OrdersHavingItems.AsReadOnly();
+
+     [XmlArray]
+     public List<Order> _OrdersHavingItems { get; }
 
      public Item() { }
      public Item(int itemId, string name, double pricehold, DateFormat dateOfProduction)
@@ -24,7 +42,48 @@ public class Item
           date_of_production = dateOfProduction;
           _itemList.Add(this);
      }
+
+     public void AddReview(Review_Sys reviewSys)
+     {
+          _ReviewsOfItem.Add(reviewSys);
+          reviewSys.AddReviewToItem(this);
+     }
+
+     public void RemoveReview(Review_Sys reviewSys) {
+          _ReviewsOfItem.Remove(reviewSys);
+     }
+
+    /* Do we need that at all??
+     private bool ReviewIsConnected()
+     {
+          
+     }*/
      
+
+     private void MarkExporter(Exporter exporter) {
+          if (exporter.IsItemMarked(this)) throw new Exception("Item is already marked, You need to UnMark it first");
+          _Exporter = exporter;
+     }
+
+     private void UnmarkExporter() {
+          _Exporter = null;
+     }
+
+     public void AddOrderHavingItem(Order order) {
+          _OrdersHavingItems.Add(order);
+          //if (!OrderIsConnected(order)) order.AddItemToOrder(this);
+     }
+     public void RemoveOrderHavingItem(Order order) {
+           _OrdersHavingItems.Remove(order);
+     }
+
+     private  bool OrderIsConnected(Order order) {
+          if (OrdersHavingItems.Contains(order)) return true;
+          return false;
+     }
+     
+     
+     //Methods adding and removing Items existing at all 
      public static void AddItem(Item item)
      {
           if (IsValidItem(item)) _itemList.Add(item);

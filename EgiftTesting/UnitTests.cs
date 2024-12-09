@@ -26,7 +26,7 @@ namespace EgiftTesting
         [SetUp]
         public void Setup()
         {
-            var trecker = new Trecker(101, DateTime.Now.AddDays(3));
+            var trecker = new Tracker(101, DateTime.Now.AddDays(3));
 
             
             _wallet = new Wallet();
@@ -79,7 +79,7 @@ namespace EgiftTesting
         public void AssignTrecker_True()
         {
             var order = new Order();
-            var trecker = new Trecker(101, DateTime.Now.AddDays(3));
+            var trecker = new Tracker(101, DateTime.Now.AddDays(3));
             
             order.AssignTrecker(trecker);
             Assert.IsTrue(order.IsTreckerAssigned()); 
@@ -221,7 +221,7 @@ namespace EgiftTesting
         public void Tracker_ID()
         {
             var expectedId = 1;
-            var trecker = new Trecker(expectedId, DateTime.Now.AddHours(5));
+            var trecker = new Tracker(expectedId, DateTime.Now.AddHours(5));
 
             var actualId = trecker.TrackerID;
 
@@ -232,14 +232,14 @@ namespace EgiftTesting
         public void Tracker_Location()
         {
             Assert.AreEqual("Warsaw", 
-                new Trecker(1, DateTime.Now.AddHours(5)) { Location = "Warsaw" }.GetLocation());
+                new Tracker(1, DateTime.Now.AddHours(5)) { Location = "Warsaw" }.GetLocation());
         }
         
         [Test]
         public void Tracker_EstimatedTimeForArrival()
         {
             var expectedTime = DateTime.Now.AddHours(5);
-            var trecker = new Trecker(1, expectedTime);
+            var trecker = new Tracker(1, expectedTime);
             
             var actualTime = trecker.GetEstimatedTime();
             
@@ -249,7 +249,7 @@ namespace EgiftTesting
         [Test]
         public void AddTreckerIsValidException()
         {
-            var trecker = new Trecker(1, DateTime.Now.AddHours(-5));
+            var trecker = new Tracker(1, DateTime.Now.AddHours(-5));
             trecker.Location = null; 
 
             Assert.Throws<ArgumentNullException>(() => trecker.AddTrecker(trecker));
@@ -258,7 +258,7 @@ namespace EgiftTesting
         [Test]
         public void AddTreckerReturnTrueIfTrackerIsValid()
         {
-            var trecker = new Trecker(1, DateTime.Now.AddHours(5));
+            var trecker = new Tracker(1, DateTime.Now.AddHours(5));
             trecker.Location = "Warsaw";
 
             Assert.IsTrue(trecker.AddTrecker(trecker));
@@ -267,7 +267,7 @@ namespace EgiftTesting
         [Test]
         public void UpdateCurrentLocation_NewLocation_UpdateLocation()
         {
-            var trecker = new Trecker(1, DateTime.Now.AddHours(5)) { Location = "Warsaw" };
+            var trecker = new Tracker(1, DateTime.Now.AddHours(5)) { Location = "Warsaw" };
 
             trecker.UpdateCurrentLocation("Krakow");
 
@@ -277,7 +277,7 @@ namespace EgiftTesting
         [Test]
         public void UpdateCurrentLocation_SameLocation_NotUpdateLocation()
         {
-            var trecker = new Trecker(1, DateTime.Now.AddHours(5)) { Location = "Warsaw" };
+            var trecker = new Tracker(1, DateTime.Now.AddHours(5)) { Location = "Warsaw" };
             trecker.UpdateCurrentLocation("Warsaw");
 
             Assert.AreEqual("Warsaw", trecker.GetLocation());
@@ -288,7 +288,7 @@ namespace EgiftTesting
         [Test]
         public void UpdateEstimationTime_NewTime_UpdateEstimatedTime()
         {
-            var trecker = new Trecker(1, DateTime.Now.AddHours(5));
+            var trecker = new Tracker(1, DateTime.Now.AddHours(5));
             var newTime = DateTime.Now.AddHours(6);
 
             trecker.UpdateEstimationTime(DateTime.Now.AddHours(6));
@@ -298,7 +298,7 @@ namespace EgiftTesting
         
         [Test]
         public void UpdateEstimationTime_SameTime_dNotUpdateEstimatedTime() {
-            var trecker = new Trecker(1, DateTime.Now.AddHours(5));
+            var trecker = new Tracker(1, DateTime.Now.AddHours(5));
             DateTime beforeUpdate = trecker.GetEstimatedTime();
     
             trecker.UpdateEstimationTime(beforeUpdate);
@@ -387,7 +387,7 @@ namespace EgiftTesting
         public void SerializeOrder_ShouldCreateXmlFile()
         {
             var items = new List<Item> { new Item(1, "TestItem", 100.0, DateFormat.GeneralDate) };
-            var order = new Order(false, 1, items, "TestLocation", "TestDescription", null);
+            var order = new Order(false, 1, items, "TestLocation", "TestDescription");
             Order.Serialize("./Order.xml");
             Assert.IsTrue(File.Exists("./Order.xml"), "Serialized file should be created.");
             Assert.IsNotEmpty(File.ReadAllText("./Order.xml"), "Serialized file should not be empty.");
@@ -400,7 +400,7 @@ namespace EgiftTesting
 
             
             var items = new List<Item> { new Item(1, "TestItem", 100.0, DateFormat.GeneralDate) };
-            var order = new Order(false, 1, items, "TestLocation", "TestDescription", null);
+            var order = new Order(false, 1, items, "TestLocation", "TestDescription");
             Order.Serialize(filePath);
             
             typeof(Order)

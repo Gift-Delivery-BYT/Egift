@@ -2,17 +2,30 @@
 
 namespace Egift_main.Order;
 
-public class Trecker
+public class Tracker
 {
     private string _location;
     private int _tracker_id;
     private DateTime _estimated_time_for_arrival;
+    private Order _AssignedOrder;
     
     private DateTime EstimatedTimeForArrival
     {
         get => _estimated_time_for_arrival;
         set => _estimated_time_for_arrival = value;
     }
+
+    private Order AssignedOrder
+    {
+        get => _AssignedOrder;
+        set
+        {
+            if (value == null)
+                throw new ArgumentException("Order is NULL");
+            _AssignedOrder = value;
+        }
+    }
+
 
     public string Location
     {
@@ -25,13 +38,19 @@ public class Trecker
         set => _tracker_id = value;
     }
 
-    private static List<Trecker> _treckers = new List<Trecker>();
+    private static List<Tracker> _treckers = new List<Tracker>();
 
-    public Trecker(int trackerId, DateTime estimatedTimeForArrival)
+    public Tracker(int trackerId, DateTime estimatedTimeForArrival)
     {
         _tracker_id = trackerId;
         _estimated_time_for_arrival = estimatedTimeForArrival;
         _treckers.Add(this);
+    }
+
+
+    public void AssignTrecker(Order order)
+    {
+        AssignedOrder = order;
     }
 
     public string GetLocation()
@@ -39,19 +58,19 @@ public class Trecker
         return _location;
     }
 
-    public bool AddTrecker(Trecker trecker) {
-        if (TreckerIsValid(trecker)) {
-            _treckers.Add(trecker);
+    public bool AddTrecker(Tracker tracker) {
+        if (TreckerIsValid(tracker)) {
+            _treckers.Add(tracker);
             return true;
         }
         return false;
     }
 
 
-    public bool TreckerIsValid(Trecker trecker)
+    public bool TreckerIsValid(Tracker tracker)
     {
-        if (!string.IsNullOrEmpty(_location) && trecker._tracker_id > 0 &&
-            trecker._estimated_time_for_arrival > DateTime.Now)
+        if (!string.IsNullOrEmpty(_location) && tracker._tracker_id > 0 &&
+            tracker._estimated_time_for_arrival > DateTime.Now)
             return true;
         
         throw new ArgumentNullException();
@@ -85,12 +104,12 @@ public class Trecker
             
     }
     
-    private static bool IsValidTrecker(Trecker trecker)
+    private static bool IsValidTrecker(Tracker tracker)
     {
-        if (trecker != null &&
-            !string.IsNullOrEmpty(trecker.Location) &&
-            trecker.TrackerID > 0 &&
-            trecker.GetEstimatedTime() > DateTime.Now) 
+        if (tracker != null &&
+            !string.IsNullOrEmpty(tracker.Location) &&
+            tracker.TrackerID > 0 &&
+            tracker.GetEstimatedTime() > DateTime.Now) 
         {
             return true;
         }
