@@ -5,7 +5,16 @@ namespace Egift_main;
 public class Wallet
 {
     private double _amount;
+    private Client _owner;
+    public Wallet()
+    {}
+    public Client Owner
+    {
+        get => _owner;
+        set => _owner = value;
+    }
 
+    
     public enum _Currency
     {
         us,
@@ -35,6 +44,7 @@ public class Wallet
         return _amount;
     }
 
+    
     public void _changeCurrency(_Currency currency)
     {
         if (_currentCurrency == currency)

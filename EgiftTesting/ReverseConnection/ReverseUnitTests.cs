@@ -1,3 +1,4 @@
+using System.Runtime.Serialization;
 using Egift_main;
 using Egift_main.Order;
 
@@ -9,6 +10,7 @@ public class ReverseUnitTests
     private Wallet _wallet;
     private Employee _employee;
     private Refund _refund;
+    private Client _client;
 
     [SetUp]
     public void SetUp()
@@ -16,6 +18,7 @@ public class ReverseUnitTests
         _wallet = new Wallet();
         _employee = new Employee(2, "987-654", "employee@example.com", _wallet, "Koszykowska", "Abdullah");
         _refund = new Refund();
+        _client = new Client(1, "123-456", "client@example.com", _wallet, "John Doe");
     }
     
     [Test]
@@ -42,5 +45,14 @@ public class ReverseUnitTests
             
         Assert.AreEqual(_employee, _refund.Employee);
         Assert.AreEqual(_refund, _employee.Refund);
+    }
+    
+    //composition
+    [Test]
+    public void WalletDeletedWhenClientDeleted()
+    {
+        _client.ClientWallet = _wallet;
+        _client.DeleteClient();
+        Assert.IsNull(_client.ClientWallet);
     }
 }
