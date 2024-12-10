@@ -13,6 +13,7 @@ public class Employee : User
     private Schedule _schedule;
     private string name;
     private string address;
+    private Employee advisor;
     
     [XmlArray]
     private static List<Employee> _emoloyeeList = new List<Employee>();
@@ -51,6 +52,14 @@ public class Employee : User
         _refund.sendRefundRequest(user, amount, purchaseDate);
         Tuple<bool, int> Info = new Tuple<bool, int>(true,this.Id);
         return Info;
+    }
+    public void DeleteEmployee()
+    {
+        _schedule = null;
+
+        _emoloyeeList.Remove(this);
+
+        Console.WriteLine($"Employee {name} and their schedule have been deleted.");
     }
     public static bool Serialize(string path = "./Users/Serialized/Employee.xml")
     {

@@ -55,4 +55,11 @@ public class ReverseUnitTests
         _client.DeleteClient();
         Assert.IsNull(_client.ClientWallet);
     }
+    [Test]
+    public void ScheduleDeletedWhenEmployeeDeleted()
+    {
+        var schedule = _employee.Schedule; 
+        _employee.DeleteEmployee();
+        Assert.IsNull(_employee.Schedule);
+    }
 }
