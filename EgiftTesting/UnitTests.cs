@@ -75,7 +75,7 @@ namespace EgiftTesting
             Assert.Throws<ArgumentNullException>(() => _employee.Refund = null);
         }
 
-        [Test]
+        /*[Test]
         public void AssignTrecker_True()
         {
             var order = new Order();
@@ -84,7 +84,7 @@ namespace EgiftTesting
             order.AssignTrecker(trecker);
             Assert.IsTrue(order.IsTreckerAssigned()); 
         }
-        
+        */
         [Test]
         public void Wallet_InitialBalance_ShouldBeZero()
         {

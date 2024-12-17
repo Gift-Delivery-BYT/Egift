@@ -6,7 +6,7 @@ public class Schedule
 {
     private List<DateTime> scheduleDate = new List<DateTime>();
     private List<DateTime> holidays = new List<DateTime>();
-
+    private Employee _owner;
 
     public List<DateTime> ScheduleDate
     {
@@ -35,6 +35,12 @@ public class Schedule
         get => holidays;
         set => holidays = value ?? throw new ArgumentNullException(nameof(value));
     }
+    public Schedule(Employee owner)
+    {
+        _owner = owner;
+    }
+    public Schedule()
+    { }
     public void AddWorkHours(DateTime workingHours)
     {
         if (!scheduleDate.Contains(workingHours))

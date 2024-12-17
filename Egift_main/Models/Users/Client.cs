@@ -12,7 +12,7 @@ public class Client: User
     private string name;
     private ArrayList _wishlist = new ArrayList();
     private DateFormat birthday;
-    
+    private Wallet _wallet;
     [XmlArray]
     private static List<Client> _clientList = new List<Client>();
 
@@ -34,6 +34,21 @@ public class Client: User
     {
         get => _wishlist;
         set => _wishlist = value ?? throw new ArgumentNullException(nameof(value));
+    }
+    
+    public Wallet ClientWallet
+    {
+        get => _wallet;
+        set
+        {
+            _wallet = value;
+            _wallet.Owner = this; 
+        }
+    }
+    public void DeleteClient()
+    {
+        _wallet = null; 
+        Console.WriteLine($"Client {name} and their Wallet have been removed.");
     }
 
     public static bool Serialize(string path = "./Users/Serialized/Client.xml")
@@ -75,6 +90,13 @@ public class Client: User
         this.birthday = birthday;
         this.name = name;
         
+        _clientList.Add(this);
+    }
+    
+    public Client(int id, string phoneNumber, string email, Wallet UserWallet,
+        string name) : base(id, phoneNumber, email, UserWallet)
+    {
+        this.name = name;
         _clientList.Add(this);
     }
     
