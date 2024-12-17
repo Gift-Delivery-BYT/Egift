@@ -1,5 +1,7 @@
-﻿using System.Xml;
+﻿using System.Runtime.InteropServices;
+using System.Xml;
 using System.Xml.Serialization;
+using Egift_main.Models.Order;
 
 namespace Egift_main.Order;
 
@@ -36,6 +38,7 @@ public class Order
     [XmlArray] public static List<Order> _orderList = new List<Order>();
 
     [XmlArray] private List<Item> _itemsInOrder { get; }
+    [XmlArray] Dictionary<Item,Quantity> _QuantitiesOfItemsInOrder { get; }
 
     public IReadOnlyList<Item> ItemsInOrder => _itemsInOrder.AsReadOnly();
 
@@ -64,14 +67,15 @@ public class Order
         return total;
     }
     
-    public void AddItemToOrder(Item item, int quantity) {
-        for (int i = 0; i < quantity; i++) _itemsInOrder.Add(item);
-        if (!ItemIsConnected(item)) item.AddOrderHavingItem(this);
-        
+    public void AddItemToOrder(Item item, int quantity)
+    {
+        _QuantitiesOfItemsInOrder.Add(item,new Quantity(item, this, quantity));
+        _itemsInOrder.Add(item);
+        if (!ItemIsConnected(item)) item.AddOrderHavingItem(this,quantity);
     }
     public void RemoveItemFromOrder(Item item) {
         if (item._OrdersHavingItems.Count >= 1) item.RemoveOrderHavingItem(this);
-        else throw new Exception("There must be at least one item in order");
+        else Console.WriteLine("There must be at least one item left");
         _itemsInOrder.Remove(item);
     }
 
@@ -83,25 +87,25 @@ public class Order
     public void AssignTrecker( Tracker shippingTracker)
     {
         _TreckerAssigned = true;
-        this._ShippingTracker = shippingTracker;
-        shippingTracker.AssignTrecker(this);
+        _ShippingTracker = shippingTracker;
+        shippingTracker.AssignTreckerToOrder(this);
     }
 
     public void RemoveTracker() {
         _ShippingTracker = null;
     }
 
-    public bool IsTreckerAssigned()
-    {
+    public bool IsTrackerAssigned(Tracker tracker) {
         return _TreckerAssigned;
     }
+  
     
     public static int GenerateNewOrderId()
     {
         return _orderList.Count + 1;
     }
     
-   /* methods not needed
+   /* methods not needed?
     public void AddItem(Item item)
     {
         Item.AddItem(item);
@@ -147,7 +151,6 @@ public class Order
         else
             return status.added;
     }
-
     public static List<Order> GetAllOrders()
     {
         return new List<Order>(_orderList);  

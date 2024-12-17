@@ -16,12 +16,13 @@ public class Review_Sys
     }
 
     public void AddReviewToItem(Item item) {
-        if (!ItemIsConnected(item)){item.AddReview(this);}
+        if (!ItemIsConnected(item)) item.AddReview(this);
         _ItemsWithReviews.Add(item);
     }
 
     public void RemoveItemOfReview(Item item) {
         _ItemsWithReviews.Remove(item);
+        if (ItemIsConnected(item)) item.RemoveReview(this);
     }
     
     private bool ItemIsConnected(Item item) {

@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\maksc\\Egift\\Egift_main\\Egift_main.csproj": {}
+    "D:\\Coding\\Egift\\Egift_main\\Egift_main.csproj": {}
   },
   "projects": {
-    "C:\\Users\\maksc\\Egift\\Egift_main\\Egift_main.csproj": {
+    "D:\\Coding\\Egift\\Egift_main\\Egift_main.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\maksc\\Egift\\Egift_main\\Egift_main.csproj",
+        "projectUniqueName": "D:\\Coding\\Egift\\Egift_main\\Egift_main.csproj",
         "projectName": "Egift_main",
-        "projectPath": "C:\\Users\\maksc\\Egift\\Egift_main\\Egift_main.csproj",
+        "projectPath": "D:\\Coding\\Egift\\Egift_main\\Egift_main.csproj",
         "packagesPath": "C:\\Users\\maksc\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\maksc\\Egift\\Egift_main\\obj\\",
+        "outputPath": "D:\\Coding\\Egift\\Egift_main\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\maksc\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\maksc\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -34,6 +32,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -64,7 +67,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\maksc\\.dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

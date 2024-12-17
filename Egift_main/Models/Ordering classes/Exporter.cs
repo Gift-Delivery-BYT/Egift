@@ -36,13 +36,17 @@ using System.Xml.Serialization;
             TimeLeadDate = timeLeadDate;
             _exporterlist.Add(this);
         }
+        
+        //EXPORTER ITEM CONNCETION
 
         public void MarkItem(Item item) {
             _ItemsOfExporter.Add(item);
+            if (!IsItemMarked(item)) item.MarkExporter(this);
         }
 
-        public void UnMarkItem(Item item) {
+        public void UnmarkItem(Item item) {
             _ItemsOfExporter.Remove(item);
+            if (IsItemMarked(item)) item.UnmarkExporter();
         }
 
         public bool IsItemMarked(Item item) {
@@ -51,6 +55,8 @@ using System.Xml.Serialization;
         }
         
         
+        
+        //Basic classes
         public static void addNewExporter(Exporter exporter)
         {
             if (exporter!=null && !IsValidExporter(exporter)) throw new ArgumentException("Empty Exporter or attribute tried to be added");

@@ -1,5 +1,6 @@
 ﻿using System.Xml;
 using System.Xml.Serialization;
+using Egift_main.Models.Order;
 using Microsoft.VisualBasic;
 using Twilio.Rest.Api.V2010.Account.Usage.Record;
 
@@ -12,6 +13,8 @@ public class Item
      public string name { get; set; }
      public double pricehold { get; set; }
      private DateFormat date_of_production { get; set; }
+     
+     [XmlArray] Dictionary<Order,Quantity> _QuantitiesOfItemsInOrder { get; }
 
      private Exporter _Exporter
      {
@@ -42,39 +45,58 @@ public class Item
           date_of_production = dateOfProduction;
           _itemList.Add(this);
      }
+     
+     //REVIEW TO ITEM CONNECTION
 
      public void AddReview(Review_Sys reviewSys)
      {
           _ReviewsOfItem.Add(reviewSys);
-          reviewSys.AddReviewToItem(this);
+          if (!ReviewIsConnected(reviewSys)) reviewSys.AddReviewToItem(this); 
      }
 
-     public void RemoveReview(Review_Sys reviewSys) {
-          _ReviewsOfItem.Remove(reviewSys);
-     }
-
-    /* Do we need that at all??
-     private bool ReviewIsConnected()
+     public void RemoveReview(Review_Sys reviewSys) 
      {
-          
-     }*/
-     
+          _ReviewsOfItem.Remove(reviewSys);
+          if (ReviewIsConnected(reviewSys))reviewSys.RemoveItemOfReview(this);
+     }
+     private bool ReviewIsConnected(Review_Sys reviewSys)
+     {
+          if (_ReviewsOfItem.Contains(reviewSys)) return true;
+          return false;
+     }
 
-     private void MarkExporter(Exporter exporter) {
+    
+     
+     //EXPORTER TO ITEM CONNECTION
+
+     public void MarkExporter(Exporter exporter) {
           if (exporter.IsItemMarked(this)) throw new Exception("Item is already marked, You need to UnMark it first");
           _Exporter = exporter;
+          if (ExportIsItemMarked(this)) _Exporter.MarkItem(this);
      }
 
-     private void UnmarkExporter() {
+     public void UnmarkExporter() {
+          if (_Exporter.IsItemMarked(this)) _Exporter.UnmarkItem(this);
           _Exporter = null;
      }
 
-     public void AddOrderHavingItem(Order order) {
-          _OrdersHavingItems.Add(order);
-          //if (!OrderIsConnected(order)) order.AddItemToOrder(this);
+     private bool ExportIsItemMarked(Item item) {
+          if (item == null) return false;
+          return true;
      }
+     
+     
+     //ITEM TO ORDER CONNECTION
+
+     public void AddOrderHavingItem(Order order, int quantity) {
+          _OrdersHavingItems.Add(order);
+          _QuantitiesOfItemsInOrder.Add(order, new Quantity(this, order, quantity));
+          if (!OrderIsConnected(order)) order.AddItemToOrder(this, quantity);
+     }
+
      public void RemoveOrderHavingItem(Order order) {
            _OrdersHavingItems.Remove(order);
+           if (OrderIsConnected(order)) order.RemoveItemFromOrder(this);
      }
 
      private  bool OrderIsConnected(Order order) {
@@ -93,8 +115,6 @@ public class Item
      {
           return new List<Item>(_itemList);  
      }
-
-     
      public static bool RemoveItem(int ItemID){
           var item = _itemList.Find(x=>x.ItemID == ItemID);
           if (item != null)

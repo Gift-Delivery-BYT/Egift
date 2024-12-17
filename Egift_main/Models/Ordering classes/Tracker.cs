@@ -48,10 +48,22 @@ public class Tracker
     }
 
 
-    public void AssignTrecker(Order order)
+    public void AssignTreckerToOrder(Order order)
     {
         AssignedOrder = order;
+        if (!_OrderIsAssigned(order))
+        {
+            order.AssignTrecker(this);
+        }
     }
+
+    private bool _OrderIsAssigned(Order order)
+    {
+        if (_AssignedOrder != null) return true;
+        else return false;
+    }
+    
+   
 
     public string GetLocation()
     {
