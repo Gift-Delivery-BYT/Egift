@@ -12,7 +12,8 @@ namespace Egift_main.Subscription
         private ArrayList _features = new ArrayList();
         protected double _price { get; set; }
         protected static double _taxValue = 10.2;
-        private List<Client> _client { get; }
+        private List<Client> _clients_subscription { get; }
+        public IReadOnlyList<Client> Clients_subscription => _clients_subscription.AsReadOnly();
 
         protected Subscription(double price)
         {
@@ -44,27 +45,27 @@ namespace Egift_main.Subscription
 
          public void AddClient(Client client)
          {
-             if (!_client.Contains(client))
-             {
-                 _client.Add(client);
-                 client.AddSubscription(this);
-             }
+             _clients_subscription.Add(client);
+             if (!ClientIsConnected(client)) client.AddSubscription(this);
          }
 
          public void RemoveClient(Client client)
          {
-             if(!_client.Contains(client))
-             {
-                 _client.Remove(client);
-                 client.RemoveSubsctiontion(this);
-             }
+             _clients_subscription.Remove(client);
+             if (ClientIsConnected(client)) client.RemoveSubscription();
          }
 
-         public void ModifyClient(Client old_client, Client modified_client)
+         public bool ClientIsConnected(Client client)
          {
-             RemoveClient(old_client);
-             AddClient(modified_client);
+             if (Clients_subscription.Contains(client)) return true;
+             return false;
          }
+
+         // public void ModifyClient(Client old_client, Client modified_client)
+         // {
+         //     RemoveClient(old_client);
+         //     AddClient(modified_client);
+         // }
          
          public static bool addNewSubscriptionUser(Subscription subscription, Client client)
          {
@@ -110,18 +111,22 @@ namespace Egift_main.Subscription
                  return true;
              }
          }
-         
-         private static bool SubscriptionIsValid(Subscription subscription) {
-             try {
+
+         private static bool SubscriptionIsValid(Subscription subscription)
+         {
+             try
+             {
                  if (subscription != null &&
                      subscription.Price > 0 &&
                      subscription._features != null
                     ) return true;
              }
-             catch (ArgumentNullException e) {
+             catch (ArgumentNullException e)
+             {
                  Console.WriteLine("Some of arguments is not valid");
                  throw;
              }
+
              return false;
          }
     }

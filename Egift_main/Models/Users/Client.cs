@@ -15,8 +15,16 @@ public class Client: User
     private Wallet _wallet;
     [XmlArray]
     private static List<Client> _clientList = new List<Client>();
-    private List<Subscription.Subscription> _subscriptions { get; }
     public Client() { }
+    
+    private Subscription.Subscription  _Subscription
+    {
+        get => _Subscription;
+        set
+        {
+            _Subscription = value;
+        }
+    }
 
     public string Name
     {
@@ -46,31 +54,50 @@ public class Client: User
         }
     }
 
-    //Client Subscription Connection
-    public void AddSubscription(Subscription.Subscription subscription)
-    {
-        if (!_subscriptions.Contains(subscription))
-        {
-            _subscriptions.Add(subscription);
-            subscription.AddClient(this);
-        }
-    }
-
-    public void RemoveSubsctiontion(Subscription.Subscription subscription)
-    {
-        if (!_subscriptions.Contains(subscription))
-        {
-            _subscriptions.Remove(subscription);
-            subscription.RemoveClient(this);
-        }
-    }
-
-    public void ModifySubscription(Subscription.Subscription old_subscription, Subscription.Subscription new_subscription)
-    {
-        RemoveSubsctiontion(old_subscription);
-        AddSubscription(new_subscription);
+    //Subscription to Client CONNECTION
+    public void AddSubscription(Subscription.Subscription subscription) {
+        if (subscription.ClientIsConnected(this)) throw new Exception("Client has already a subscription, " +
+                                                                      "you need to unsubscribe  first");
+        _Subscription = subscription;
+        if (SubscriptionIsClientConnected(this)) _Subscription.AddClient(this);
     }
     
+    public void RemoveSubscription() {
+        if (_Subscription.ClientIsConnected(this)) _Subscription.RemoveClient(this);
+        _Subscription = null;
+    }
+
+    public bool SubscriptionIsClientConnected(Client client)
+    {
+        if (client == null) return false;
+        return true;
+    }
+    
+    //Client Subscription Connection
+    // public void AddSubscription(Subscription.Subscription subscription)
+    // {
+    //     if (!_subscriptions.Contains(subscription))
+    //     {
+    //         _subscriptions.Add(subscription);
+    //         subscription.AddClient(this);
+    //     }
+    // }
+
+    // public void RemoveSubsctiontion(Subscription.Subscription subscription)
+    // {
+    //     if (!_subscriptions.Contains(subscription))
+    //     {
+    //         _subscriptions.Remove(subscription);
+    //         subscription.RemoveClient(this);
+    //     }
+    // }
+
+    // public void ModifySubscription(Subscription.Subscription old_subscription, Subscription.Subscription new_subscription)
+    // {
+    //     RemoveSubscription(old_subscription);
+    //     AddSubscription(new_subscription);
+    // }
+
     public void DeleteClient()
     {
         _wallet = null; 

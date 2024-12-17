@@ -1,6 +1,7 @@
 using System.Runtime.Serialization;
 using Egift_main;
 using Egift_main.Order;
+using Egift_main.Subscription;
 using Microsoft.VisualBasic;
 
 namespace EgiftTesting.ReverseConnection;
@@ -16,6 +17,7 @@ public class ReverseUnitTests
     private Item _item;
     private Review_Sys _review;
     private Exporter _exporter;
+    private Subscription _subscription;
 
     [SetUp]
     public void Setup()
@@ -28,7 +30,8 @@ public class ReverseUnitTests
         _order = new Order(false,1,new List<Item>() { _item },"5234s st.","blah blah blah",10.24); 
         _review = new Review_Sys(1,"great!");
         _exporter = new Exporter("Company Vinntsia", "USA", "123", 100.5f, 1234567890, DateTime.Now.AddDays(10));
-
+        _subscription = new SubscriptionPremium(100.0, true, true);
+        // _subscription = new SubscriptionStandard();
     }
     
     [Test]
@@ -156,5 +159,15 @@ public class ReverseUnitTests
         
         var isConnected = _item.OrderIsConnected(_order);
         Assert.IsFalse(isConnected, "OrderIsConnected returned true for a disconnected order.");
+    }
+    
+    //Client to Subscription connection
+
+    [Test]
+    public void AddSubscription_ShouldThrowExceptionIfClientAlreadyHaveSubscription()
+    {
+        _client.AddSubscription(_subscription);
+        Assert.Throws<Exception>(() => _client.AddSubscription(_subscription), "Client has already a subscription, " +
+                                                                               "you need to unsubscribe  first");
     }
 }

@@ -528,10 +528,7 @@
           "Twilio": "7.6.0"
         },
         "runtime": {
-          "Egift_main.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Egift_main.dll": {}
         }
       }
     }
