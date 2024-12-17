@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Egift_main")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f7ccc07e964d976da4efcccde5e8c1c5a5fd9626")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+01d1d4e6f4d023286c7e3e03a0d81332e31980e6")]
 [assembly: System.Reflection.AssemblyProductAttribute("Egift_main")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Egift_main")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
