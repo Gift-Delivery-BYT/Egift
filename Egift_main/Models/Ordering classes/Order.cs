@@ -18,18 +18,14 @@ public class Order
     private string _location { get; set; }
     private string _description { get; set; }
 
-    private Tracker _ShippingTracker
-    {
-        get => _ShippingTracker;
-        set => _ShippingTracker=value;
-    }
-
+    
     private bool _TreckerAssigned = false;
     
     private List<Item> _items = new List<Item>();
     private double _totalPrice { get; set; }
     private double _discount { get; set; }
     private double _finalPrice { get; set; }
+    public IReadOnlyList<Item> _ItemsInOrderReadf  => _itemsInOrder; 
 
     public Order()
     {
@@ -41,6 +37,12 @@ public class Order
     [XmlArray] Dictionary<Item,Quantity> _QuantitiesOfItemsInOrder { get; }
 
     public IReadOnlyList<Item> ItemsInOrder => _itemsInOrder.AsReadOnly();
+    private Tracker _ShippingTracker
+    {
+        get => _ShippingTracker;
+        set => _ShippingTracker=value;
+    }
+
 
 
     public Order(bool treckerAssigned, int id, List<Item> items,
@@ -79,7 +81,7 @@ public class Order
         _itemsInOrder.Remove(item);
     }
 
-    private bool ItemIsConnected(Item item) {
+    public bool ItemIsConnected(Item item) {
         if (ItemsInOrder.Contains(item)) return true;
         return false;
     }

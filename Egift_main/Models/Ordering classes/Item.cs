@@ -27,14 +27,17 @@ public class Item
 
      [XmlArray]
      private List<Review_Sys> _ReviewsOfItem { get; }
-     public IReadOnlyList<Review_Sys> ReviewSysList => _ReviewsOfItem.AsReadOnly();
+     public IReadOnlyList<Review_Sys> ReviewsOfItem => _ReviewsOfItem.AsReadOnly();
      
      [XmlArray]
      private static List<Item> _itemList = new List<Item>();
      public IReadOnlyList<Order> OrdersHavingItems => _OrdersHavingItems.AsReadOnly();
+     
 
      [XmlArray]
      public List<Order> _OrdersHavingItems { get; }
+
+     
 
      public Item() { }
      public Item(int itemId, string name, double pricehold, DateFormat dateOfProduction)
@@ -59,7 +62,7 @@ public class Item
           _ReviewsOfItem.Remove(reviewSys);
           if (ReviewIsConnected(reviewSys))reviewSys.RemoveItemOfReview(this);
      }
-     private bool ReviewIsConnected(Review_Sys reviewSys)
+     public bool ReviewIsConnected(Review_Sys reviewSys)
      {
           if (_ReviewsOfItem.Contains(reviewSys)) return true;
           return false;
@@ -80,7 +83,7 @@ public class Item
           _Exporter = null;
      }
 
-     private bool ExportIsItemMarked(Item item) {
+     public bool ExportIsItemMarked(Item item) {
           if (item == null) return false;
           return true;
      }
@@ -99,7 +102,7 @@ public class Item
            if (OrderIsConnected(order)) order.RemoveItemFromOrder(this);
      }
 
-     private  bool OrderIsConnected(Order order) {
+     public  bool OrderIsConnected(Order order) {
           if (OrdersHavingItems.Contains(order)) return true;
           return false;
      }
