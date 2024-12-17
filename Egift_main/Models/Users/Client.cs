@@ -15,7 +15,7 @@ public class Client: User
     private Wallet _wallet;
     [XmlArray]
     private static List<Client> _clientList = new List<Client>();
-
+    private List<Subscription.Subscription> _subscriptions { get; }
     public Client() { }
 
     public string Name
@@ -45,6 +45,32 @@ public class Client: User
             _wallet.Owner = this; 
         }
     }
+
+    //Client Subscription connection
+    public void AddSubscription(Subscription.Subscription subscription)
+    {
+        if (!_subscriptions.Contains(subscription))
+        {
+            _subscriptions.Add(subscription);
+            subscription.AddClient(this);
+        }
+    }
+
+    public void RemoveSubsctiontion(Subscription.Subscription subscription)
+    {
+        if (!_subscriptions.Contains(subscription))
+        {
+            _subscriptions.Remove(subscription);
+            subscription.RemoveClient(this);
+        }
+    }
+
+    public void ModifySubscription(Subscription.Subscription old_subscription, Subscription.Subscription new_subscription)
+    {
+        RemoveSubsctiontion(old_subscription);
+        AddSubscription(new_subscription);
+    }
+    
     public void DeleteClient()
     {
         _wallet = null; 

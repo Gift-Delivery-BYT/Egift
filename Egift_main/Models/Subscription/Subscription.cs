@@ -11,7 +11,8 @@ namespace Egift_main.Subscription
     {
         private ArrayList _features = new ArrayList();
         protected double _price { get; set; }
-        private static double _taxValue = 10.2;
+        protected static double _taxValue = 10.2;
+        private List<Client> _client { get; }
 
         protected Subscription(double price)
         {
@@ -38,10 +39,40 @@ namespace Egift_main.Subscription
         }
 
          private  static List<Subscription> _subscriptions = new List<Subscription>();
-         public static bool addNewSubscriptionUser(Subscription subscription)
+         
+         
+         //Subscription Client connection
+
+         public void AddClient(Client client)
+         {
+             if (!_client.Contains(client))
+             {
+                 _client.Add(client);
+                 client.AddSubscription(this);
+             }
+         }
+
+         public void RemoveClient(Client client)
+         {
+             if(!_client.Contains(client))
+             {
+                 _client.Remove(client);
+                 client.RemoveSubsctiontion(this);
+             }
+         }
+
+         public void ModifyClient(Client old_client, Client modified_client)
+         {
+             RemoveClient(old_client);
+             AddClient(modified_client);
+         }
+         
+         public static bool addNewSubscriptionUser(Subscription subscription, Client client)
          {
              if (SubscriptionIsValid(subscription)) {
                  _subscriptions.Add(subscription);
+                 subscription.AddClient(client);
+                 client.AddSubscription(subscription);
                  return true;
              }
              return false;

@@ -1,0 +1,11 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0fd88ab7_002Df762_002D4809_002D936c_002D5e7a665dfbbe/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AddNullSubscription_Throw_Exception" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::986CA115-E873-45E1-B2B9-1B1B05758D7B::net8.0::EgiftTesting.UnitTest_Subscription.AddNullSubscription_Throw_Exception&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3421ea9c_002D96b2_002D4741_002D8c89_002D23c2499d0739/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RemoveSubscription_NullSubscription_ArgumentNullException" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::986CA115-E873-45E1-B2B9-1B1B05758D7B::net8.0::EgiftTesting.UnitTest_Subscription.RemoveSubscription_NullSubscription_ArgumentNullException&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
