@@ -1,5 +1,6 @@
 ﻿using System.Xml;
 using System.Xml.Serialization;
+using Egift_main.Models.Order;
 
 namespace Egift_main.Order;
 
@@ -64,8 +65,11 @@ public class Order
         return total;
     }
     
-    public void AddItemToOrder(Item item, int quantity) {
-        for (int i = 0; i < quantity; i++) _itemsInOrder.Add(item);
+    public void AddItemToOrder(Item item, int quantity)
+    {
+        Quantity Q = new Quantity(item, this, quantity); 
+            
+        _itemsInOrder.Add(item);
         if (!ItemIsConnected(item)) item.AddOrderHavingItem(this);
         
     }
