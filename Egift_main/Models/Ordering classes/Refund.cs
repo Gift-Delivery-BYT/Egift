@@ -15,11 +15,11 @@ public class Refund
         set => _employee = value ?? throw new ArgumentNullException(nameof(value));
     }
     
-   public void sendRefundRequest(User user, double amount, DateTime purchaseDate)
+   public void sendRefundRequest(Client client, double amount, DateTime purchaseDate)
     {
         CheckApproval(purchaseDate);
         if(!_isApproved)
-            user.UserWallet._AddMoney(amount);
+            client._Wallet._AddMoney(amount);
         else
             Console.WriteLine("Refund not approved");
     }

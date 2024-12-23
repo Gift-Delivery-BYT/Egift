@@ -20,20 +20,21 @@ using System.Xml.Serialization;
         private float ShippingCost { get; set; }
         private int PhoneNumber { get; set; }
         private DateTime TimeLeadDate { get; set; }
-        public List<Object> Documentation { get; set; } = new List<Object>();
-        private List<Item> _ItemsOfExporter { get; }
+        public List<Object> Documentation { get; set; } 
+        private List<Item> _ItemsOfExporter { get; set; }
         public IReadOnlyList<Item> ItemsOfExporter => _ItemsOfExporter.AsReadOnly();
         public Exporter() { }
         
         [XmlArray]
         private static List<Exporter> _exporterlist = new List<Exporter>();
-        public Exporter(string name, string country, string address, float shippingCost, int phoneNumber, DateTime timeLeadDate){
+        public Exporter(string name, string country, string address, float shippingCost, int phoneNumber, DateTime timeLeadDate,List<Item> itemsOfExporter){
             Name = name;
             Country = country;
             Address = address;
             ShippingCost = shippingCost;
             PhoneNumber = phoneNumber;
             TimeLeadDate = timeLeadDate;
+            _ItemsOfExporter = itemsOfExporter;
             _exporterlist.Add(this);
         }
         

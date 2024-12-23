@@ -10,19 +10,16 @@ public class User
     private int id;
     private string PhoneNumber;
     private string Email;
-    private Wallet _UserWallet;
 
     [XmlArray]
     private static List<User> _userList = new List<User>();
 
     public User() { }
-    public User(int id, string phoneNumber, string email, Wallet UserWallet)
+    public User(int id, string phoneNumber, string email)
     {
         this.id = id;
         PhoneNumber = phoneNumber;
         Email = email;
-        _UserWallet = UserWallet;
-        
         _userList.Add(this);
     }
 
@@ -32,11 +29,7 @@ public class User
         set => id = value;
     }
      
-    public Wallet UserWallet
-    {
-        get => _UserWallet;
-        set => _UserWallet = value ?? throw new ArgumentNullException(nameof(value));
-    }
+   
 
     public string PhoneNumber1
     {

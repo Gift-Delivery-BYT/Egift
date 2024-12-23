@@ -9,31 +9,22 @@ public class Order
 {
     public enum status
     {
-        arrived,
-        shipping,
-        added
+        Arrived,
+        Shipping,
+        Added
     }
-
     private int _id { get; set; }
     private string _location { get; set; }
     private string _description { get; set; }
-
-    
     private bool _TreckerAssigned = false;
-    
-    private List<Item> _items = new List<Item>();
     private double _totalPrice { get; set; }
     private double _discount { get; set; }
     private double _finalPrice { get; set; }
-    public IReadOnlyList<Item> _ItemsInOrderReadf  => _itemsInOrder; 
-
-    public Order()
-    {
-    }
-
-    [XmlArray] public static List<Order> _orderList = new List<Order>();
-
-    [XmlArray] private List<Item> _itemsInOrder { get; }
+    public static List<Order> _orderList = new List<Order>();
+    private List<Item> _itemsInOrder { get; set; }
+    private List<Item> _items = new List<Item>();
+    
+    public IReadOnlyList<Item> _ItemsInOrderRead  => _itemsInOrder; 
     [XmlArray] Dictionary<Item,Quantity> _QuantitiesOfItemsInOrder { get; }
 
     public IReadOnlyList<Item> ItemsInOrder => _itemsInOrder.AsReadOnly();
@@ -44,9 +35,11 @@ public class Order
     }
 
 
-
+    public Order()
+    {
+    }
     public Order(bool treckerAssigned, int id, List<Item> items,
-        string location, string description, double discount = 0)
+        string location, string description,List<Item> ItemsInOrder,double discount = 0)
     {
         _TreckerAssigned = treckerAssigned;
         _id = id;
@@ -56,16 +49,14 @@ public class Order
         _discount = discount;
         _totalPrice = CalculateTotalPrice();
         _finalPrice = _totalPrice - (_totalPrice * discount);
+        _itemsInOrder = ItemsInOrder;
         _orderList.Add(this);
     }
     
     private double CalculateTotalPrice()
     {
         double total = 0;
-        foreach (var item in _items)
-        {
-            total += item.pricehold;
-        }
+        foreach (var item in _items)  total += item.pricehold; 
         return total;
     }
     
@@ -107,7 +98,7 @@ public class Order
         return _orderList.Count + 1;
     }
     
-   /* methods not needed?
+   /* methods not needed? Update 23.12.24 I think we need to delete them XD
     public void AddItem(Item item)
     {
         Item.AddItem(item);
@@ -147,11 +138,11 @@ public class Order
     public status GetOrderStatus()
     {
         if (_TreckerAssigned)
-            return status.shipping;
+            return status.Shipping;
         else if (_finalPrice == 0)
-            return status.arrived; 
+            return status.Arrived; 
         else
-            return status.added;
+            return status.Added;
     }
     public static List<Order> GetAllOrders()
     {

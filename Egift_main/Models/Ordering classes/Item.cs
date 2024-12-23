@@ -40,12 +40,13 @@ public class Item
      
 
      public Item() { }
-     public Item(int itemId, string name, double pricehold, DateFormat dateOfProduction)
+     public Item(int itemId, string name, double pricehold, DateFormat dateOfProduction, Exporter exporter)
      {
           ItemID = itemId;
           name = name;
           pricehold = pricehold;
           date_of_production = dateOfProduction;
+          _Exporter=exporter;
           _itemList.Add(this);
      }
      

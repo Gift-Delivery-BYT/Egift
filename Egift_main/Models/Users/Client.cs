@@ -17,6 +17,8 @@ public class Client: User
     private static List<Client> _clientList = new List<Client>();
 
     public Client() { }
+    
+    public Wallet _Wallet { get; }
 
     public string Name
     {
@@ -85,7 +87,7 @@ public class Client: User
     }
 
     public Client(int id, string phoneNumber, string email, Wallet UserWallet,
-        DateFormat birthday, string name) : base(id, phoneNumber, email, UserWallet)
+        DateFormat birthday, string name) : base(id, phoneNumber, email)
     {
         this.birthday = birthday;
         this.name = name;
@@ -94,7 +96,7 @@ public class Client: User
     }
     
     public Client(int id, string phoneNumber, string email, Wallet UserWallet,
-        string name) : base(id, phoneNumber, email, UserWallet)
+        string name) : base(id, phoneNumber, email)
     {
         this.name = name;
         _clientList.Add(this);

@@ -47,9 +47,9 @@ public class Employee : User
         set => _schedule = value ?? throw new ArgumentNullException(nameof(value));
     }
 
-   public Tuple<bool, int> ApproveRefund(User user,double amount, DateTime purchaseDate)
+   public Tuple<bool, int> ApproveRefund(Client client,double amount, DateTime purchaseDate)
     {
-        _refund.sendRefundRequest(user, amount, purchaseDate);
+        _refund.sendRefundRequest(client, amount, purchaseDate);
         Tuple<bool, int> Info = new Tuple<bool, int>(true,this.Id);
         return Info;
     }
@@ -96,7 +96,7 @@ public class Employee : User
        
 
     public Employee(int id, string phoneNumber, string email, 
-        Wallet UserWallet, string address, string name) : base(id, phoneNumber, email, UserWallet)
+        Wallet UserWallet, string address, string name) : base(id, phoneNumber, email)
     { 
         this.address = address; 
         this.name = name;

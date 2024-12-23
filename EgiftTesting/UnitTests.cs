@@ -33,7 +33,7 @@ namespace EgiftTesting
 
 
             _wallet = new Wallet();
-            _user = new User(1, "1234567890", "user@example.com", _wallet);
+            _user = new User(1, "1234567890", "user@example.com");
             _employee = new Employee(2, "0987654321", "test@mail.com", _wallet, "9-5", "Garry");
             _refund = new Refund();
             _employee.Refund = _refund;
@@ -41,8 +41,8 @@ namespace EgiftTesting
             _client = new Client(1, "1234567890", "test@mail.com", new Wallet(), new DateFormat(), "Abdullah");
             _subscription = new SubscriptionStandard();
             _subscriptionPremium = new SubscriptionPremium(99.99, true, true);
-            _exporter = new Exporter("Company Vinntsia", "USA", "123", 100.5f, 1234567890, DateTime.Now.AddDays(10));
-            _item = new Item(1, "TestItem", 100.0, DateFormat.GeneralDate);
+            _exporter = new Exporter("Company Vinntsia", "USA", "123", 100.5f, 1234567890, DateTime.Now.AddDays(10),new List<Item>());
+            _item = new Item(1, "TestItem", 100.0, DateFormat.GeneralDate,new Exporter());
             _order = new Order(); // Assuming an Order class exists
             _tracker = new Tracker(101, DateTime.Now.AddDays(3));
             typeof(SubscriptionStandard)
@@ -55,7 +55,7 @@ namespace EgiftTesting
         {
             double amount = 100.0;
             DateTime purchaseDate = DateTime.Now;
-            var result = _employee.ApproveRefund(_user, amount, purchaseDate);
+            var result = _employee.ApproveRefund(_client, amount, purchaseDate);
 
             Assert.AreEqual(true, result.Item1);
             Assert.AreEqual(2, result.Item2);
@@ -172,15 +172,9 @@ namespace EgiftTesting
         }
 
         [Test]
-        public void UserWallet_ThrowException_WhenSetToNull()
-        {
-            Assert.Throws<ArgumentNullException>(() => _user.UserWallet = null);
-        }
-
-        [Test]
         public void User_Email1_ShouldThrowArgumentException_WhenEmailIsInvalid()
         {
-            var user = new User(1, "1234567890", "test@example.com", new Wallet());
+            var user = new User(1, "1234567890", "test@example.com");
 
             var ex = Assert.Throws<ArgumentException>(() => user.Email1 = "invalidemail.com");
             Assert.That(ex.Message, Is.EqualTo("Email must contain '@'."));
@@ -345,7 +339,7 @@ namespace EgiftTesting
         public void UserCantHavePhoneNumberLenghtLessThan4()
         {
 
-            var user = new User(1, "1234567890", "test@mail.com", new Wallet());
+            var user = new User(1, "1234567890", "test@mail.com");
 
 
             var ex = Assert.Throws<ArgumentException>(() => user.PhoneNumber1 = "123");
@@ -390,7 +384,7 @@ namespace EgiftTesting
         [Test] // have to run this one separately
         public void DeserializeItem_ShouldLoadDataFromXmlFile()
         {
-            var item = new List<Item> { new Item(1, "TestItem", 10.0, DateFormat.GeneralDate) };
+            var item = new List<Item> { new Item(1, "TestItem", 10.0, DateFormat.GeneralDate, new Exporter()) };
 
             Item.Serialize("./Item.xml");
             var items = Item.GetItems();
@@ -400,8 +394,8 @@ namespace EgiftTesting
         [Test]
         public void SerializeOrder_ShouldCreateXmlFile()
         {
-            var items = new List<Item> { new Item(1, "TestItem", 100.0, DateFormat.GeneralDate) };
-            var order = new Order(false, 1, items, "TestLocation", "TestDescription");
+            var items = new List<Item> { new Item(1, "TestItem", 100.0, DateFormat.GeneralDate, new Exporter()) };
+            var order = new Order(false, 1, items, "TestLocation", "TestDescription",new List<Item>());
             Order.Serialize("./Order.xml");
             Assert.IsTrue(File.Exists("./Order.xml"), "Serialized file should be created.");
             Assert.IsNotEmpty(File.ReadAllText("./Order.xml"), "Serialized file should not be empty.");
@@ -413,8 +407,8 @@ namespace EgiftTesting
             const string filePath = "./Order.xml";
 
 
-            var items = new List<Item> { new Item(1, "TestItem", 100.0, DateFormat.GeneralDate) };
-            var order = new Order(false, 1, items, "TestLocation", "TestDescription");
+            var items = new List<Item> { new Item(1, "TestItem", 100.0, DateFormat.GeneralDate,new Exporter()) };
+            var order = new Order(false, 1, items, "TestLocation", "TestDescription",new List<Item>());
             Order.Serialize(filePath);
 
             typeof(Order)
