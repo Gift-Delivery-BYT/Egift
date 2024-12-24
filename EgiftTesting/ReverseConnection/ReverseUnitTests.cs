@@ -24,10 +24,10 @@ public class ReverseUnitTests
         _employee = new Employee(2, "987-654", "employee@example.com", _wallet, "Koszykowska", "Abdullah");
         _refund = new Refund();
         _client = new Client(1, "123-456", "client@example.com", _wallet, "John Doe");
-        _item = new Item(1,"",0.5,new DateFormat());
-        _order = new Order(false,1,new List<Item>() { _item },"5234s st.","blah blah blah",10.24); 
+        _item = new Item(1,"",0.5,new DateFormat(), new Exporter());
+        _order = new Order(new User(),new Tracker(1,new DateTime(2004,12,12),new Order()),1,new List<Item>() { _item },"5234s st.","blah blah blah",new List<Item>(),0.00); 
         _review = new Review_Sys(1,"great!");
-        _exporter = new Exporter("Company Vinntsia", "USA", "123", 100.5f, 1234567890, DateTime.Now.AddDays(10));
+        _exporter = new Exporter("Company Vinntsia", "USA", "123", 100.5f, 1234567890, DateTime.Now.AddDays(10),new List<Item>());
 
     }
     

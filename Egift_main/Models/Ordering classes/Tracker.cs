@@ -8,6 +8,7 @@ public class Tracker
     private int _tracker_id;
     private DateTime _estimated_time_for_arrival;
     private Order _AssignedOrder;
+    private static List<Tracker> _treckers = new List<Tracker>();
     
     private DateTime EstimatedTimeForArrival
     {
@@ -26,7 +27,6 @@ public class Tracker
         }
     }
 
-
     public string Location
     {
         get => _location;
@@ -37,23 +37,23 @@ public class Tracker
         get => _tracker_id;
         set => _tracker_id = value;
     }
+    
 
-    private static List<Tracker> _treckers = new List<Tracker>();
-
-    public Tracker(int trackerId, DateTime estimatedTimeForArrival)
+    public Tracker(int trackerId, DateTime estimatedTimeForArrival, Order assignedOrder)
     {
         _tracker_id = trackerId;
         _estimated_time_for_arrival = estimatedTimeForArrival;
+        _AssignedOrder = assignedOrder;
         _treckers.Add(this);
     }
 
 
-    public void AssignTreckerToOrder(Order order)
+    public void AssignTrackerToOrder(Order order)
     {
         AssignedOrder = order;
         if (!_OrderIsAssigned(order))
         {
-            order.AssignTrecker(this);
+            order.AssignTracker(this);
         }
     }
 

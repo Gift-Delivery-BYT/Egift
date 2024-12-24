@@ -14,11 +14,23 @@ public class Employee : User
     private string name;
     private string address;
     private Employee advisor;
+    private List<Employee> _advisorOfEmployees;
     
     [XmlArray]
     private static List<Employee> _emoloyeeList = new List<Employee>();
 
     public Employee() { }
+
+    public Employee Advisor
+    {
+        get=> advisor;
+        set => advisor = value ?? throw new ArgumentNullException(nameof(value));
+    }
+
+    public List<Employee> AdvisorOfEmployees
+    {
+        get => _advisorOfEmployees;
+    }
     
     public Refund Refund
     {
@@ -46,10 +58,23 @@ public class Employee : User
         get => _schedule;
         set => _schedule = value ?? throw new ArgumentNullException(nameof(value));
     }
-
-   public Tuple<bool, int> ApproveRefund(User user,double amount, DateTime purchaseDate)
+    
+   private void AddEmployeeToEdvice(Employee employee)
     {
-        _refund.sendRefundRequest(user, amount, purchaseDate);
+        if (AdvisorOfEmployees.Count>10) throw new Exception("More than 10 employees already added");
+        AdvisorOfEmployees.Add(employee);
+        employee.Advisor= this;
+    }
+    private void RemoveAdvisorFromEmployee(Employee employee)
+    {
+        employee.Advisor = null;
+        _advisorOfEmployees.Remove(employee);
+    }
+    
+
+   public Tuple<bool, int> ApproveRefund(Client client,double amount, DateTime purchaseDate)
+    {
+        _refund.sendRefundRequest(client, amount, purchaseDate);
         Tuple<bool, int> Info = new Tuple<bool, int>(true,this.Id);
         return Info;
     }
@@ -96,7 +121,7 @@ public class Employee : User
        
 
     public Employee(int id, string phoneNumber, string email, 
-        Wallet UserWallet, string address, string name) : base(id, phoneNumber, email, UserWallet)
+        Wallet UserWallet, string address, string name) : base(id, phoneNumber, email)
     { 
         this.address = address; 
         this.name = name;

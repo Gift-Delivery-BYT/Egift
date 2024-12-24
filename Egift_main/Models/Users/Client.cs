@@ -17,6 +17,8 @@ public class Client: User
     private static List<Client> _clientList = new List<Client>();
 
     public Client() { }
+    
+    public Wallet _Wallet { get; }
 
     public string Name
     {
@@ -44,6 +46,20 @@ public class Client: User
             _wallet = value;
             _wallet.Owner = this; 
         }
+    }
+
+    public void AddWallet(Wallet wallet) {
+        ClientWallet = wallet;
+        if(WalletIsAdded(wallet)) wallet.Owner = this;
+    }
+    public void DeleteWallet(Wallet wallet) {
+        ClientWallet = null;
+        wallet.Owner = null;
+    }
+    public bool WalletIsAdded(Wallet wallet)
+    {
+        if (wallet.Owner!=null) return true;
+        return false;
     }
     public void DeleteClient()
     {
@@ -85,7 +101,7 @@ public class Client: User
     }
 
     public Client(int id, string phoneNumber, string email, Wallet UserWallet,
-        DateFormat birthday, string name) : base(id, phoneNumber, email, UserWallet)
+        DateFormat birthday, string name) : base(id, phoneNumber, email)
     {
         this.birthday = birthday;
         this.name = name;
@@ -94,7 +110,7 @@ public class Client: User
     }
     
     public Client(int id, string phoneNumber, string email, Wallet UserWallet,
-        string name) : base(id, phoneNumber, email, UserWallet)
+        string name) : base(id, phoneNumber, email)
     {
         this.name = name;
         _clientList.Add(this);

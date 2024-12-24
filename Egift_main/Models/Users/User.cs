@@ -9,20 +9,17 @@ public class User
 {
     private int id;
     private string PhoneNumber;
-    private string Email;
-    private Wallet _UserWallet;
+    private string _email;
+    private List<Order.Order> _ordersOfUser { get; set; }
 
-    [XmlArray]
-    private static List<User> _userList = new List<User>();
+    [XmlArray] private static List<User> _userList { get; set; }
 
     public User() { }
-    public User(int id, string phoneNumber, string email, Wallet UserWallet)
+    public User(int id, string phoneNumber, string email)
     {
         this.id = id;
         PhoneNumber = phoneNumber;
-        Email = email;
-        _UserWallet = UserWallet;
-        
+        _email = email;
         _userList.Add(this);
     }
 
@@ -31,13 +28,7 @@ public class User
         get => id;
         set => id = value;
     }
-     
-    public Wallet UserWallet
-    {
-        get => _UserWallet;
-        set => _UserWallet = value ?? throw new ArgumentNullException(nameof(value));
-    }
-
+    
     public string PhoneNumber1
     {
         get => PhoneNumber;
@@ -52,9 +43,9 @@ public class User
     }
 
     
-    public string Email1
+    public string Email
     {
-        get => Email;
+        get => _email;
         set
         {
             if (value == null) 
@@ -67,8 +58,35 @@ public class User
                 throw new ArgumentException("Email must contain '@'.");
             }
         
-            Email = value;
+            _email = value;
         }
+    }
+
+    public List<Order.Order> OrdersOfUser
+    {
+        get => _ordersOfUser;
+        set
+        {
+            if (value == null) throw new ArgumentNullException(nameof(value), "ORDER cannot be null.");
+            _ordersOfUser = value;
+        } 
+    }
+    
+    private void AddOrderToUser(Order.Order order)
+    {
+       _ordersOfUser.Add(order);
+       if (!UserIsConnected(order)) order.UserOfOrder = this;
+    }
+
+    private void RemoveOrderFromUser(Order.Order order)
+    {
+        order.UserOfOrder=null;
+        _ordersOfUser.Remove(order);
+    }
+
+    private bool UserIsConnected(Order.Order order) {
+        if (order.UserOfOrder==null) return false;
+        return true;
     }
 
     

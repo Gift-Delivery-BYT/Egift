@@ -9,64 +9,82 @@ public class Order
 {
     public enum status
     {
-        arrived,
-        shipping,
-        added
+        Arrived,
+        Shipping,
+        Added
     }
 
-    private int _id { get; set; }
-    private string _location { get; set; }
-    private string _description { get; set; }
-
-    
+    private int _id;
+    private string _location;
+    private string _description;
     private bool _TreckerAssigned = false;
-    
+    private double _totalPrice;
+    private double _discount;
+    private double _finalPrice;
+    private List<Item> _itemsInOrder;
     private List<Item> _items = new List<Item>();
-    private double _totalPrice { get; set; }
-    private double _discount { get; set; }
-    private double _finalPrice { get; set; }
-    public IReadOnlyList<Item> _ItemsInOrderReadf  => _itemsInOrder; 
+    private User _userOfOrder;
+    public static List<Order> _orderList = new List<Order>();
+    
+    public IReadOnlyList<Item> _ItemsInOrderRead  => _itemsInOrder; 
+    [XmlArray] Dictionary<Item,Quantity> _QuantitiesOfItemsInOrder { get; }
+
+    public IReadOnlyList<Item> ItemsInOrder => _itemsInOrder.AsReadOnly();
+    public User UserOfOrder
+    {
+        get =>  _userOfOrder; 
+        set => _userOfOrder = value;
+    }
+
+    private Tracker ShippingTracker
+    {
+        get => ShippingTracker;
+        set => ShippingTracker=value;
+    }
+
 
     public Order()
     {
     }
-
-    [XmlArray] public static List<Order> _orderList = new List<Order>();
-
-    [XmlArray] private List<Item> _itemsInOrder { get; }
-    [XmlArray] Dictionary<Item,Quantity> _QuantitiesOfItemsInOrder { get; }
-
-    public IReadOnlyList<Item> ItemsInOrder => _itemsInOrder.AsReadOnly();
-    private Tracker _ShippingTracker
+    public Order(User user,Tracker tracker, int id, List<Item> items,
+        string location, string description,List<Item> ItemsInOrder,double discount = 0)
     {
-        get => _ShippingTracker;
-        set => _ShippingTracker=value;
-    }
-
-
-
-    public Order(bool treckerAssigned, int id, List<Item> items,
-        string location, string description, double discount = 0)
-    {
-        _TreckerAssigned = treckerAssigned;
+     //   _TreckerAssigned = tracker;
         _id = id;
+        _userOfOrder=user;
         _location = location;
         _description = description;
         _items = items ?? new List<Item>();
         _discount = discount;
         _totalPrice = CalculateTotalPrice();
         _finalPrice = _totalPrice - (_totalPrice * discount);
+        _itemsInOrder = ItemsInOrder;
+        ShippingTracker=tracker;    
         _orderList.Add(this);
     }
     
     private double CalculateTotalPrice()
     {
         double total = 0;
-        foreach (var item in _items)
-        {
-            total += item.pricehold;
-        }
+        foreach (var item in _items)  total += item.pricehold; 
         return total;
+    }
+
+    private void AddUserToOrder(User user)
+    {
+        _userOfOrder=user;
+        if (!OrderIsConnected(user)) user.OrdersOfUser.Add(this);
+    }
+
+    private void RemoveUserFromOrder(User user)
+    {
+        user.OrdersOfUser.Remove(this);
+        _userOfOrder=null;
+    }
+
+    private bool OrderIsConnected(User user) {
+        if (user.OrdersOfUser.Contains(this)) return false;
+        return true;
     }
     
     public void AddItemToOrder(Item item, int quantity)
@@ -86,15 +104,15 @@ public class Order
         return false;
     }
 
-    public void AssignTrecker( Tracker shippingTracker)
+    public void AssignTracker( Tracker shippingTracker)
     {
         _TreckerAssigned = true;
-        _ShippingTracker = shippingTracker;
-        shippingTracker.AssignTreckerToOrder(this);
+        ShippingTracker = shippingTracker;
+        shippingTracker.AssignTrackerToOrder(this);
     }
 
     public void RemoveTracker() {
-        _ShippingTracker = null;
+        ShippingTracker = null;
     }
 
     public bool IsTrackerAssigned(Tracker tracker) {
@@ -107,7 +125,7 @@ public class Order
         return _orderList.Count + 1;
     }
     
-   /* methods not needed?
+   /* methods not needed? Update 23.12.24 I think we need to delete them XD
     public void AddItem(Item item)
     {
         Item.AddItem(item);
@@ -127,11 +145,11 @@ public class Order
         if (_TreckerAssigned)
         {
             string status = $"Tracking Order ID: {_id}\n" +
-                            $"Tracking Number: {_ShippingTracker.TrackerID}\n" +
-                            $"Current Location: {_ShippingTracker.GetLocation()}\n" +
-                            $"Estimated Time of Arrival: {_ShippingTracker.GetEstimatedTime()}";
+                            $"Tracking Number: {ShippingTracker.TrackerID}\n" +
+                            $"Current Location: {ShippingTracker.GetLocation()}\n" +
+                            $"Estimated Time of Arrival: {ShippingTracker.GetEstimatedTime()}";
 
-            if (_ShippingTracker.GetEstimatedTime() < DateTime.Now)
+            if (ShippingTracker.GetEstimatedTime() < DateTime.Now)
             {
                 status += "The order has been delayed";
             }
@@ -147,11 +165,11 @@ public class Order
     public status GetOrderStatus()
     {
         if (_TreckerAssigned)
-            return status.shipping;
+            return status.Shipping;
         else if (_finalPrice == 0)
-            return status.arrived; 
+            return status.Arrived; 
         else
-            return status.added;
+            return status.Added;
     }
     public static List<Order> GetAllOrders()
     {
