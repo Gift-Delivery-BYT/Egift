@@ -47,6 +47,20 @@ public class Client: User
             _wallet.Owner = this; 
         }
     }
+
+    public void AddWallet(Wallet wallet) {
+        ClientWallet = wallet;
+        if(WalletIsAdded(wallet)) wallet.Owner = this;
+    }
+    public void DeleteWallet(Wallet wallet) {
+        ClientWallet = null;
+        wallet.Owner = null;
+    }
+    public bool WalletIsAdded(Wallet wallet)
+    {
+        if (wallet.Owner!=null) return true;
+        return false;
+    }
     public void DeleteClient()
     {
         _wallet = null; 

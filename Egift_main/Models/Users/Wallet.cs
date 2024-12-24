@@ -25,6 +25,24 @@ public class Wallet
 
     private _Currency _currentCurrency = _Currency.eu;
 
+
+    public void AddClient(Client client)
+    {
+        Owner = client;
+        if (!ClientIsAdded(client)) client.ClientWallet = this;
+    }
+
+    public void RemoveClient(Client client)
+    {
+        client.ClientWallet = null;
+    }
+
+    public bool ClientIsAdded(Client client)
+    {
+        if (client.ClientWallet != null) return true;
+        return false;
+    }
+
     public void _AddMoney(double toAdd)
     {
         _amount += toAdd;

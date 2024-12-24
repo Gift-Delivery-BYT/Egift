@@ -9,19 +9,19 @@ namespace Egift_main.Order;
 [Serializable]
 public class Item
 {
-     public int ItemID { get; set; }
-     public string name { get; set; }
-     public double pricehold { get; set; }
-     private DateFormat date_of_production { get; set; }
+     public int ItemID;
+     public string name;
+     public double pricehold;
+     private DateFormat date_of_production;
      
      [XmlArray] Dictionary<Order,Quantity> _QuantitiesOfItemsInOrder { get; }
 
-     private Exporter _Exporter
+     public Exporter Exporter
      {
-          get => _Exporter;
+          get => Exporter;
           set
           {
-               _Exporter = value;
+               Exporter = value;
           }
      }
 
@@ -46,7 +46,7 @@ public class Item
           name = name;
           pricehold = pricehold;
           date_of_production = dateOfProduction;
-          _Exporter=exporter;
+          Exporter=exporter;
           _itemList.Add(this);
      }
      
@@ -75,13 +75,13 @@ public class Item
 
      public void MarkExporter(Exporter exporter) {
           if (exporter.IsItemMarked(this)) throw new Exception("Item is already marked, You need to UnMark it first");
-          _Exporter = exporter;
-          if (ExportIsItemMarked(this)) _Exporter.MarkItem(this);
+          Exporter = exporter;
+          if (ExportIsItemMarked(this)) Exporter.MarkItem(this);
      }
 
      public void UnmarkExporter() {
-          if (_Exporter.IsItemMarked(this)) _Exporter.UnmarkItem(this);
-          _Exporter = null;
+          if (Exporter.IsItemMarked(this)) Exporter.UnmarkItem(this);
+          Exporter = null;
      }
 
      public bool ExportIsItemMarked(Item item) {

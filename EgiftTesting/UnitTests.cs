@@ -29,7 +29,7 @@ namespace EgiftTesting
         [SetUp]
         public void Setup()
         {
-            var trecker = new Tracker(101, DateTime.Now.AddDays(3));
+            var trecker = new Tracker(101, DateTime.Now.AddDays(3),new Order());
 
 
             _wallet = new Wallet();
@@ -44,7 +44,7 @@ namespace EgiftTesting
             _exporter = new Exporter("Company Vinntsia", "USA", "123", 100.5f, 1234567890, DateTime.Now.AddDays(10),new List<Item>());
             _item = new Item(1, "TestItem", 100.0, DateFormat.GeneralDate,new Exporter());
             _order = new Order(); // Assuming an Order class exists
-            _tracker = new Tracker(101, DateTime.Now.AddDays(3));
+            _tracker = new Tracker(101, DateTime.Now.AddDays(3),new Order());
             typeof(SubscriptionStandard)
                 .GetField("_subscriptionStandarts", BindingFlags.Static | BindingFlags.NonPublic)
                 ?.SetValue(null, new List<SubscriptionStandard>());
@@ -161,14 +161,14 @@ namespace EgiftTesting
         [Test]
         public void UserAttribute_Email()
         {
-            _user.Email1 = "user@gmail.com";
-            Assert.AreEqual("user@gmail.com", _user.Email1);
+            _user.Email = "user@gmail.com";
+            Assert.AreEqual("user@gmail.com", _user.Email);
         }
 
         [Test]
         public void Email1_ThrowException_WhenSetToNull()
         {
-            Assert.Throws<ArgumentNullException>(() => _user.Email1 = null);
+            Assert.Throws<ArgumentNullException>(() => _user.Email = null);
         }
 
         [Test]
@@ -176,7 +176,7 @@ namespace EgiftTesting
         {
             var user = new User(1, "1234567890", "test@example.com");
 
-            var ex = Assert.Throws<ArgumentException>(() => user.Email1 = "invalidemail.com");
+            var ex = Assert.Throws<ArgumentException>(() => user.Email = "invalidemail.com");
             Assert.That(ex.Message, Is.EqualTo("Email must contain '@'."));
         }
 
@@ -221,7 +221,7 @@ namespace EgiftTesting
         public void Tracker_ID()
         {
             var expectedId = 1;
-            var trecker = new Tracker(expectedId, DateTime.Now.AddHours(5));
+            var trecker = new Tracker(expectedId, DateTime.Now.AddHours(5),new Order());
 
             var actualId = trecker.TrackerID;
 
@@ -231,15 +231,19 @@ namespace EgiftTesting
         [Test]
         public void Tracker_Location()
         {
-            Assert.AreEqual("Warsaw",
-                new Tracker(1, DateTime.Now.AddHours(5)) { Location = "Warsaw" }.GetLocation());
+            var tracker = new Tracker(1, DateTime.Now.AddHours(5), new Order())
+            {
+                Location = "Warsaw"
+            };
+            string actualLocation = tracker.GetLocation();
+            Assert.AreEqual("Warsaw", actualLocation);
         }
 
         [Test]
         public void Tracker_EstimatedTimeForArrival()
         {
             var expectedTime = DateTime.Now.AddHours(5);
-            var trecker = new Tracker(1, expectedTime);
+            var trecker = new Tracker(1, expectedTime,new Order());
 
             var actualTime = trecker.GetEstimatedTime();
 
@@ -249,7 +253,7 @@ namespace EgiftTesting
         [Test]
         public void AddTreckerIsValidException()
         {
-            var trecker = new Tracker(1, DateTime.Now.AddHours(-5));
+            var trecker = new Tracker(1, DateTime.Now.AddHours(-5),new Order());
             trecker.Location = null;
 
             Assert.Throws<ArgumentNullException>(() => trecker.AddTrecker(trecker));
@@ -258,7 +262,7 @@ namespace EgiftTesting
         [Test]
         public void AddTreckerReturnTrueIfTrackerIsValid()
         {
-            var trecker = new Tracker(1, DateTime.Now.AddHours(5));
+            var trecker = new Tracker(1, DateTime.Now.AddHours(5),new Order());
             trecker.Location = "Warsaw";
 
             Assert.IsTrue(trecker.AddTrecker(trecker));
@@ -267,7 +271,7 @@ namespace EgiftTesting
         [Test]
         public void UpdateCurrentLocation_NewLocation_UpdateLocation()
         {
-            var trecker = new Tracker(1, DateTime.Now.AddHours(5)) { Location = "Warsaw" };
+            var trecker = new Tracker(1, DateTime.Now.AddHours(5),new Order()) { Location = "Warsaw" };
 
             trecker.UpdateCurrentLocation("Krakow");
 
@@ -277,7 +281,7 @@ namespace EgiftTesting
         [Test]
         public void UpdateCurrentLocation_SameLocation_NotUpdateLocation()
         {
-            var trecker = new Tracker(1, DateTime.Now.AddHours(5)) { Location = "Warsaw" };
+            var trecker = new Tracker(1, DateTime.Now.AddHours(5),new Order()) { Location = "Warsaw" };
             trecker.UpdateCurrentLocation("Warsaw");
 
             Assert.AreEqual("Warsaw", trecker.GetLocation());
@@ -289,7 +293,7 @@ namespace EgiftTesting
         [Test]
         public void UpdateEstimationTime_NewTime_UpdateEstimatedTime()
         {
-            var trecker = new Tracker(1, DateTime.Now.AddHours(5));
+            var trecker = new Tracker(1, DateTime.Now.AddHours(5),new Order());
             var newTime = DateTime.Now.AddHours(6);
 
             trecker.UpdateEstimationTime(DateTime.Now.AddHours(6));
@@ -300,7 +304,7 @@ namespace EgiftTesting
         [Test]
         public void UpdateEstimationTime_SameTime_dNotUpdateEstimatedTime()
         {
-            var trecker = new Tracker(1, DateTime.Now.AddHours(5));
+            var trecker = new Tracker(1, DateTime.Now.AddHours(5),new Order());
             DateTime beforeUpdate = trecker.GetEstimatedTime();
 
             trecker.UpdateEstimationTime(beforeUpdate);
@@ -395,7 +399,7 @@ namespace EgiftTesting
         public void SerializeOrder_ShouldCreateXmlFile()
         {
             var items = new List<Item> { new Item(1, "TestItem", 100.0, DateFormat.GeneralDate, new Exporter()) };
-            var order = new Order(false, 1, items, "TestLocation", "TestDescription",new List<Item>());
+            var order = new Order(new User(),new Tracker(1,DateTime.Now,new Order()), 1, items, "TestLocation", "TestDescription",new List<Item>(),10.0);
             Order.Serialize("./Order.xml");
             Assert.IsTrue(File.Exists("./Order.xml"), "Serialized file should be created.");
             Assert.IsNotEmpty(File.ReadAllText("./Order.xml"), "Serialized file should not be empty.");
@@ -408,7 +412,7 @@ namespace EgiftTesting
 
 
             var items = new List<Item> { new Item(1, "TestItem", 100.0, DateFormat.GeneralDate,new Exporter()) };
-            var order = new Order(false, 1, items, "TestLocation", "TestDescription",new List<Item>());
+            var order = new Order(new User(),new Tracker(1,DateTime.Now,new Order()), 1, items, "TestLocation", "TestDescription",new List<Item>(),10.0);
             Order.Serialize(filePath);
 
             typeof(Order)
