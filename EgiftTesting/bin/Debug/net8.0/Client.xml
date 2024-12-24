@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfClient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Client>
+    <Id>1</Id>
+    <UserWallet />
+    <PhoneNumber1>1234567890</PhoneNumber1>
+    <Email1>test@mail.com</Email1>
+    <Name>test</Name>
+    <Birthday>GeneralDate</Birthday>
+    <WishList />
+  </Client>
+  <Client>
+    <Id>1</Id>
+    <UserWallet />
+    <PhoneNumber1>1234567890</PhoneNumber1>
+    <Email1>test@mail.com</Email1>
+    <Name>Abdullah</Name>
+    <Birthday>GeneralDate</Birthday>
+    <WishList />
+  </Client>
+  <Client>
+    <Id>1</Id>
+    <UserWallet />
+    <PhoneNumber1>1234567890</PhoneNumber1>
+    <Email1>test@mail.com</Email1>
+    <Name>Abdullah</Name>
+    <Birthday>GeneralDate</Birthday>
+    <WishList />
+  </Client>
+  <Client>
+    <Id>1</Id>
+    <UserWallet />
+    <PhoneNumber1>1234567890</PhoneNumber1>
+    <Email1>test@mail.com</Email1>
+    <Name>Abdullah</Name>
+    <Birthday>GeneralDate</Birthday>
+    <WishList />
+  </Client>
+  <Client>
+    <Id>1</Id>
+    <UserWallet />
+    <PhoneNumber1>1234567890</PhoneNumber1>
+    <Email1>test@mail.com</Email1>
+    <Name>Abdullah</Name>
+    <Birthday>GeneralDate</Birthday>
+    <WishList />
+  </Client>
+  <Client>
+    <Id>1</Id>
+    <UserWallet />
+    <PhoneNumber1>1234567890</PhoneNumber1>
+    <Email1>test@mail.com</Email1>
+    <Name>Abdullah</Name>
+    <Birthday>GeneralDate</Birthday>
+    <WishList />
+  </Client>
+  <Client>
+    <Id>1</Id>
+    <UserWallet />
+    <PhoneNumber1>1234567890</PhoneNumber1>
+    <Email1>test@mail.com</Email1>
+    <Name>Abdullah</Name>
+    <Birthday>GeneralDate</Birthday>
+    <WishList />
+  </Client>
+  <Client>
+    <Id>1</Id>
+    <UserWallet />
+    <PhoneNumber1>1234567890</PhoneNumber1>
+    <Email1>test@mail.com</Email1>
+    <Name>Abdullah</Name>
+    <Birthday>GeneralDate</Birthday>
+    <WishList />
+  </Client>
+  <Client>
+    <Id>1</Id>
+    <UserWallet />
+    <PhoneNumber1>1234567890</PhoneNumber1>
+    <Email1>test@mail.com</Email1>
+    <Name>Abdullah</Name>
+    <Birthday>GeneralDate</Birthday>
+    <WishList />
+  </Client>
+  <Client>
+    <Id>1</Id>
+    <UserWallet />
+    <PhoneNumber1>1234567890</PhoneNumber1>
+    <Email1>test@mail.com</Email1>
+    <Name>Abdullah</Name>
+    <Birthday>GeneralDate</Birthday>
+    <WishList />
+  </Client>
+  <Client>
+    <Id>1</Id>
+    <UserWallet />
+    <PhoneNumber1>1234567890</PhoneNumber1>
+    <Email1>test@mail.com</Email1>
+    <Name>Abdullah</Name>
+    <Birthday>GeneralDate</Birthday>
+    <WishList />
+  </Client>
+  <Client>
+    <Id>1</Id>
+    <UserWallet />
+    <PhoneNumber1>1234567890</PhoneNumber1>
+    <Email1>test@mail.com</Email1>
+    <Name>Abdullah</Name>
+    <Birthday>GeneralDate</Birthday>
+    <WishList />
+  </Client>
+  <Client>
+    <Id>1</Id>
+    <UserWallet />
+    <PhoneNumber1>1234567890</PhoneNumber1>
+    <Email1>test@mail.com</Email1>
+    <Name>Abdullah</Name>
+    <Birthday>GeneralDate</Birthday>
+    <WishList />
+  </Client>
+  <Client>
+    <Id>1</Id>
+    <UserWallet />
+    <PhoneNumber1>1234567890</PhoneNumber1>
+    <Email1>test@mail.com</Email1>
+    <Name>Abdullah</Name>
+    <Birthday>GeneralDate</Birthday>
+    <WishList />
+  </Client>
+</ArrayOfClient>

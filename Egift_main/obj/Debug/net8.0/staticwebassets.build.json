@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "zamiKNf38856Tvc1cG5eMSAJJ7l8qMiUhSPnDFeD7PM=",
+  "Hash": "fQb5q43vVxMTLeg+0gov+qmhnlhN5Kc69Mlxuj5fEfw=",
   "Source": "Egift_main",
   "BasePath": "_content/Egift_main",
   "Mode": "Default",
@@ -8,19 +8,19 @@
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [
     {
-      "Name": "Egift_main\\wwwroot",
+      "Name": "Egift_main/wwwroot",
       "Source": "Egift_main",
-      "ContentRoot": "D:\\Coding\\Egift\\Egift_main\\wwwroot\\",
+      "ContentRoot": "/Users/marina/Documents/GitHub/Egift/Egift_main/wwwroot/",
       "BasePath": "_content/Egift_main",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "D:\\Coding\\Egift\\Egift_main\\obj\\Debug\\net8.0\\scopedcss\\bundle\\Egift_main.styles.css",
+      "Identity": "/Users/marina/Documents/GitHub/Egift/Egift_main/obj/Debug/net8.0/scopedcss/bundle/Egift_main.styles.css",
       "SourceId": "Egift_main",
       "SourceType": "Computed",
-      "ContentRoot": "D:\\Coding\\Egift\\Egift_main\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
+      "ContentRoot": "/Users/marina/Documents/GitHub/Egift/Egift_main/obj/Debug/net8.0/scopedcss/bundle/",
       "BasePath": "_content/Egift_main",
       "RelativePath": "Egift_main.styles.css",
       "AssetKind": "All",
@@ -33,13 +33,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "D:\\Coding\\Egift\\Egift_main\\obj\\Debug\\net8.0\\scopedcss\\bundle\\Egift_main.styles.css"
+      "OriginalItemSpec": "/Users/marina/Documents/GitHub/Egift/Egift_main/obj/Debug/net8.0/scopedcss/bundle/Egift_main.styles.css"
     },
     {
-      "Identity": "D:\\Coding\\Egift\\Egift_main\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Egift_main.bundle.scp.css",
+      "Identity": "/Users/marina/Documents/GitHub/Egift/Egift_main/obj/Debug/net8.0/scopedcss/projectbundle/Egift_main.bundle.scp.css",
       "SourceId": "Egift_main",
       "SourceType": "Computed",
-      "ContentRoot": "D:\\Coding\\Egift\\Egift_main\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "/Users/marina/Documents/GitHub/Egift/Egift_main/obj/Debug/net8.0/scopedcss/projectbundle/",
       "BasePath": "_content/Egift_main",
       "RelativePath": "Egift_main.bundle.scp.css",
       "AssetKind": "All",
@@ -52,13 +52,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "D:\\Coding\\Egift\\Egift_main\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Egift_main.bundle.scp.css"
+      "OriginalItemSpec": "/Users/marina/Documents/GitHub/Egift/Egift_main/obj/Debug/net8.0/scopedcss/projectbundle/Egift_main.bundle.scp.css"
     },
     {
-      "Identity": "D:\\Coding\\Egift\\Egift_main\\wwwroot\\app.css",
+      "Identity": "/Users/marina/Documents/GitHub/Egift/Egift_main/wwwroot/app.css",
       "SourceId": "Egift_main",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Coding\\Egift\\Egift_main\\wwwroot\\",
+      "ContentRoot": "/Users/marina/Documents/GitHub/Egift/Egift_main/wwwroot/",
       "BasePath": "_content/Egift_main",
       "RelativePath": "app.css",
       "AssetKind": "All",
@@ -71,13 +71,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\app.css"
+      "OriginalItemSpec": "wwwroot/app.css"
     },
     {
-      "Identity": "D:\\Coding\\Egift\\Egift_main\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "Identity": "/Users/marina/Documents/GitHub/Egift/Egift_main/wwwroot/bootstrap/bootstrap.min.css",
       "SourceId": "Egift_main",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Coding\\Egift\\Egift_main\\wwwroot\\",
+      "ContentRoot": "/Users/marina/Documents/GitHub/Egift/Egift_main/wwwroot/",
       "BasePath": "_content/Egift_main",
       "RelativePath": "bootstrap/bootstrap.min.css",
       "AssetKind": "All",
@@ -90,13 +90,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css"
+      "OriginalItemSpec": "wwwroot/bootstrap/bootstrap.min.css"
     },
     {
-      "Identity": "D:\\Coding\\Egift\\Egift_main\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "Identity": "/Users/marina/Documents/GitHub/Egift/Egift_main/wwwroot/bootstrap/bootstrap.min.css.map",
       "SourceId": "Egift_main",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Coding\\Egift\\Egift_main\\wwwroot\\",
+      "ContentRoot": "/Users/marina/Documents/GitHub/Egift/Egift_main/wwwroot/",
       "BasePath": "_content/Egift_main",
       "RelativePath": "bootstrap/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -109,13 +109,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css.map"
+      "OriginalItemSpec": "wwwroot/bootstrap/bootstrap.min.css.map"
     },
     {
-      "Identity": "D:\\Coding\\Egift\\Egift_main\\wwwroot\\favicon.png",
+      "Identity": "/Users/marina/Documents/GitHub/Egift/Egift_main/wwwroot/favicon.png",
       "SourceId": "Egift_main",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Coding\\Egift\\Egift_main\\wwwroot\\",
+      "ContentRoot": "/Users/marina/Documents/GitHub/Egift/Egift_main/wwwroot/",
       "BasePath": "_content/Egift_main",
       "RelativePath": "favicon.png",
       "AssetKind": "All",
@@ -128,7 +128,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\favicon.png"
+      "OriginalItemSpec": "wwwroot/favicon.png"
     }
   ]
 }

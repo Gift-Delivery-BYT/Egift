@@ -2783,27 +2783,29 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Coding\\Egift\\EgiftTesting\\EgiftTesting.csproj",
+      "projectUniqueName": "C:\\Users\\maksc\\Egift\\EgiftTesting\\EgiftTesting.csproj",
       "projectName": "EgiftTesting",
-      "projectPath": "D:\\Coding\\Egift\\EgiftTesting\\EgiftTesting.csproj",
+      "projectPath": "C:\\Users\\maksc\\Egift\\EgiftTesting\\EgiftTesting.csproj",
       "packagesPath": "C:\\Users\\maksc\\.nuget\\packages\\",
-      "outputPath": "D:\\Coding\\Egift\\EgiftTesting\\obj\\",
+      "outputPath": "C:\\Users\\maksc\\Egift\\EgiftTesting\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\maksc\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\maksc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\Coding\\Egift\\Egift_main\\Egift_main.csproj": {
-              "projectPath": "D:\\Coding\\Egift\\Egift_main\\Egift_main.csproj"
+            "C:\\Users\\maksc\\Egift\\Egift_main\\Egift_main.csproj": {
+              "projectPath": "C:\\Users\\maksc\\Egift\\Egift_main\\Egift_main.csproj"
             }
           }
         }
@@ -2812,6 +2814,7 @@
         "warnAsError": [
           "NU1605"
         ]
+<<<<<<< HEAD
       },
       "restoreAuditProperties": {
         "enableAudit": "true",
@@ -2819,6 +2822,9 @@
         "auditMode": "all"
       },
       "SdkAnalysisLevel": "9.0.100"
+=======
+      }
+>>>>>>> 7019dc8842776b249603e7c79f97f1b14092e3cf
     },
     "frameworks": {
       "net8.0": {
@@ -2861,7 +2867,11 @@
             "privateAssets": "all"
           }
         },
+<<<<<<< HEAD
         "runtimeIdentifierGraphPath": "C:\\Users\\maksc\\.dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
+=======
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+>>>>>>> 7019dc8842776b249603e7c79f97f1b14092e3cf
       }
     }
   }

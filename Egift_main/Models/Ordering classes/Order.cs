@@ -89,6 +89,7 @@ public class Order
     
     public void AddItemToOrder(Item item, int quantity)
     {
+
         _QuantitiesOfItemsInOrder.Add(item,new Quantity(item, this, quantity));
         _itemsInOrder.Add(item);
         if (!ItemIsConnected(item)) item.AddOrderHavingItem(this,quantity);
