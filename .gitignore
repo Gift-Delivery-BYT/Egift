@@ -1,0 +1,31 @@
+# Build Folders
+bin/
+obj/
+
+# Rider IDE
+.idea/
+*.sln.iml
+
+# User-specific files
+*.user
+*.suo
+
+# Logs and databases
+*.log
+*.ldb
+*.sqlite
+
+# Assembly info and cache
+*.csproj.nuget.g.props
+*.csproj.nuget.g.targets
+*.AssemblyInfo.cs
+*.AssemblyInfoInputs.cache
+
+# NuGet
+project.nuget.cache
+project.assets.json
+*.dgspec.json
+*.packagespec.json
+
+# Rider cache files
+rider.project.*
