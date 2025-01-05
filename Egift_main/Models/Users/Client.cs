@@ -158,7 +158,7 @@ public class Client: User
     {
         this.birthday = birthday;
         this.name = name;
-        
+        _clientList = new List<Client>();
         _clientList.Add(this);
     }
     

@@ -11,6 +11,8 @@ public class User
     private string PhoneNumber;
     private string _email;
     private List<Order.Order> _ordersOfUser { get; set; }
+    private List<Notifications> _notifications { get; set; } = new List<Notifications>();
+    public List<Notifications> Notifications => _notifications;
 
     [XmlArray] private static List<User> _userList { get; set; }
 
@@ -20,6 +22,7 @@ public class User
         this.id = id;
         PhoneNumber = phoneNumber;
         _email = email;
+        _userList = new List<User>();
         _userList.Add(this);
     }
 
@@ -42,7 +45,22 @@ public class User
         }
     }
 
-    
+    public void AddNotification(Notifications notification)
+    {
+        if (_notifications.Contains(notification)) return;
+
+        _notifications.Add(notification);
+        if (notification.User != this) notification.User = this; 
+    }
+
+    public void RemoveNotification(Notifications notification)
+    {
+        if (!_notifications.Contains(notification)) return;
+
+        _notifications.Remove(notification);
+        if (notification.User == this) notification.User = null; 
+    }
+
     public string Email
     {
         get => _email;

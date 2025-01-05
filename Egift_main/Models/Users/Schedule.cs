@@ -6,8 +6,9 @@ public class Schedule
 {
     private List<DateTime> scheduleDate = new List<DateTime>();
     private List<DateTime> holidays = new List<DateTime>();
-    private Employee _owner;
+    private Employee Owner;
 
+    
     public List<DateTime> ScheduleDate
     {
         get => scheduleDate;
@@ -41,6 +42,25 @@ public class Schedule
     }
     public Schedule()
     { }
+    
+    public Employee _owner
+    {
+        get => _owner;
+        set
+        {
+            if (_owner != null && _owner.Schedule == this)
+            {
+                _owner.Schedule = null; // Remove reverse connection
+            }
+
+            _owner = value;
+
+            if (_owner != null && _owner.Schedule != this)
+            {
+                _owner.Schedule = this; // Ensure reverse connection
+            }
+        }
+    }
     public void AddWorkHours(DateTime workingHours)
     {
         if (!scheduleDate.Contains(workingHours))

@@ -47,6 +47,7 @@ public class Item
           pricehold = pricehold;
           date_of_production = dateOfProduction;
           Exporter=exporter;
+          _itemList = new List<Item>();
           _itemList.Add(this);
      }
      

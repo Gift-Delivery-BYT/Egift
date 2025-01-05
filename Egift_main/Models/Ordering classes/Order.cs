@@ -59,7 +59,8 @@ public class Order
         _totalPrice = CalculateTotalPrice();
         _finalPrice = _totalPrice - (_totalPrice * discount);
         _itemsInOrder = ItemsInOrder;
-        ShippingTracker=tracker;    
+        ShippingTracker=tracker;
+        _orderList = new List<Order>();
         _orderList.Add(this);
     }
     

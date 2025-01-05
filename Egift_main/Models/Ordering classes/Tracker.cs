@@ -9,7 +9,7 @@ public class Tracker
     private DateTime _estimated_time_for_arrival;
     private Order _AssignedOrder;
     private static List<Tracker> _treckers = new List<Tracker>();
-    
+    private Employee _assignedEmployee;
     private DateTime EstimatedTimeForArrival
     {
         get => _estimated_time_for_arrival;
@@ -27,6 +27,31 @@ public class Tracker
         }
     }
 
+    public void AssignEmployee(Employee employee)
+    {
+        if (employee == null)
+            throw new ArgumentNullException(nameof(employee), "Employee cannot be null.");
+   
+        if (_assignedEmployee != employee)
+        {
+            _assignedEmployee = employee;
+            if (!employee._trackers.Contains(this))
+                employee.AddTracker(this);
+        }
+    }
+   
+    public void RemoveEmployee()
+    {
+        if (_assignedEmployee != null)
+        {
+            var tempEmployee = _assignedEmployee;
+            _assignedEmployee = null;
+   
+            if (tempEmployee._trackers.Contains(this))
+                tempEmployee.RemoveTracker(this); 
+        }
+    }
+    
     public string Location
     {
         get => _location;

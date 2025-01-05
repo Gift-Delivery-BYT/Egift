@@ -15,7 +15,8 @@ public class Employee : User
     private string address;
     private Employee advisor;
     private List<Employee> _advisorOfEmployees;
-    
+    public List<Tracker> _trackers = new List<Tracker>();
+
     [XmlArray]
     private static List<Employee> _emoloyeeList = new List<Employee>();
 
@@ -56,9 +57,44 @@ public class Employee : User
     public Schedule Schedule
     {
         get => _schedule;
-        set => _schedule = value ?? throw new ArgumentNullException(nameof(value));
+        set
+        {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+
+            if (_schedule != null && _schedule._owner == this)
+            {
+                _schedule._owner = null; // Remove previous reverse connection
+            }
+
+            _schedule = value;
+            _schedule._owner = this; // Establish reverse connection
+        }
     }
     
+    public void AddTracker(Tracker tracker)
+    {
+        if (tracker == null)
+            throw new ArgumentNullException(nameof(tracker), "Tracker cannot be null.");
+   
+        if (!_trackers.Contains(tracker))
+        {
+            _trackers.Add(tracker);
+            tracker.AssignEmployee(this);
+        }
+    }
+   
+    public void RemoveTracker(Tracker tracker)
+    {
+        if (tracker == null)
+            throw new ArgumentNullException(nameof(tracker), "Tracker cannot be null.");
+   
+        if (_trackers.Contains(tracker))
+        {
+            _trackers.Remove(tracker);
+            tracker.RemoveEmployee(); 
+        }
+    }
    private void AddEmployeeToEdvice(Employee employee)
     {
         if (AdvisorOfEmployees.Count>10) throw new Exception("More than 10 employees already added");

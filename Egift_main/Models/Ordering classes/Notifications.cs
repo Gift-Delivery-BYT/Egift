@@ -12,6 +12,33 @@ namespace Egift_main;
 public class Notifications
 {
     private string _text { get; set; }
+    private User _user; 
+    
+    public User User
+    {
+        get => _user;
+        set
+        {
+            if (_user == value) return;
+
+            _user = value;
+            _user?.AddNotification(this); 
+        }
+    }
+    public Notifications(string text, User user)
+    {
+        _text = text;
+        User = user; 
+    }
+
+    public void RemoveUser()
+    {
+        if (_user == null) return;
+
+        var tempUser = _user;
+        _user = null;
+        tempUser.RemoveNotification(this); 
+    }
 
     public enum _type
     {
@@ -26,6 +53,7 @@ public class Notifications
     public Notifications(string text)
     {
         _text = text;
+        _notificationList = new List<Notifications>();
         _notificationList.Add(this);
     }
     

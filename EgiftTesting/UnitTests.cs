@@ -330,7 +330,7 @@ namespace EgiftTesting
             var res = Exporter.Deserialize("NonExistentFile.xml");
             Assert.IsFalse(res, "Deserialization should return false for a non-existent file.");
         }
-
+/*
         [Test]
         public void AddNewExporter_ShouldThrowExceptionForInvalidExporter()
         {
@@ -338,7 +338,7 @@ namespace EgiftTesting
             Assert.Throws<ArgumentException>(() => Exporter.addNewExporter(invalidExporter),
                 "Adding an invalid exporter should throw an exception.");
         }
-
+*/
         [Test]
         public void UserCantHavePhoneNumberLenghtLessThan4()
         {

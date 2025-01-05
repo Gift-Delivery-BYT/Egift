@@ -35,6 +35,7 @@ using System.Xml.Serialization;
             PhoneNumber = phoneNumber;
             TimeLeadDate = timeLeadDate;
             _ItemsOfExporter = itemsOfExporter;
+            _exporterlist = new List<Exporter>();
             _exporterlist.Add(this);
         }
         
