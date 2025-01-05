@@ -13,6 +13,7 @@ public class Review_Sys
     public Review_Sys(int raiting, string comment) {
         this.raiting = raiting;
         this.comment = comment;
+        _ItemsWithReviews = new List<Item>();
     }
 
     public void AddReviewToItem(Item item) {
