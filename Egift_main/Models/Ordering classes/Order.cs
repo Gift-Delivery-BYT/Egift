@@ -28,6 +28,7 @@ namespace Egift_main.Order
         private User _userOfOrder;
         public static List<Order> _orderList = new List<Order>();
         private Dictionary<Item, Quantity> _quantitiesOfItemsInOrder;
+        private Tracker ShippingTracker { get; set; }
 
         public IReadOnlyList<Item> ItemsInOrder => _itemsInOrder.AsReadOnly();
         public User UserOfOrder
@@ -35,9 +36,6 @@ namespace Egift_main.Order
             get => _userOfOrder;
             set => _userOfOrder = value;
         }
-
-        private Tracker ShippingTracker { get; set; }
-
         public Order()
         {
             _items = new List<Item>();

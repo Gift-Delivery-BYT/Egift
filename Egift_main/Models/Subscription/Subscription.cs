@@ -15,9 +15,10 @@ namespace Egift_main.Subscription
         private List<Client> _clients_subscription { get; }
         public IReadOnlyList<Client> Clients_subscription => _clients_subscription.AsReadOnly();
 
-        protected Subscription(double price)
+        public Subscription(double price)
         {
             _price = price;
+            _clients_subscription = new List<Client>();
         }
         protected Subscription()
         {

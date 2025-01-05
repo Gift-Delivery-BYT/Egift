@@ -24,6 +24,7 @@ public class User
         _email = email;
         _userList = new List<User>();
         _userList.Add(this);
+        _ordersOfUser = new List<Order.Order>();
     }
 
     public int Id

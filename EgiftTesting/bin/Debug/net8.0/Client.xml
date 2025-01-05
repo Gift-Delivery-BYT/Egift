@@ -5,7 +5,7 @@
     <Id>1</Id>
     <PhoneNumber1>1234567890</PhoneNumber1>
     <Email>test@mail.com</Email>
-    <Name>test</Name>
+    <Name>Abdullah</Name>
     <Birthday>GeneralDate</Birthday>
     <WishList />
   </Client>

@@ -169,4 +169,20 @@ public class ReverseUnitTests
         Assert.Throws<Exception>(() => _client.AddSubscription(_subscription), "Client has already a subscription, " +
                                                                                "you need to unsubscribe  first");
     }
+    
+    [Test]
+    public void RemoveItemFromOrder_WhenNoOrdersLeft_ShouldNotRemove()
+    {
+
+        _order.AddItemToOrder(_item, 1);
+        _item.RemoveOrderHavingItem(_order); // Remove the order to simulate edge case
+        using var sw = new StringWriter();
+        Console.SetOut(sw);
+        _order.RemoveItemFromOrder(_item);
+
+        // Assert
+        Assert.AreEqual("There must be at least one item left\r\n", sw.ToString());
+        Assert.IsTrue(_order.ItemsInOrder.Contains(_item),
+            "Item was incorrectly removed when it should not have been.");
+    }
 }

@@ -26,6 +26,13 @@ public class Tracker
             _AssignedOrder = value;
         }
     }
+    public Tracker(int trackerId, DateTime estimatedTimeForArrival, Order assignedOrder)
+    {
+        _tracker_id = trackerId;
+        _estimated_time_for_arrival = estimatedTimeForArrival;
+        _AssignedOrder = assignedOrder;
+        _treckers.Add(this);
+    }
 
     public void AssignEmployee(Employee employee)
     {
@@ -62,17 +69,6 @@ public class Tracker
         get => _tracker_id;
         set => _tracker_id = value;
     }
-    
-
-    public Tracker(int trackerId, DateTime estimatedTimeForArrival, Order assignedOrder)
-    {
-        _tracker_id = trackerId;
-        _estimated_time_for_arrival = estimatedTimeForArrival;
-        _AssignedOrder = assignedOrder;
-        _treckers.Add(this);
-    }
-
-
     public void AssignTrackerToOrder(Order order)
     {
         AssignedOrder = order;

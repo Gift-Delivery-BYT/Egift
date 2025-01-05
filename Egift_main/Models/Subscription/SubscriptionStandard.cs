@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Egift_main.Subscription
 {
     [Serializable]
-    public class SubscriptionStandard
+    public class SubscriptionStandard : Subscription
     {
         private List<DateTime> _availableDates = new List<DateTime>();
         private List<Object> _freeGifts = new List<Object>();
