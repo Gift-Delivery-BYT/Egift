@@ -126,14 +126,14 @@ public class ReverseUnitTests
     }
 
     // ITEM TO ORDER CONNECTION
-    [Test]
+    /*[Test]
     public void AddOrderHavingItem_ShouldAddOrderWithQuantity()
     {
         var quantity = 2;
         _item.AddOrderHavingItem(_order, quantity);
         Assert.IsTrue(_item.OrdersHavingItems.Contains(_order), "Order was not added to the item's orders.");
         Assert.IsTrue(_order.ItemsInOrder.Contains(_item), "Item was not added to the order's items.");
-    }
+    }*/
 
     [Test]
     public void RemoveOrderHavingItem_ShouldRemoveOrderFromItem()

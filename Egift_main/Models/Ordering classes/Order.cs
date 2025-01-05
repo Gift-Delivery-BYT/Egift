@@ -67,7 +67,7 @@ public class Order
     private double CalculateTotalPrice()
     {
         double total = 0;
-        foreach (var item in _items)  total += item.pricehold; 
+        foreach (var item in _items)  total += item.Pricehold; 
         return total;
     }
 
@@ -96,7 +96,7 @@ public class Order
         if (!ItemIsConnected(item)) item.AddOrderHavingItem(this,quantity);
     }
     public void RemoveItemFromOrder(Item item) {
-        if (item._OrdersHavingItems.Count >= 1) item.RemoveOrderHavingItem(this);
+        if (item._ordersHavingItems.Count >= 1) item.RemoveOrderHavingItem(this);
         else Console.WriteLine("There must be at least one item left");
         _itemsInOrder.Remove(item);
     }

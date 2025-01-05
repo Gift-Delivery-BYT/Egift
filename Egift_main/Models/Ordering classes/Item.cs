@@ -1,176 +1,192 @@
-﻿using System.Xml;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Xml;
 using System.Xml.Serialization;
 using Egift_main.Models.Order;
 using Microsoft.VisualBasic;
-using Twilio.Rest.Api.V2010.Account.Usage.Record;
 
-namespace Egift_main.Order;
-
-[Serializable]
-public class Item
+namespace Egift_main.Order
 {
-     public int ItemID;
-     public string name;
-     public double pricehold;
-     private DateFormat date_of_production;
-     
-     [XmlArray] Dictionary<Order,Quantity> _QuantitiesOfItemsInOrder { get; }
+    [Serializable]
+    public class Item
+    {
+        public int ItemID { get; set; }
+        public string Name { get; set; }
+        public double Pricehold { get; set; }
+        public DateFormat DateOfProduction { get; set; }
 
-     public Exporter Exporter
-     {
-          get => Exporter;
-          set
-          {
-               Exporter = value;
-          }
-     }
+        [XmlArray]
+        private Dictionary<Order, Quantity> _quantitiesOfItemsInOrder;
+        public IReadOnlyDictionary<Order, Quantity> QuantitiesOfItemsInOrder => _quantitiesOfItemsInOrder;
 
-     [XmlArray]
-     private List<Review_Sys> _ReviewsOfItem { get; }
-     public IReadOnlyList<Review_Sys> ReviewsOfItem => _ReviewsOfItem.AsReadOnly();
-     
-     [XmlArray]
-     private static List<Item> _itemList = new List<Item>();
-     public IReadOnlyList<Order> OrdersHavingItems => _OrdersHavingItems.AsReadOnly();
-     
+        public Exporter Exporter { get; set; }
 
-     [XmlArray]
-     public List<Order> _OrdersHavingItems { get; }
+        [XmlArray]
+        private List<Review_Sys> _reviewsOfItem;
+        public IReadOnlyList<Review_Sys> ReviewsOfItem => _reviewsOfItem.AsReadOnly();
 
-     
+        [XmlArray]
+        private static List<Item> _itemList = new List<Item>();
+        public static IReadOnlyList<Item> ItemList => _itemList.AsReadOnly();
 
-     public Item() { }
-     public Item(int itemId, string name, double pricehold, DateFormat dateOfProduction, Exporter exporter)
-     {
-          ItemID = itemId;
-          name = name;
-          pricehold = pricehold;
-          date_of_production = dateOfProduction;
-          Exporter=exporter;
-          _itemList = new List<Item>();
-          _itemList.Add(this);
-     }
-     
-     //REVIEW TO ITEM CONNECTION
+        [XmlArray]
+        public List<Order> _ordersHavingItems;
+        public IReadOnlyList<Order> OrdersHavingItems => _ordersHavingItems.AsReadOnly();
 
-     public void AddReview(Review_Sys reviewSys)
-     {
-          _ReviewsOfItem.Add(reviewSys);
-          if (!ReviewIsConnected(reviewSys)) reviewSys.AddReviewToItem(this); 
-     }
+        public Item()
+        {
+            _quantitiesOfItemsInOrder = new Dictionary<Order, Quantity>();
+            _reviewsOfItem = new List<Review_Sys>();
+            _ordersHavingItems = new List<Order>();
+        }
 
-     public void RemoveReview(Review_Sys reviewSys) 
-     {
-          _ReviewsOfItem.Remove(reviewSys);
-          if (ReviewIsConnected(reviewSys))reviewSys.RemoveItemOfReview(this);
-     }
-     public bool ReviewIsConnected(Review_Sys reviewSys)
-     {
-          if (_ReviewsOfItem.Contains(reviewSys)) return true;
-          return false;
-     }
+        public Item(int itemId, string name, double pricehold, DateFormat dateOfProduction, Exporter exporter)
+            : this()
+        {
+            ItemID = itemId;
+            Name = name;
+            Pricehold = pricehold;
+            DateOfProduction = dateOfProduction;
+           // Exporter = exporter;
+            _itemList.Add(this);
+        }
 
-    
-     
-     //EXPORTER TO ITEM CONNECTION
+        // REVIEW TO ITEM CONNECTION
+        public void AddReview(Review_Sys reviewSys)
+        {
+            if (!_reviewsOfItem.Contains(reviewSys))
+            {
+                _reviewsOfItem.Add(reviewSys);
+                reviewSys.AddReviewToItem(this);
+            }
+        }
 
-     public void MarkExporter(Exporter exporter) {
-          if (exporter.IsItemMarked(this)) throw new Exception("Item is already marked, You need to UnMark it first");
-          Exporter = exporter;
-          if (ExportIsItemMarked(this)) Exporter.MarkItem(this);
-     }
+        public void RemoveReview(Review_Sys reviewSys)
+        {
+            if (_reviewsOfItem.Contains(reviewSys))
+            {
+                _reviewsOfItem.Remove(reviewSys);
+                reviewSys.RemoveItemOfReview(this);
+            }
+        }
 
-     public void UnmarkExporter() {
-          if (Exporter.IsItemMarked(this)) Exporter.UnmarkItem(this);
-          Exporter = null;
-     }
+        public bool ReviewIsConnected(Review_Sys reviewSys)
+        {
+            return _reviewsOfItem.Contains(reviewSys);
+        }
 
-     public bool ExportIsItemMarked(Item item) {
-          if (item == null) return false;
-          return true;
-     }
-     
-     
-     //ITEM TO ORDER CONNECTION
+        // EXPORTER TO ITEM CONNECTION
+        public void MarkExporter(Exporter exporter)
+        {
+            if (exporter.IsItemMarked(this)) throw new Exception("Item is already marked, You need to UnMark it first");
+            Exporter = exporter;
+            exporter.MarkItem(this);
+        }
 
-     public void AddOrderHavingItem(Order order, int quantity) {
-          _OrdersHavingItems.Add(order);
-          _QuantitiesOfItemsInOrder.Add(order, new Quantity(this, order, quantity));
-          if (!OrderIsConnected(order)) order.AddItemToOrder(this, quantity);
-     }
+        public void UnmarkExporter()
+        {
+            if (Exporter != null && Exporter.IsItemMarked(this))
+            {
+                Exporter.UnmarkItem(this);
+                Exporter = null;
+            }
+        }
 
-     public void RemoveOrderHavingItem(Order order) {
-           _OrdersHavingItems.Remove(order);
-           if (OrderIsConnected(order)) order.RemoveItemFromOrder(this);
-     }
+        public bool ExportIsItemMarked(Item item)
+        {
+            return item != null;
+        }
 
-     public  bool OrderIsConnected(Order order) {
-          if (OrdersHavingItems.Contains(order)) return true;
-          return false;
-     }
-     
-     
-     //Methods adding and removing Items existing at all 
-     public static void AddItem(Item item)
-     {
-          if (IsValidItem(item)) _itemList.Add(item);
-          else throw new NullReferenceException();
-     }
-     public static List<Item> GetItems()
-     {
-          return new List<Item>(_itemList);  
-     }
-     public static bool RemoveItem(int ItemID){
-          var item = _itemList.Find(x=>x.ItemID == ItemID);
-          if (item != null)
-          {
-               _itemList.Remove(item);
-               return true;
-          }
-          return false;
-     }
-     
-     public Item FindItemById(int ItemID)
-     {
-          return _itemList.Find(x=>x.ItemID == ItemID);
-     }
-    
-     public static bool Serialize(string path = "./Order/Serialized/Item.xml")
-     {
-          XmlSerializer serializer = new XmlSerializer(typeof(List<Item>));
-          using (StreamWriter writer = new StreamWriter(path)) {
-               serializer.Serialize(writer, _itemList);
-          }
-          return true;
-     }
-     public static bool Deserialize(string path = "./Order/Serialized/Item.xml")
-     {
-          StreamReader file;
-          try {
-               file = File.OpenText(path);
-          }
-          catch (FileNotFoundException) {
-               _itemList.Clear();
-               return false;
-          }
-          XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Item>));
-          using (XmlTextReader reader = new XmlTextReader(file)) {
-               try {
-                    _itemList = (List<Item>)xmlSerializer.Deserialize(reader);
-               }
-               catch (InvalidCastException) {
-                    _itemList.Clear();
-                    return false;
-               }
-               return true;
-          }
-     }
-     private static bool IsValidItem(Item item)
-     {
-          return item != null &&
-                 item.ItemID != null &&
-                 !string.IsNullOrWhiteSpace(item.name) &&
-                 item.pricehold != null &&
-                 item.date_of_production != null;
-     }
+        // ITEM TO ORDER CONNECTION
+        public void AddOrderHavingItem(Order order, int quantity)
+        {
+            if (!_ordersHavingItems.Contains(order))
+            {
+                _ordersHavingItems.Add(order);
+                _quantitiesOfItemsInOrder[order] = new Quantity(this, order, quantity);
+                order.AddItemToOrder(this, quantity);
+            }
+        }
+
+        public void RemoveOrderHavingItem(Order order)
+        {
+            if (_ordersHavingItems.Contains(order))
+            {
+                _ordersHavingItems.Remove(order);
+                _quantitiesOfItemsInOrder.Remove(order);
+                order.RemoveItemFromOrder(this);
+            }
+        }
+
+        public bool OrderIsConnected(Order order)
+        {
+            return _ordersHavingItems.Contains(order);
+        }
+
+        // Methods for managing items
+        public static void AddItem(Item item)
+        {
+            if (IsValidItem(item)) _itemList.Add(item);
+            else throw new NullReferenceException("Invalid item.");
+        }
+
+        public static List<Item> GetItems() => new List<Item>(_itemList);
+
+        public static bool RemoveItem(int itemID)
+        {
+            var item = _itemList.Find(x => x.ItemID == itemID);
+            if (item != null)
+            {
+                _itemList.Remove(item);
+                return true;
+            }
+            return false;
+        }
+
+        public static Item FindItemById(int itemID) => _itemList.Find(x => x.ItemID == itemID);
+
+        public static bool Serialize(string path = "./Order/Serialized/Item.xml")
+        {
+            try
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Item>));
+                using (StreamWriter writer = new StreamWriter(path))
+                {
+                    serializer.Serialize(writer, _itemList);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool Deserialize(string path = "./Order/Serialized/Item.xml")
+        {
+            try
+            {
+                using (StreamReader file = File.OpenText(path))
+                {
+                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Item>));
+                    _itemList = (List<Item>)xmlSerializer.Deserialize(file);
+                }
+                return true;
+            }
+            catch
+            {
+                _itemList.Clear();
+                return false;
+            }
+        }
+
+        private static bool IsValidItem(Item item)
+        {
+            return item != null &&
+                   !string.IsNullOrWhiteSpace(item.Name) &&
+                   item.Pricehold > 0 &&
+                   item.DateOfProduction != null;
+        }
+    }
 }

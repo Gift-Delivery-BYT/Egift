@@ -1,39 +1,43 @@
 {
   "Files": [
     {
-      "Id": "/Users/marina/Documents/GitHub/Egift/Egift_main/obj/Debug/net8.0/scopedcss/projectbundle/Egift_main.bundle.scp.css",
-      "PackagePath": "staticwebassets/Egift_main.bundle.scp.css"
+      "Id": "D:\\Coding\\Egift\\Egift_main\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Egift_main.bundle.scp.css",
+      "PackagePath": "staticwebassets\\Egift_main.dwsu7x8thc.bundle.scp.css"
     },
     {
-      "Id": "/Users/marina/Documents/GitHub/Egift/Egift_main/wwwroot/app.css",
-      "PackagePath": "staticwebassets/app.css"
+      "Id": "D:\\Coding\\Egift\\Egift_main\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
     },
     {
-      "Id": "/Users/marina/Documents/GitHub/Egift/Egift_main/wwwroot/bootstrap/bootstrap.min.css",
-      "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css"
+      "Id": "D:\\Coding\\Egift\\Egift_main\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Id": "/Users/marina/Documents/GitHub/Egift/Egift_main/wwwroot/bootstrap/bootstrap.min.css.map",
-      "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css.map"
+      "Id": "D:\\Coding\\Egift\\Egift_main\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Id": "/Users/marina/Documents/GitHub/Egift/Egift_main/wwwroot/favicon.png",
-      "PackagePath": "staticwebassets/favicon.png"
+      "Id": "D:\\Coding\\Egift\\Egift_main\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
     },
     {
-      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.Egift_main.Microsoft.AspNetCore.StaticWebAssets.props",
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Egift_main.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Egift_main.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },
     {
-      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.Egift_main.props",
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.Egift_main.props",
       "PackagePath": "build\\Egift_main.props"
     },
     {
-      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.Egift_main.props",
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.Egift_main.props",
       "PackagePath": "buildMultiTargeting\\Egift_main.props"
     },
     {
-      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.Egift_main.props",
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.Egift_main.props",
       "PackagePath": "buildTransitive\\Egift_main.props"
     }
   ],

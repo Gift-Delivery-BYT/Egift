@@ -1,12 +1,8 @@
 {
   "version": 2,
-<<<<<<< HEAD
   "dgSpecHash": "MwcBW8sCJzw=",
-=======
-  "dgSpecHash": "pdtyiNK5hfgnaMkTdNg+LTZmIkdKgFblnjfhSsbDlmF8/3l9S8pkA9UUagwk8R7N9gi7WVxvZXvxtQoBPhEiww==",
->>>>>>> 7019dc8842776b249603e7c79f97f1b14092e3cf
   "success": true,
-  "projectFilePath": "C:\\Users\\maksc\\Egift\\Egift_main\\Egift_main.csproj",
+  "projectFilePath": "D:\\Coding\\Egift\\Egift_main\\Egift_main.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\maksc\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\maksc\\.nuget\\packages\\microsoft.identitymodel.abstractions\\6.34.0\\microsoft.identitymodel.abstractions.6.34.0.nupkg.sha512",
@@ -38,5 +34,12 @@
     "C:\\Users\\maksc\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
     "C:\\Users\\maksc\\.nuget\\packages\\twilio\\7.6.0\\twilio.7.6.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file D:\\Coding\\Egift\\Egift_main\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
