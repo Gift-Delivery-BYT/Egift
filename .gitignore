@@ -29,3 +29,21 @@ project.assets.json
 
 # Rider cache files
 rider.project.*
+.idea/
+.idea/workspace.xml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/codeStyles/
+.idea/libraries/
+.idea/modules.xml
+.idea/misc.xml
+.idea/vcs.xml
+.idea/.rider.js/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
