@@ -2,7 +2,7 @@
 using System.Xml;
 using System.Xml.Serialization;
 using Egift_main.Order;
-//.
+//
 namespace Egift_main;
 [Serializable]
 public class User

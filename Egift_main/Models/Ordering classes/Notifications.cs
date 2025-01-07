@@ -7,7 +7,7 @@ using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 
 namespace Egift_main;
-//.
+//
 [Serializable]
 public class Notifications
 {
