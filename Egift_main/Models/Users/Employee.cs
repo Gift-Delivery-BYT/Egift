@@ -64,11 +64,11 @@ public class Employee : User
 
             if (_schedule != null && _schedule._owner == this)
             {
-                _schedule._owner = null; // Remove previous reverse connection
+                _schedule._owner = null; 
             }
 
             _schedule = value;
-            _schedule._owner = this; // Establish reverse connection
+            _schedule._owner = this; 
         }
     }
     
