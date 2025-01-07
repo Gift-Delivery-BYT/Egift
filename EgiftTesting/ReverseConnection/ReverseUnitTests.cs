@@ -20,6 +20,8 @@ public class ReverseUnitTests
     private Subscription _subscription;
     private Tracker _tracker;
     private User _user;
+    private Notifications _notification;
+
     [SetUp]
     public void Setup()
     {
@@ -34,6 +36,8 @@ public class ReverseUnitTests
         _employee = new Employee(1, "1234567890", "test@example.com", new Wallet(), "123 Main St", "John Doe");
         _tracker = new Tracker(1, DateTime.Now.AddHours(2), new Order());
         _user = new User(399, "1234567890", "user@poop.com");
+        _notification = new Notifications("Test Notification");
+
     }
     //Qualified - User-Refund
     [Test]
@@ -233,14 +237,32 @@ public class ReverseUnitTests
     {
 
         _order.AddItemToOrder(_item, 1);
-        _item.RemoveOrderHavingItem(_order); // Remove the order to simulate edge case
+        _item.RemoveOrderHavingItem(_order); 
         using var sw = new StringWriter();
         Console.SetOut(sw);
         _order.RemoveItemFromOrder(_item);
-
-        // Assert
+        
         Assert.AreEqual("There must be at least one item left\r\n", sw.ToString());
         Assert.IsTrue(_order.ItemsInOrder.Contains(_item),
             "Item was incorrectly removed when it should not have been.");
     }
+    
+    //User-Notificatio
+    
+    [Test]
+    public void AddNotification_ShouldAddToUserNotifications()
+    {
+        _user.AddNotification(_notification);
+        Assert.Contains(_notification, _user.Notifications, "Notification was not added to the user's notifications.");
+    }
+    
+    [Test]
+    public void RemoveNotification_ShouldRemoveFromUserNotifications()
+    {
+        _user.AddNotification(_notification);
+        _user.RemoveNotification(_notification);
+        Assert.IsFalse(_user.Notifications.Contains(_notification), "Notification was not removed from the user's notifications.");
+    }
+
+
 }

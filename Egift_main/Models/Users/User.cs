@@ -80,7 +80,7 @@ public class User
         if (_notifications.Contains(notification)) return;
 
         _notifications.Add(notification);
-        if (notification.User != this) notification.User = this; 
+        if (!notification.Users.Contains(this)) notification.Users.Add(this); 
     }
 
     public void RemoveNotification(Notifications notification)
@@ -88,7 +88,7 @@ public class User
         if (!_notifications.Contains(notification)) return;
 
         _notifications.Remove(notification);
-        if (notification.User == this) notification.User = null; 
+        if (notification.Users.Contains(this)) notification.Users.Remove(this); 
     }
 
     public string Email

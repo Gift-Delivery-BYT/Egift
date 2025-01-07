@@ -13,7 +13,8 @@ public class Notifications
 {
     private string _text { get; set; }
     private User _user; 
-    
+    private List<User> _users { get; set; } = new List<User>();
+    public List<User> Users => _users;
     public User User
     {
         get => _user;
@@ -31,13 +32,20 @@ public class Notifications
         User = user; 
     }
 
-    public void RemoveUser()
+    public void AddUser(User user)
     {
-        if (_user == null) return;
+        if (_users.Contains(user)) return;
 
-        var tempUser = _user;
-        _user = null;
-        tempUser.RemoveNotification(this); 
+        _users.Add(user);
+        if (!user.Notifications.Contains(this)) user.AddNotification(this); 
+    }
+
+    public void RemoveUser(User user)
+    {
+        if (!_users.Contains(user)) return;
+
+        _users.Remove(user);
+        if (user.Notifications.Contains(this)) user.RemoveNotification(this); 
     }
 
     public enum _type
