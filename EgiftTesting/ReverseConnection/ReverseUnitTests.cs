@@ -18,7 +18,7 @@ public class ReverseUnitTests
     private Review_Sys _review;
     private Exporter _exporter;
     private Subscription _subscription;
-
+    private Tracker _tracker;
     [SetUp]
     public void Setup()
     {
@@ -30,7 +30,8 @@ public class ReverseUnitTests
         _order = new Order(new User(),new Tracker(1,new DateTime(2004,12,12),new Order()),1,new List<Item>() { _item },"5234s st.","blah blah blah",new List<Item>(),0.00); 
         _review = new Review_Sys(1,"great!");
         _exporter = new Exporter("Company Vinntsia", "USA", "123", 100.5f, 1234567890, DateTime.Now.AddDays(10),new List<Item>());
-        
+        _employee = new Employee(1, "1234567890", "test@example.com", new Wallet(), "123 Main St", "John Doe");
+        _tracker = new Tracker(1, DateTime.Now.AddHours(2), new Order());
     }
     
     [Test]
@@ -59,6 +60,44 @@ public class ReverseUnitTests
         Assert.AreEqual(_refund, _employee.Refund);
     }
     
+    //Employee to Tracker reverse
+    
+        [Test]
+            public void AddTracker_EmpAndTrackerReverse()
+            {
+                _employee.AddTracker(_tracker);
+                Assert.Contains(_tracker, _employee._trackers, "Tracker was not added to Employee.");
+                Assert.AreEqual(_employee, _tracker.GetType().GetProperty("_assignedEmployee", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.GetValue(_tracker), "fail.");
+            }
+            
+            [Test]
+            public void RemoveTracker_TrackerRemovedFromEmployee()
+            {
+                _employee.AddTracker(_tracker);
+                _employee.RemoveTracker(_tracker);
+                Assert.IsFalse(_employee._trackers.Contains(_tracker), "Tracker was not removed from Employee.");
+                Assert.IsNull(_tracker.GetType().GetProperty("_assignedEmployee", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.GetValue(_tracker), "fail");
+            }
+            
+            [Test]
+            public void Client_AddClient_ReverseConnection()
+            {
+                _subscription.AddClient(_client);
+
+                Assert.Contains(_client, _subscription.Clients_subscription, "Client should be added to the subscription.");
+                Assert.AreEqual(_subscription, _client.Subscription, "Subscription should be assigned to the client.");
+            }
+
+            [Test]
+            public void Subscription_RemoveClient_ReverseConnection()
+            {
+                _subscription.AddClient(_client);
+
+                _subscription.RemoveClient(_client);
+
+                Assert.IsFalse(_subscription.ClientIsConnected(_client), "Client should be removed from the subscription.");
+                Assert.IsNull(_client.Subscription, "Subscription should be null after removal.");
+            }
     //composition
     [Test]
     public void WalletDeletedWhenClientDeleted()

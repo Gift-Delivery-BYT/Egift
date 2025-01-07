@@ -13,7 +13,7 @@ namespace Egift_main.Subscription
         protected double _price { get; set; }
         protected static double _taxValue = 10.2;
         private List<Client> _clients_subscription { get; }
-        public IReadOnlyList<Client> Clients_subscription => _clients_subscription.AsReadOnly();
+        public List<Client> Clients_subscription => new List<Client>(_clients_subscription.AsReadOnly());
 
         public Subscription(double price)
         {
