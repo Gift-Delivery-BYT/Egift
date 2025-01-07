@@ -37,7 +37,7 @@ public class ReverseUnitTests
     }
     //Qualified - User-Refund
     [Test]
-    public void AddRefund_ShouldAssociateRefundWithUser()
+    public void AddRefund_AdssRefundTohUser()
     {
         _user.AddRefund(_refund);
         Assert.IsTrue(_user.Refunds.ContainsKey(_refund.RefundId), "Refund should be added to the user's refunds collection.");
@@ -45,7 +45,7 @@ public class ReverseUnitTests
     }
 
     [Test]
-    public void RemoveRefund_ShouldDisassociateRefundFromUser()
+    public void RemoveRefund_removesRefundFromUser()
     {
         _user.AddRefund(_refund);
         _user.RemoveRefund(_refund.RefundId);
