@@ -10,10 +10,18 @@ namespace Egift_main.Subscription
     public abstract class Subscription
     {
         private ArrayList _features = new ArrayList();
+        private string _businessName { get; set; }
         protected double _price { get; set; }
         protected static double _taxValue = 10.2;
         private List<Client> _clients_subscription { get; }
         public List<Client> Clients_subscription => new List<Client>(_clients_subscription.AsReadOnly());
+
+        protected Subscription(string businessName, double price, List<Client> clientsSubscription)
+        {
+            _businessName = businessName;
+            _price = price;
+            _clients_subscription = clientsSubscription;
+        }
 
         public Subscription(double price)
         {
