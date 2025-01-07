@@ -19,6 +19,7 @@ public class ReverseUnitTests
     private Exporter _exporter;
     private Subscription _subscription;
     private Tracker _tracker;
+    private User _user;
     [SetUp]
     public void Setup()
     {
@@ -32,8 +33,26 @@ public class ReverseUnitTests
         _exporter = new Exporter("Company Vinntsia", "USA", "123", 100.5f, 1234567890, DateTime.Now.AddDays(10),new List<Item>());
         _employee = new Employee(1, "1234567890", "test@example.com", new Wallet(), "123 Main St", "John Doe");
         _tracker = new Tracker(1, DateTime.Now.AddHours(2), new Order());
+        _user = new User(399, "1234567890", "user@poop.com");
     }
-    
+    //Qualified - User-Refund
+    [Test]
+    public void AddRefund_ShouldAssociateRefundWithUser()
+    {
+        _user.AddRefund(_refund);
+        Assert.IsTrue(_user.Refunds.ContainsKey(_refund.RefundId), "Refund should be added to the user's refunds collection.");
+        Assert.AreEqual(_user, _refund.User, "Refund's User property should reference the correct user.");
+    }
+
+    [Test]
+    public void RemoveRefund_ShouldDisassociateRefundFromUser()
+    {
+        _user.AddRefund(_refund);
+        _user.RemoveRefund(_refund.RefundId);
+        Assert.IsFalse(_user.Refunds.ContainsKey(_refund.RefundId), "Refund should be removed from the user's refunds collection.");
+        Assert.IsNull(_refund.User, "Refund's User property should be null after removal.");
+    }
+
     [Test]
     public void Refund_HasEmployee()
     {
@@ -80,7 +99,7 @@ public class ReverseUnitTests
             }
             
             [Test]
-            public void Client_AddClient_ReverseConnection()
+            public void Subscription_AddClient_ReverseConnection()
             {
                 _subscription.AddClient(_client);
 

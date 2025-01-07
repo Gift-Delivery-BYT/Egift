@@ -13,6 +13,7 @@ public class User
     private List<Order.Order> _ordersOfUser { get; set; }
     private List<Notifications> _notifications { get; set; } = new List<Notifications>();
     public List<Notifications> Notifications => _notifications;
+    private Dictionary<int, Refund> _refunds = new Dictionary<int, Refund>();
 
     [XmlArray] private static List<User> _userList { get; set; }
 
@@ -26,7 +27,35 @@ public class User
         _userList.Add(this);
         _ordersOfUser = new List<Order.Order>();
     }
+    public Dictionary<int, Refund> Refunds
+    {
+        get => _refunds;
+        set => _refunds = value ?? throw new ArgumentNullException(nameof(value), "Refunds cannot be null.");
+    }
+    public void AddRefund(Refund refund)
+    {
+        if (refund == null) throw new ArgumentNullException(nameof(refund), "Refund cannot be null.");
+        if (_refunds.ContainsKey(refund.RefundId))
+        {
+            throw new InvalidOperationException($"Refund with ID {refund.RefundId} already exists for this user.");
+        }
 
+        _refunds[refund.RefundId] = refund;
+        refund.User = this;
+    }
+    public void RemoveRefund(int refundId)
+    {
+        if (_refunds.ContainsKey(refundId))
+        {
+            var refund = _refunds[refundId];
+            refund.User = null;
+            _refunds.Remove(refundId);
+        }
+    }
+    public Refund GetRefund(int refundId)
+    {
+        return _refunds.ContainsKey(refundId) ? _refunds[refundId] : null;
+    }
     public int Id
     {
         get => id;
