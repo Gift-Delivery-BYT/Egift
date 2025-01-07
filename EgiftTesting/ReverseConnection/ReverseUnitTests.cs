@@ -237,10 +237,18 @@ public class ReverseUnitTests
         using var sw = new StringWriter();
         Console.SetOut(sw);
         _order.RemoveItemFromOrder(_item);
-
-        // Assert
         Assert.AreEqual("There must be at least one item left\r\n", sw.ToString());
         Assert.IsTrue(_order.ItemsInOrder.Contains(_item),
             "Item was incorrectly removed when it should not have been.");
     }
+    [Test]
+    public void AssignTrackerToOrder_ShouldAssignOrder()
+    {
+        var order = new Order();
+        var tracker = new Tracker(1, DateTime.Now.AddHours(1), order);
+        tracker.AssignTrackerToOrder(order);
+        Assert.AreEqual(order, tracker.AssignedOrder);
+    }
 }
+
+

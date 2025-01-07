@@ -7,7 +7,7 @@ public class Tracker
     private string _location;
     private int _tracker_id;
     private DateTime _estimated_time_for_arrival;
-    private Order _AssignedOrder;
+    private Order _AssignedOrder { get; set; }
     private static List<Tracker> _treckers = new List<Tracker>();
     private Employee _assignedEmployee;
     private DateTime EstimatedTimeForArrival
@@ -16,7 +16,7 @@ public class Tracker
         set => _estimated_time_for_arrival = value;
     }
 
-    private Order AssignedOrder
+    public Order AssignedOrder
     {
         get => _AssignedOrder;
         set

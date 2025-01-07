@@ -69,7 +69,6 @@ namespace Egift_main.Order
             }
             return total;
         }
-
         private void AddUserToOrder(User user)
         {
             _userOfOrder = user;
