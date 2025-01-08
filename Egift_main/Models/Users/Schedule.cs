@@ -6,7 +6,7 @@ public class Schedule
 {
     private List<DateTime> scheduleDate = new List<DateTime>();
     private List<DateTime> holidays = new List<DateTime>();
-    private Employee Owner;
+    public Employee _owner;
 
     
     public List<DateTime> ScheduleDate
@@ -43,23 +43,32 @@ public class Schedule
     public Schedule()
     { }
     
-    public Employee _owner
+    public Employee Owner
     {
         get => _owner;
-        set
-        {
-            if (_owner != null && _owner.Schedule == this)
-            {
-                _owner.Schedule = null; // Remove reverse connection
-            }
+    }
 
-            _owner = value;
+    public void AssignEmployee(Employee employee)
+    {
+        if (_owner == employee)
+            return;
 
-            if (_owner != null && _owner.Schedule != this)
-            {
-                _owner.Schedule = this; // Ensure reverse connection
-            }
-        }
+        if (_owner != null)
+            _owner.RemoveSchedule();
+
+        _owner = employee;
+    }
+
+    public void RemoveEmployee()
+    {
+        if (_owner == null)
+            return;
+
+        Employee previousOwner = _owner;
+        _owner = null;
+
+        if (previousOwner.Schedule == this)
+            previousOwner.RemoveSchedule();
     }
     public void AddWorkHours(DateTime workingHours)
     {

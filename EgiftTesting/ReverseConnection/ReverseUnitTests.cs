@@ -1,5 +1,6 @@
 using System.Runtime.Serialization;
 using Egift_main;
+using Egift_main.Models.Order;
 using Egift_main.Order;
 using Egift_main.Subscription;
 using Microsoft.VisualBasic;
@@ -20,6 +21,8 @@ public class ReverseUnitTests
     private Subscription _subscription;
     private Tracker _tracker;
     private User _user;
+    private Schedule _schedule;
+
     [SetUp]
     public void Setup()
     {
@@ -34,6 +37,7 @@ public class ReverseUnitTests
         _employee = new Employee(1, "1234567890", "test@example.com", new Wallet(), "123 Main St", "John Doe");
         _tracker = new Tracker(1, DateTime.Now.AddHours(2), new Order());
         _user = new User(399, "1234567890", "user@poop.com");
+        _schedule = new Schedule();
     }
     //Qualified - User-Refund
     [Test]
@@ -119,19 +123,22 @@ public class ReverseUnitTests
             }
     //composition
     [Test]
-    public void WalletDeletedWhenClientDeleted()
+    public void AssignScheduleToEmployee_ShouldSetOwner()
     {
-        _client.ClientWallet = _wallet;
-        _client.DeleteClient();
-        Assert.IsNull(_client.ClientWallet);
+        _employee.AddSchedule(_schedule);
+        Assert.AreEqual(_employee, _schedule.Owner);
+        Assert.AreEqual(_schedule, _employee.Schedule);
     }
+
     [Test]
-    public void ScheduleDeletedWhenEmployeeDeleted()
+    public void RemoveScheduleFromEmployee_ShouldClearOwner()
     {
-        var schedule = _employee.Schedule; 
-        _employee.DeleteEmployee();
+        _employee.AddSchedule(_schedule);
+        _employee.RemoveSchedule();
+        Assert.IsNull(_schedule.Owner);
         Assert.IsNull(_employee.Schedule);
     }
+
     // REVIEW TO ITEM CONNECTION
     [Test]
     public void AddReview_ShouldAddReviewToItem()

@@ -62,15 +62,37 @@ public class Employee : User
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
 
-            if (_schedule != null && _schedule._owner == this)
+            if (_schedule != null && _schedule.Owner == this)
             {
-                _schedule._owner = null; 
+                _schedule.RemoveEmployee();
             }
 
             _schedule = value;
-            _schedule._owner = this; 
+            _schedule.AssignEmployee(this);
         }
     }
+
+    public void AddSchedule(Schedule schedule)
+    {
+        if (schedule == null)
+            throw new ArgumentNullException(nameof(schedule));
+
+        if (_schedule != null)
+            _schedule.RemoveEmployee();
+
+        _schedule = schedule;
+        _schedule.AssignEmployee(this);
+    }
+
+    public void RemoveSchedule()
+    {
+        if (_schedule == null)
+            return;
+
+        _schedule.RemoveEmployee();
+        _schedule = null;
+    }
+
     
     public void AddTracker(Tracker tracker)
     {
