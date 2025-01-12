@@ -39,6 +39,7 @@ namespace Egift_main.Subscription
             _freeDelivery = freeDelivery;
             _freePriority = freePriority;
             _subscriptionPremiums.Add(this);
+            ThisSubscriptionType = SubscriptionType.Premium;
         }
 
         public SubscriptionPremium() 

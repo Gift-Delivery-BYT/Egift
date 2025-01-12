@@ -3,24 +3,27 @@ using System.Collections;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using Twilio.AuthStrategies;
 
 namespace Egift_main.Subscription
 {
     [Serializable]
-    public abstract class Subscription
+    public  class Subscription : ISubscription
     {
         private ArrayList _features = new ArrayList();
-        private string _businessName { get; set; }
+        
         protected double _price { get; set; }
         protected static double _taxValue = 10.2;
         private List<Client> _clients_subscription { get; }
         public List<Client> Clients_subscription => new List<Client>(_clients_subscription.AsReadOnly());
 
-        protected Subscription(string businessName, double price, List<Client> clientsSubscription)
+        public SubscriptionType ThisSubscriptionType { get; set; }
+
+        protected Subscription(double price, List<Client> clientsSubscription)
         {
-            _businessName = businessName;
             _price = price;
             _clients_subscription = clientsSubscription;
+            ThisSubscriptionType = SubscriptionType.Basic;
         }
 
         public Subscription(double price)
@@ -31,10 +34,16 @@ namespace Egift_main.Subscription
         protected Subscription()
         {
         }
-        private double Price
+
+        public double Price
         {
-            get => _price;
-            set => _price = value;
+            get => _price; 
+            set {
+                if (value < 0)
+                {
+                    throw new ArgumentException("Price cannot be negative");
+                } _price = value; 
+            }
         }
         private ArrayList Features
         {
@@ -42,7 +51,7 @@ namespace Egift_main.Subscription
             set => _features = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        private void EvaluatePrice()
+        public void EvaluatePrice()
         {
             double sum = Price;
             Price = sum + ((Price / 100) * _taxValue);

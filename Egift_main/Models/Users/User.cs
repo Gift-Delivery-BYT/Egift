@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Xml;
 using System.Xml.Serialization;
+using Egift_main.Models.Partnership_Accounts;
+using Egift_main.Models.Users;
 using Egift_main.Order;
 //
 namespace Egift_main;
 [Serializable]
-public class User
+public class User : IUser
 {
     private int id;
     private string PhoneNumber;
@@ -14,6 +16,7 @@ public class User
     private List<Notifications> _notifications { get; set; } = new List<Notifications>();
     public List<Notifications> Notifications => _notifications;
     private Dictionary<int, Refund> _refunds = new Dictionary<int, Refund>();
+    public BusinessUserRole BusinessUserRole { get; set; }
 
     [XmlArray] private static List<User> _userList { get; set; }
 
@@ -26,35 +29,12 @@ public class User
         _userList = new List<User>();
         _userList.Add(this);
         _ordersOfUser = new List<Order.Order>();
+        BusinessUserRole = BusinessUserRole.Basic;
     }
     public Dictionary<int, Refund> Refunds
     {
         get => _refunds;
         set => _refunds = value ?? throw new ArgumentNullException(nameof(value), "Refunds cannot be null.");
-    }
-    public void AddRefund(Refund refund)
-    {
-        if (refund == null) throw new ArgumentNullException(nameof(refund), "Refund cannot be null.");
-        if (_refunds.ContainsKey(refund.RefundId))
-        {
-            throw new InvalidOperationException($"Refund with ID {refund.RefundId} already exists for this user.");
-        }
-
-        _refunds[refund.RefundId] = refund;
-        refund.User = this;
-    }
-    public void RemoveRefund(int refundId)
-    {
-        if (_refunds.ContainsKey(refundId))
-        {
-            var refund = _refunds[refundId];
-            refund.User = null;
-            _refunds.Remove(refundId);
-        }
-    }
-    public Refund GetRefund(int refundId)
-    {
-        return _refunds.ContainsKey(refundId) ? _refunds[refundId] : null;
     }
     public int Id
     {
@@ -74,23 +54,6 @@ public class User
             PhoneNumber = value;
         }
     }
-
-    public void AddNotification(Notifications notification)
-    {
-        if (_notifications.Contains(notification)) return;
-
-        _notifications.Add(notification);
-        if (!notification.Users.Contains(this)) notification.Users.Add(this); 
-    }
-
-    public void RemoveNotification(Notifications notification)
-    {
-        if (!_notifications.Contains(notification)) return;
-
-        _notifications.Remove(notification);
-        if (notification.Users.Contains(this)) notification.Users.Remove(this); 
-    }
-
     public string Email
     {
         get => _email;
@@ -109,7 +72,6 @@ public class User
             _email = value;
         }
     }
-
     public List<Order.Order> OrdersOfUser
     {
         get => _ordersOfUser;
@@ -118,6 +80,72 @@ public class User
             if (value == null) throw new ArgumentNullException(nameof(value), "ORDER cannot be null.");
             _ordersOfUser = value;
         } 
+    }
+
+    public void RequestRefund()
+    {
+        
+    }
+
+    public void PlaceOrder()
+    {
+        
+    }
+
+    public void TrackDelivery()
+    {
+        
+    }
+
+    public void ViewNotifications()
+    {
+        
+    }
+
+    public void AddWishlistItem()
+    {
+        
+    }
+
+    private void AddRefund(Refund refund)
+    {
+        if (refund == null) throw new ArgumentNullException(nameof(refund), "Refund cannot be null.");
+        if (_refunds.ContainsKey(refund.RefundId))
+        {
+            throw new InvalidOperationException($"Refund with ID {refund.RefundId} already exists for this user.");
+        }
+
+        _refunds[refund.RefundId] = refund;
+        refund.User = this;
+    }
+    private void RemoveRefund(int refundId)
+    {
+        if (_refunds.ContainsKey(refundId))
+        {
+            var refund = _refunds[refundId];
+            refund.User = null;
+            _refunds.Remove(refundId);
+        }
+    }
+    private Refund GetRefund(int refundId)
+    {
+        return _refunds.ContainsKey(refundId) ? _refunds[refundId] : null;
+    }
+
+    internal void AddNotification(Notifications notification)
+    {
+        if (_notifications.Contains(notification)) return;
+
+        _notifications.Add(notification);
+        if (!notification.Users.Contains(this)) notification.Users.Add(this); 
+    }
+
+    internal void RemoveNotification(Notifications notification)
+    {
+        if (!_notifications.Contains(notification)) return;
+
+        _notifications.Remove(notification);
+        if (notification.Users.Contains(this)) notification.Users.Remove(this); 
     }
     
     private void AddOrderToUser(Order.Order order)
@@ -132,7 +160,7 @@ public class User
         _ordersOfUser.Remove(order);
     }
 
-    private bool UserIsConnected(Order.Order order) {
+    public bool UserIsConnected(Order.Order order) {
         if (order.UserOfOrder==null) return false;
         return true;
     }

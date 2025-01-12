@@ -26,6 +26,7 @@ namespace Egift_main.Subscription
         public SubscriptionStandard()
         {
             _subscriptionStandarts.Add(this);
+            ThisSubscriptionType = SubscriptionType.Standard;
         }
 
 
