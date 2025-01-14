@@ -19,7 +19,7 @@ public class Refund
    public void sendRefundRequest(Client client, double amount, DateTime purchaseDate)
     {
         CheckApproval(purchaseDate);
-        if(!_isApproved)
+        if(_isApproved)
             client._Wallet._AddMoney(amount);
         else
             Console.WriteLine("Refund not approved");
