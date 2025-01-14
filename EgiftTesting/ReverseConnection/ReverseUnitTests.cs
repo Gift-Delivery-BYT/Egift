@@ -16,7 +16,7 @@ public class ReverseUnitTests
     private Client _client;
     private Order _order;
     private Item _item;
-    private Review_Sys _review;
+    private ReviewSys _review;
     private Exporter _exporter;
     private Subscription _subscription;
     private Tracker _tracker;
@@ -32,7 +32,7 @@ public class ReverseUnitTests
         _client = new Client(1, "123-456", "client@example.com", _wallet, "John Doe");
         _item = new Item(1,"",0.5,new DateFormat(), new Exporter());
         _order = new Order(new User(),new Tracker(1,new DateTime(2004,12,12),new Order()),1,new List<Item>() { _item },"5234s st.","blah blah blah",new List<Item>(),0.00); 
-        _review = new Review_Sys(1,"great!");
+        _review = new ReviewSys(1,"great!");
         _exporter = new Exporter("Company Vinntsia", "USA", "123", 100.5f, 1234567890, DateTime.Now.AddDays(10),new List<Item>());
         _employee = new Employee(1, "1234567890", "test@example.com", new Wallet(), "123 Main St", "John Doe");
         _tracker = new Tracker(1, DateTime.Now.AddHours(2), new Order());

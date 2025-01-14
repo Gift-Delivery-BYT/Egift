@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EgiftTesting", "EgiftTesting\EgiftTesting.csproj", "{986CA115-E873-45E1-B2B9-1B1B05758D7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Egift_main", "Egift_main\Egift_main.csproj", "{C0CE7967-6C5F-4B27-9259-B53AADC846AC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EgiftMain", "EgiftMain\EgiftMain.csproj", "{C0CE7967-6C5F-4B27-9259-B53AADC846AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Egift_main\Egift_main.csproj" />
+      <ProjectReference Include="..\EgiftMain\EgiftMain.csproj" />
     </ItemGroup>
 
 </Project>
