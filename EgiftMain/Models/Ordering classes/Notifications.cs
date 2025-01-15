@@ -2,7 +2,6 @@
 using System.Net.Mail;
 using System.Xml;
 using System.Xml.Serialization;
-using Egift_main.Models.Ordering_classes;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
@@ -10,7 +9,7 @@ using Twilio.Types;
 namespace Egift_main;
 //
 [Serializable]
-public class Notifications : INotifications
+public class Notifications 
 {
     private string _text { get; set; }
     private User _user; 

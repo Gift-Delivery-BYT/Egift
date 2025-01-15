@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "38LJPVm0DZU=",
+  "dgSpecHash": "57xDfcpRtQwFnkLJsyzbXbmHUbj4ZxpQPSAjbJC+wtKoXPR8lQw8+QzAvyyo+vy5TPnyPo8DpwnZ9h3BMCFCuw==",
   "success": true,
-  "projectFilePath": "D:\\Coding\\Egift\\EgiftTesting\\EgiftTesting.csproj",
+  "projectFilePath": "C:\\Users\\maksc\\Egift\\EgiftTesting\\EgiftTesting.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\maksc\\.nuget\\packages\\coverlet.collector\\6.0.0\\coverlet.collector.6.0.0.nupkg.sha512",
     "C:\\Users\\maksc\\.nuget\\packages\\microsoft.codecoverage\\17.8.0\\microsoft.codecoverage.17.8.0.nupkg.sha512",
