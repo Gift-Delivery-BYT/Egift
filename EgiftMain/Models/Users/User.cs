@@ -7,7 +7,7 @@ using Egift_main.Order;
 //
 namespace Egift_main;
 [Serializable]
-public class User : IUser
+public class User
 {
     private int id;
     public string PhoneNumber;
@@ -102,31 +102,7 @@ public class User : IUser
             _ordersOfUser = value;
         } 
     }
-
-    public void RequestRefund()
-    {
-        
-    }
-
-    public void PlaceOrder()
-    {
-        
-    }
-
-    public void TrackDelivery()
-    {
-        
-    }
-
-    public void ViewNotifications()
-    {
-        
-    }
-
-    public void AddWishlistItem()
-    {
-        
-    }
+    
 
     public void AddRefund(Refund refund)
     {
