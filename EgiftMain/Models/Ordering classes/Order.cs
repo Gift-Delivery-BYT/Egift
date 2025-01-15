@@ -97,16 +97,27 @@ namespace Egift_main.Order
 
         public void AddItemToOrder(Item item, int quantity)
         {
-            _quantitiesOfItemsInOrder.Add(item, new Quantity(item, this, quantity));
-            _itemsInOrder.Add(item);
-            if (!ItemIsConnected(item)) item.AddOrderHavingItem(this, quantity);
+            if (!_quantitiesOfItemsInOrder.ContainsKey(item))
+            {
+                _quantitiesOfItemsInOrder.Add(item, new Quantity(item, this, quantity));
+                _itemsInOrder.Add(item);
+            }
+
+            if (!item.OrderIsConnected(this))
+            {
+                item.AddOrderHavingItem(this, quantity);
+            }
         }
+
 
         public void RemoveItemFromOrder(Item item)
         {
-            if (item.OrdersHavingItems.Count > 1) item.RemoveOrderHavingItem(this);
-            else Console.WriteLine("There must be at least one item left");
-            _itemsInOrder.Remove(item);
+            if (_itemsInOrder.Contains(item))
+            {
+                _itemsInOrder.Remove(item);
+                if (item.OrdersHavingItems.Contains(this)) item.RemoveOrderHavingItem(this);
+                if (_quantitiesOfItemsInOrder.ContainsKey(item)) _quantitiesOfItemsInOrder.Remove(item);
+            }
         }
 
         public bool ItemIsConnected(Item item)

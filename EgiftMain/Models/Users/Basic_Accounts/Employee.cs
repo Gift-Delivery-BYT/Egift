@@ -13,12 +13,13 @@ public class Employee : User,IEmployee
     private Schedule _schedule;
     private string name;
     private string address;
+    [XmlIgnore]
     private Employee advisor;
     private List<Employee> _advisorOfEmployees;
     public List<Tracker> _trackers = new List<Tracker>();
 
     [XmlArray]
-    private static List<Employee> _emoloyeeList = new List<Employee>();
+    private static List<Employee> _employeeList = new List<Employee>();
 
     public Employee() { }
 
@@ -33,16 +34,21 @@ public class Employee : User,IEmployee
         get => _advisorOfEmployees;
     }
     
+    [XmlIgnore]
     public Refund Refund
     {
         get => _refund;
         set
         {
-            _refund = value ?? throw new ArgumentNullException(nameof(value));
-            _refund.Employee = this; 
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+
+            _refund = value;
+            _refund.Employee = this;
         }
-        
     }
+
+
 
     public string Name
     {
@@ -140,7 +146,7 @@ public class Employee : User,IEmployee
     {
         _schedule = null;
 
-        _emoloyeeList.Remove(this);
+        _employeeList.Remove(this);
 
         Console.WriteLine($"Employee {name} and their schedule have been deleted.");
     }
@@ -149,7 +155,7 @@ public class Employee : User,IEmployee
         XmlSerializer serializer = new XmlSerializer(typeof(List<Employee>));
         using (StreamWriter writer = new StreamWriter(path))
         {
-            serializer.Serialize(writer, _emoloyeeList);
+            serializer.Serialize(writer, _employeeList);
         }
         return true;
     }
@@ -161,16 +167,16 @@ public class Employee : User,IEmployee
             file = File.OpenText(path);
         }
         catch (FileNotFoundException) {
-            _emoloyeeList.Clear();
+            _employeeList.Clear();
             return false;
         }
         XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Employee>));
         using (XmlTextReader reader = new XmlTextReader(file)) {
             try {
-                _emoloyeeList = (List<Employee>)xmlSerializer.Deserialize(reader);
+                _employeeList = (List<Employee>)xmlSerializer.Deserialize(reader);
             }
             catch (InvalidCastException) {
-                _emoloyeeList.Clear();
+                _employeeList.Clear();
                 return false;
             }
             return true;
@@ -184,7 +190,7 @@ public class Employee : User,IEmployee
         this.address = address; 
         this.name = name;
         
-        _emoloyeeList.Add(this);
+        _employeeList.Add(this);
     }
     
     private static bool IsValidEmployee(Employee employee)

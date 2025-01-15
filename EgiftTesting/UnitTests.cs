@@ -512,33 +512,33 @@ namespace EgiftTesting
         public void SerializeEmployee_ShouldCreateXmlFile()
         {
             typeof(Employee)
-                .GetField("_emoloyeeList", BindingFlags.Static | BindingFlags.NonPublic)
+                .GetField("_employeeList", BindingFlags.Static | BindingFlags.NonPublic)
                 ?.SetValue(null, new List<Employee>());
 
             var employee = new Employee(1, "1234567890", "test@mail.com", new Wallet(), "123", "test");
             Employee.Serialize("./Employee.xml");
 
-            Assert.IsTrue(File.Exists("./Employee.xml"), "serialized file should be created");
-            Assert.IsNotEmpty(File.ReadAllText("./Employee.xml"), "serialized file should have smth");
+            Assert.IsTrue(File.Exists("./Employee.xml"), "Serialized file should be created.");
+            Assert.IsNotEmpty(File.ReadAllText("./Employee.xml"), "Serialized file should have content.");
         }
 
         [Test]
         public void DeserializeEmployee_ShouldLoadDataFromXmlFile()
         {
             typeof(Employee)
-                .GetField("_emoloyeeList", BindingFlags.Static | BindingFlags.NonPublic)
+                .GetField("_employeeList", BindingFlags.Static | BindingFlags.NonPublic)
                 ?.SetValue(null, new List<Employee>());
-
+            
             var employee = new Employee(1, "1234567890", "test@mail.com", new Wallet(), "123", "test");
             Employee.Serialize("./Employee.xml");
             typeof(Employee)
-                .GetField("_emoloyeeList", BindingFlags.Static | BindingFlags.NonPublic)
+                .GetField("_employeeList", BindingFlags.Static | BindingFlags.NonPublic)
                 ?.SetValue(null, new List<Employee>());
-
+            
             Employee.Deserialize("./Employee.xml");
 
             var employees = typeof(Employee)
-                .GetField("_emoloyeeList", BindingFlags.Static | BindingFlags.NonPublic)
+                .GetField("_employeeList", BindingFlags.Static | BindingFlags.NonPublic)
                 ?.GetValue(null) as List<Employee>;
 
             Assert.AreEqual(1, employees?.Count, "Employee count should match after deserialization.");

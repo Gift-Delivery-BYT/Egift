@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualBasic;
 
 namespace Egift_main.Order;
-
+[Serializable]
 public class Tracker
 {
     private string _location;
@@ -147,5 +147,10 @@ public class Tracker
             return true;
         }
         throw new ArgumentNullException("invalid variables");
+    }
+
+    public Tracker()
+    {
+        
     }
 }

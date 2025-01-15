@@ -105,8 +105,8 @@ namespace Egift_main.Order
             {
                 _ordersHavingItems.Add(order);
                 _quantitiesOfItemsInOrder[order] = new Quantity(this, order, quantity);
-                order.AddItemToOrder(this, quantity);
             }
+            if (!order.ItemIsConnected(this)) order.AddItemToOrder(this, quantity); 
         }
 
         public void RemoveOrderHavingItem(Order order)
@@ -114,8 +114,8 @@ namespace Egift_main.Order
             if (_ordersHavingItems.Contains(order))
             {
                 _ordersHavingItems.Remove(order);
-                _quantitiesOfItemsInOrder.Remove(order);
-                order.RemoveItemFromOrder(this);
+                if (_quantitiesOfItemsInOrder.ContainsKey(order)) _quantitiesOfItemsInOrder.Remove(order);
+                if (order.ItemsInOrder.Contains(this)) order.RemoveItemFromOrder(this);
             }
         }
 

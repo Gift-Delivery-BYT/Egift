@@ -14,10 +14,18 @@ namespace Egift_main
     {
         private string name;
         private ArrayList _wishlist = new ArrayList();
+        [XmlIgnore]
         private DateFormat birthday;
         private Wallet _wallet;
         [XmlArray]
         private static List<Client> _clientList = new List<Client>();
+        [XmlArray("Clients")]
+        public static List<Client> ClientList
+        { 
+            get => _clientList;
+            set => _clientList = value;
+        }
+    
         public Wallet _Wallet { get; }
 
         private Subscription.Subscription _subscription = new SubscriptionStandard();

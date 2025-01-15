@@ -2,7 +2,7 @@
 using Egift_main.Models.Users;
 
 namespace Egift_main;
-
+[Serializable]
 public class Wallet :IWallet
 {
     private double _amount;

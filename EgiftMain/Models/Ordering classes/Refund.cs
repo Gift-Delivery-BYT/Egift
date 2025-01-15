@@ -2,7 +2,7 @@
 using Microsoft.VisualBasic;
 
 namespace Egift_main.Order;
-
+[Serializable]
 public class Refund
 {//
     private static DateFormat _date;

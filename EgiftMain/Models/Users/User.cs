@@ -10,12 +10,32 @@ namespace Egift_main;
 public class User : IUser
 {
     private int id;
-    private string PhoneNumber;
-    private string _email;
+    public string PhoneNumber;
+    public string _email;
     private List<Order.Order> _ordersOfUser { get; set; }
     private List<Notifications> _notifications { get; set; } = new List<Notifications>();
     public List<Notifications> Notifications => _notifications;
+    
+    [XmlIgnore]
     private Dictionary<int, Refund> _refunds = new Dictionary<int, Refund>();
+    [XmlArray("Refunds")]
+    [XmlArrayItem("RefundEntry")]
+    public List<KeyValuePair<int, Refund>> RefundsList
+    {
+        get => _refunds?.ToList();
+        set
+        {
+            Console.WriteLine($"Deserializing RefundsList with {value?.Count ?? 0} items.");
+            if (value != null)
+            {
+                _refunds = value.ToDictionary(x => x.Key, x => x.Value);
+            }
+            else
+            {
+                _refunds = new Dictionary<int, Refund>();
+            }
+        }
+    }
     public BusinessUserRole BusinessUserRole { get; set; }
 
     [XmlArray] private static List<User> _userList { get; set; }
@@ -31,6 +51,7 @@ public class User : IUser
         _ordersOfUser = new List<Order.Order>();
         BusinessUserRole = BusinessUserRole.Basic;
     }
+    [XmlIgnore]
     public Dictionary<int, Refund> Refunds
     {
         get => _refunds;
