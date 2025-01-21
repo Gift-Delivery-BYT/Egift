@@ -13,6 +13,7 @@ namespace Egift_main.Subscription
         private ArrayList _features = new ArrayList();
         
         protected double _price { get; set; }
+        protected double EvaluatedPrice { get; set; }
         protected static double _taxValue = 10.2;
         private List<Client> _clients_subscription { get; }
         public List<Client> Clients_subscription => new List<Client>(_clients_subscription.AsReadOnly());
@@ -101,7 +102,7 @@ namespace Egift_main.Subscription
         public void EvaluatePrice()
         {
             double sum = Price;
-            Price = sum + ((Price / 100) * _taxValue);
+            EvaluatedPrice = sum + ((Price / 100) * _taxValue);
         }
 
          private  static List<Subscription> _subscriptions = new List<Subscription>();

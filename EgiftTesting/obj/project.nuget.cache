@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "38LJPVm0DZU=",
+  "dgSpecHash": "AhNPHz51PvM=",
   "success": true,
   "projectFilePath": "D:\\Coding\\Egift\\EgiftTesting\\EgiftTesting.csproj",
   "expectedPackageFiles": [
@@ -43,7 +43,10 @@
     "C:\\Users\\maksc\\.nuget\\packages\\system.text.json\\4.7.2\\system.text.json.4.7.2.nupkg.sha512",
     "C:\\Users\\maksc\\.nuget\\packages\\system.threading\\4.3.0\\system.threading.4.3.0.nupkg.sha512",
     "C:\\Users\\maksc\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
-    "C:\\Users\\maksc\\.nuget\\packages\\twilio\\7.6.0\\twilio.7.6.0.nupkg.sha512"
+    "C:\\Users\\maksc\\.nuget\\packages\\twilio\\7.6.0\\twilio.7.6.0.nupkg.sha512",
+    "C:\\Users\\maksc\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.12\\microsoft.netcore.app.ref.8.0.12.nupkg.sha512",
+    "C:\\Users\\maksc\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.12\\microsoft.windowsdesktop.app.ref.8.0.12.nupkg.sha512",
+    "C:\\Users\\maksc\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.12\\microsoft.aspnetcore.app.ref.8.0.12.nupkg.sha512"
   ],
   "logs": []
 }
