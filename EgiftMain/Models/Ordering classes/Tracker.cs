@@ -19,12 +19,7 @@ public class Tracker
     public Order AssignedOrder
     {
         get => _AssignedOrder;
-        set
-        {
-            if (value == null)
-                throw new ArgumentException("Order is NULL");
-            _AssignedOrder = value;
-        }
+        set => _AssignedOrder = value;
     }
     public Tracker(int trackerId, DateTime estimatedTimeForArrival, Order assignedOrder)
     {

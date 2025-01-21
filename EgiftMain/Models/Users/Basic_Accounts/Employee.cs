@@ -26,7 +26,7 @@ public class Employee : User,IEmployee
     public Employee Advisor
     {
         get=> advisor;
-        set => advisor = value ?? throw new ArgumentNullException(nameof(value));
+        set => advisor = value;
     }
 
     public List<Employee> AdvisorOfEmployees
@@ -38,14 +38,7 @@ public class Employee : User,IEmployee
     public Refund Refund
     {
         get => _refund;
-        set
-        {
-            if (value == null)
-                throw new ArgumentNullException(nameof(value));
-
-            _refund = value;
-            _refund.Employee = this;
-        }
+        set => _refund = value;
     }
 
 

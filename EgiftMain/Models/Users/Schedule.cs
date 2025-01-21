@@ -14,11 +14,6 @@ public class Schedule: ISchedule
         get => scheduleDate;
         set
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-
             foreach (var date in value)
             {
                 if (date < DateTime.Now)
@@ -34,7 +29,7 @@ public class Schedule: ISchedule
     public List<DateTime> Holidays
     {
         get => holidays;
-        set => holidays = value ?? throw new ArgumentNullException(nameof(value));
+        set => holidays = value;
     }
     public Schedule(Employee owner)
     {
