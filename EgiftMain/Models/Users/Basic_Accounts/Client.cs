@@ -28,7 +28,7 @@ namespace Egift_main
     
         public Wallet _Wallet { get; }
 
-        private Subscription.Subscription _subscription = new SubscriptionStandard();
+        private Subscription.Subscription _subscription = new Subscription.Subscription(10.0,new List<Client>(),SubscriptionType.Standard);
         public Subscription.Subscription Subscription
         {
             get => _subscription;
@@ -147,7 +147,7 @@ namespace Egift_main
             this.name = name;
             _wallet = userWallet;
             _clientList.Add(this);
-            _subscription = new SubscriptionStandard();
+            _subscription = new Subscription.Subscription(10.0,new List<Client>(),SubscriptionType.Standard);
             _Wallet = new Wallet();
         }
 

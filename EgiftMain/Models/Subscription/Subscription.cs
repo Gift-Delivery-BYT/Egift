@@ -18,7 +18,45 @@ namespace Egift_main.Subscription
         public List<Client> Clients_subscription => new List<Client>(_clients_subscription.AsReadOnly());
 
         public SubscriptionType ThisSubscriptionType { get; set; }
+        
+        //Sub standard
+        private List<DateTime> _availableDates = new List<DateTime>();
+        private List<Object> _freeGifts = new List<Object>();
 
+        private static List<Subscription> _subscriptionStandarts = new List<Subscription>();
+        // premium
+        private static double _discount = 0.05;
+        private bool _freeDelivery;
+        private bool _freePriority;
+
+        private static List<Subscription> _subscriptionPremiums = new List<Subscription>();
+        
+        private bool FreeDelivery
+        {
+            get => _freeDelivery;
+            set => _freeDelivery = value;
+        }
+        private bool FreePriority
+        {
+            get => _freePriority;
+            set => _freePriority = value;
+        }
+        //
+        public Subscription(double price, List<Client> clientsSubscription,SubscriptionType thisSubscriptionType=SubscriptionType.Standard) 
+        {
+            _subscriptionStandarts.Add(this);
+            _price = price;
+            _clients_subscription = clientsSubscription;
+        }
+        
+        public Subscription(double price, bool freeDelivery, bool freePriority,SubscriptionType thisSubscriptionType=SubscriptionType.Premium)  {
+            _price = price;
+            _freeDelivery = freeDelivery;
+            _freePriority = freePriority;
+            _subscriptionPremiums.Add(this);
+            ThisSubscriptionType = SubscriptionType.Premium;
+        }
+         //Basic
         protected Subscription(double price, List<Client> clientsSubscription)
         {
             _price = price;
@@ -31,9 +69,7 @@ namespace Egift_main.Subscription
             _price = price;
             _clients_subscription = new List<Client>();
         }
-        protected Subscription()
-        {
-        }
+        
 
         public double Price
         {
@@ -44,6 +80,17 @@ namespace Egift_main.Subscription
                     throw new ArgumentException("Price cannot be negative");
                 } _price = value; 
             }
+        }
+        public List<DateTime> AvailableDates
+        {
+            get => new List<DateTime>(_availableDates);  
+            set => _availableDates = value ?? new List<DateTime>(); 
+        }
+
+        public List<object> FreeGifts
+        {
+            get => new List<object>(_freeGifts);  
+            set => _freeGifts = value ?? new List<object>();  
         }
         private ArrayList Features
         {
@@ -145,6 +192,42 @@ namespace Egift_main.Subscription
                  throw;
              }
 
+             return false;
+         }
+         
+         //SubscriptionStandardMethods
+         private static bool SubscriptionStandartIsValid(Subscription subscriptionStandard)
+         {
+             if (subscriptionStandard != null) return true;
+             throw new ArgumentNullException();
+         }
+         private static bool SubscriptionStandardIsValid(Subscription subscriptionStandard)
+         {
+             if (subscriptionStandard != null &&
+                 subscriptionStandard.AvailableDates.Count > 0 &&
+                 subscriptionStandard.FreeGifts.Count > 0)
+             {
+                 return true;
+             }
+             throw new ArgumentNullException("error");
+         }
+         
+         //SubscriptionPremiumMethods
+         private static bool AddNewSubscriptionUser(Subscription subscription)
+         {
+             if (Subscription_PremiumIsValid(subscription) && subscription.ThisSubscriptionType == SubscriptionType.Premium) {
+                 _subscriptionPremiums.Add(subscription);
+                 return true;
+             }
+             return false;
+         }
+         private static bool Subscription_PremiumIsValid(Subscription subscriptionPremium)
+         {
+             if (subscriptionPremium != null &&
+                 subscriptionPremium.FreePriority.Equals(null) &&
+                 subscriptionPremium.FreeDelivery.Equals(null)
+                ) return true;
+             throw new ArgumentNullException();
              return false;
          }
     }

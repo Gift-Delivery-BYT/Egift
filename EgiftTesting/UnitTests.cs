@@ -18,8 +18,8 @@ namespace EgiftTesting
         private Schedule _schedule;
         private Client _client;
 
-        private SubscriptionStandard _subscription;
-        private SubscriptionPremium _subscriptionPremium;
+        private Subscription _subscription;
+        private Subscription _subscriptionPremium;
         private Exporter _exporter;
         private Item _item;
         private Egift_main.Order.Order _order;
@@ -39,15 +39,15 @@ namespace EgiftTesting
             _employee.Refund = _refund;
             _schedule = new Schedule();
             _client = new Client(1, "1234567890", "test@mail.com", new Wallet(), new DateFormat(), "Abdullah");
-            _subscription = new SubscriptionStandard();
-            _subscriptionPremium = new SubscriptionPremium(99.99, true, true);
+            _subscription = new Subscription(10.0,new List<Client>(),SubscriptionType.Standard);
+            _subscriptionPremium = new Subscription(99.99, true, true);
             _exporter = new Exporter("Company Vinntsia", "USA", "123", 100.5f, 1234567890, DateTime.Now.AddDays(10),new List<Item>());
             _item = new Item(1, "TestItem", 100.0, DateFormat.GeneralDate,new Exporter());
             _order = new Order(); // Assuming an Order class exists
             _tracker = new Tracker(101, DateTime.Now.AddDays(3),new Order());
-            typeof(SubscriptionStandard)
+            typeof(Subscription)
                 .GetField("_subscriptionStandarts", BindingFlags.Static | BindingFlags.NonPublic)
-                ?.SetValue(null, new List<SubscriptionStandard>());
+                ?.SetValue(null, new List<Subscription>());
         }
 
         [Test]
@@ -427,9 +427,9 @@ namespace EgiftTesting
         [Test] //Fix
         public void SerializeSubscriptionPremium_ShouldCreateXmlFile()
         {
-            var subs = new List<SubscriptionPremium> { new SubscriptionPremium(1, true, true) };
+            var subs = new List<Subscription> { new Subscription(1, true, true) };
 
-            SubscriptionPremium.Serialize("./SubscriptionPremium.xml");
+            Subscription.Serialize("./SubscriptionPremium.xml");
             Assert.IsTrue(File.Exists("./SubscriptionPremium.xml"), "Serialized file should be created.");
             Assert.IsNotEmpty(File.ReadAllText("./SubscriptionPremium.xml"), "Serialized file should not be empty.");
         }
@@ -437,18 +437,18 @@ namespace EgiftTesting
         [Test] // have to run this one separately
         public void DeserializeSubscriptionPremium_ShouldLoadDataFromXmlFile()
         {
-            SubscriptionPremium.Serialize("./SubscriptionPremium.xml");
+            Subscription.Serialize("./SubscriptionPremium.xml");
 
 
-            typeof(SubscriptionPremium)
+            typeof(Subscription)
                 .GetField("_subscriptionPremiums", BindingFlags.Static | BindingFlags.NonPublic)
-                ?.SetValue(null, new List<SubscriptionPremium>());
-            SubscriptionPremium.Deserialize("./SubscriptionPremium.xml");
+                ?.SetValue(null, new List<Subscription>());
+            Subscription.Deserialize("./SubscriptionPremium.xml");
 
 
-            var subscriptions = typeof(SubscriptionPremium)
+            var subscriptions = typeof(Subscription)
                 .GetField("_subscriptionPremiums", BindingFlags.Static | BindingFlags.NonPublic)
-                ?.GetValue(null) as List<SubscriptionPremium>;
+                ?.GetValue(null) as List<Subscription>;
             Assert.AreEqual(1, subscriptions?.Count, "Subscription count should match after deserialization.");
         }
 
