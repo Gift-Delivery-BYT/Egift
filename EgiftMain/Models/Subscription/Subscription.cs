@@ -42,14 +42,14 @@ namespace Egift_main.Subscription
             get => _freePriority;
             set => _freePriority = value;
         }
-        //
+        //Standard
         public Subscription(double price, List<Client> clientsSubscription,SubscriptionType thisSubscriptionType=SubscriptionType.Standard) 
         {
             _subscriptionStandarts.Add(this);
             _price = price;
             _clients_subscription = clientsSubscription;
         }
-        
+        //Premium
         public Subscription(double price, bool freeDelivery, bool freePriority,SubscriptionType thisSubscriptionType=SubscriptionType.Premium)  {
             _price = price;
             _freeDelivery = freeDelivery;
