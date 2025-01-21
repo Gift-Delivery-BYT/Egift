@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v8.0": {
       "EgiftTesting/1.0.0": {
         "dependencies": {
-          "Egift_main": "1.0.0",
+          "EgiftMain": "1.0.0",
           "Microsoft.NET.Test.Sdk": "17.8.0",
           "NUnit": "3.14.0",
           "NUnit.Analyzers": "3.9.0",
@@ -523,12 +523,12 @@
           }
         }
       },
-      "Egift_main/1.0.0": {
+      "EgiftMain/1.0.0": {
         "dependencies": {
           "Twilio": "7.6.0"
         },
         "runtime": {
-          "Egift_main.dll": {
+          "EgiftMain.dll": {
             "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -822,7 +822,7 @@
       "path": "twilio/7.6.0",
       "hashPath": "twilio.7.6.0.nupkg.sha512"
     },
-    "Egift_main/1.0.0": {
+    "EgiftMain/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

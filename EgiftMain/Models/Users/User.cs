@@ -16,6 +16,44 @@ public class User
     private List<Notifications> _notifications { get; set; } = new List<Notifications>();
     public List<Notifications> Notifications => _notifications;
     
+    //Business
+    private String _BusinessAddress { get; set; }
+    private bool _verified = false;
+    private float _corporateDiscount { get; set; }
+    private List<User> _authorizedUsers { get; set; }
+    [XmlArray]
+    private static List<BusinessAccount> _businessaccountList = new List<BusinessAccount>();
+    // Foundation
+    private String BusinessName { get; set; }
+    private String _businessAddress { get; set; }
+    public IReadOnlyList<FoundationAccount> AllFoundationAccounts => _foundationAccountList.AsReadOnly();
+    [XmlArray] private static List<FoundationAccount> _foundationAccountList = new List<FoundationAccount>();
+
+
+    public List<User> AuthorizedUsers
+    {
+        get => _authorizedUsers;
+        set => _authorizedUsers = value;
+    }
+
+    public bool Verified
+    {
+        get => _verified;
+        set => _verified = value;
+    }
+
+    public string BusinessAdress
+    {
+        get => _businessAddress;
+        set => _businessAddress = value;
+    }
+
+    public float CorporateDiscount
+    {
+
+        set => _corporateDiscount = value;
+    }
+    
     [XmlIgnore]
     private Dictionary<int, Refund> _refunds = new Dictionary<int, Refund>();
     [XmlArray("Refunds")]
@@ -41,7 +79,7 @@ public class User
     [XmlArray] private static List<User> _userList { get; set; }
 
     public User() { }
-    public User(int id, string phoneNumber, string email)
+    public User(int id, string phoneNumber, string email,BusinessUserRole busUserRole=BusinessUserRole.Basic)
     {
         this.id = id;
         PhoneNumber = phoneNumber;
@@ -102,7 +140,24 @@ public class User
             _ordersOfUser = value;
         } 
     }
-    
+    //Business
+    public User(int id, string phoneNumber, string email, bool verified, string businessAddress, float corporateDiscount, List<User> authorizedUsers, BusinessUserRole businessUserRole=BusinessUserRole.Business) 
+    {
+        _verified = verified;
+        _BusinessAddress = businessAddress;
+        _corporateDiscount = corporateDiscount;
+        _authorizedUsers = authorizedUsers;
+        BusinessUserRole = BusinessUserRole.Business;
+    }
+    //Foundation
+    public User(int id, string phoneNumber, string email, String businessAddress, float corporateDiscount,
+        List<User> authorizedUsers, BusinessUserRole businessUserRole=BusinessUserRole.Foundation) 
+    {
+        AuthorizedUsers = authorizedUsers;
+        BusinessAdress = businessAddress;
+        CorporateDiscount = corporateDiscount;
+        BusinessUserRole = BusinessUserRole.Foundation;
+    }
 
     public void AddRefund(Refund refund)
     {
@@ -192,6 +247,62 @@ public class User
             }
             return true;
         }
+    }
+    //Business
+    public void AddAuthorizedUser(User user)
+    {
+        if(this.BusinessUserRole != BusinessUserRole.Business) throw new UnauthorizedAccessException();
+        _authorizedUsers.Add(user);
+    }
+    public void PlaceBulkOrder(DateTime delivery_day, List<int> bulOrderID)
+    {
+        if(this.BusinessUserRole != BusinessUserRole.Business) throw new UnauthorizedAccessException();
+        if (Item.GetItems().Count == 0)
+        {
+            Console.WriteLine("There are no items in the bulk order.");
+            return;
+        }
+
+        var allItems = Item.GetItems();
+        var itemsToOrder = allItems.Where(item => bulOrderID.Contains(item.ItemID)).ToList();
+        
+        if (itemsToOrder.Count == 0)
+        {
+            Console.WriteLine("No items found with a given id");
+            return;
+        }
+        
+        Egift_main.Order.Order newOrder = new Egift_main.Order.Order(
+            id: Egift_main.Order.Order.GenerateNewOrderId(),
+            location: _BusinessAddress,
+            description: "Place a new Bulk Order{itemsToOrder}", 
+            discount: _corporateDiscount,
+            items: itemsToOrder
+        );
+        Console.WriteLine($"Bulk order placed {itemsToOrder.Count} " +
+                          $" and items for delivery at {delivery_day.ToShortDateString()}");
+
+        Egift_main.Order.Order._orderList.Add(newOrder);
+    }
+    //Foundation
+    private void AddAuthorizedUser(Client client)
+    {
+        if(this.BusinessUserRole != BusinessUserRole.Foundation) throw new UnauthorizedAccessException();
+        AuthorizedUsers.Add(client);
+    }
+
+    public void FindFreePropositions()
+    {
+        if(this.BusinessUserRole != BusinessUserRole.Business) throw new UnauthorizedAccessException();
+        throw new NotImplementedException();
+    }
+
+    public List<FoundationAccount> GetAllFoundationAccounts()
+    {
+        if(this.BusinessUserRole != BusinessUserRole.Foundation) throw new UnauthorizedAccessException();
+        IReadOnlyList<FoundationAccount> AllFoundationAccounts = _foundationAccountList.AsReadOnly();
+        List<FoundationAccount> AllFoundationAccountsCopy = new List<FoundationAccount>();
+        return AllFoundationAccountsCopy;
     }
    
 }

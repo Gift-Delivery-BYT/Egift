@@ -198,11 +198,13 @@ namespace Egift_main.Subscription
          //SubscriptionStandardMethods
          private static bool SubscriptionStandartIsValid(Subscription subscriptionStandard)
          {
+             if (subscriptionStandard.ThisSubscriptionType != SubscriptionType.Standard) throw new Exception("This subscription type is not standard");
              if (subscriptionStandard != null) return true;
              throw new ArgumentNullException();
          }
          private static bool SubscriptionStandardIsValid(Subscription subscriptionStandard)
          {
+             if (subscriptionStandard.ThisSubscriptionType != SubscriptionType.Standard) throw new Exception("This subscription type is not standard");
              if (subscriptionStandard != null &&
                  subscriptionStandard.AvailableDates.Count > 0 &&
                  subscriptionStandard.FreeGifts.Count > 0)
@@ -215,7 +217,9 @@ namespace Egift_main.Subscription
          //SubscriptionPremiumMethods
          private static bool AddNewSubscriptionUser(Subscription subscription)
          {
-             if (Subscription_PremiumIsValid(subscription) && subscription.ThisSubscriptionType == SubscriptionType.Premium) {
+             if (subscription.ThisSubscriptionType != SubscriptionType.Premium) throw new Exception("This subscription type is not premium");
+             
+             if (Subscription_PremiumIsValid(subscription) ) {
                  _subscriptionPremiums.Add(subscription);
                  return true;
              }
@@ -223,6 +227,7 @@ namespace Egift_main.Subscription
          }
          private static bool Subscription_PremiumIsValid(Subscription subscriptionPremium)
          {
+             if (subscriptionPremium.ThisSubscriptionType != SubscriptionType.Premium) throw new Exception("This subscription type is not premium");
              if (subscriptionPremium != null &&
                  subscriptionPremium.FreePriority.Equals(null) &&
                  subscriptionPremium.FreeDelivery.Equals(null)
